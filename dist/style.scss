@@ -1,3 +1,5 @@
+@use 'reset';
+
 $font-stack: Arial, Helvetica, sans-serif;
 $light-color: #f4f4f4;
 
@@ -12,4 +14,103 @@ body {
     font-family: $font-stack;
     line-height: 1.6;
     color: blue;
+}
+
+// Left Sidebar Section Starts
+.leftsidebar {
+    
+    nav {}
+    ul {}
+    li {}
+
+}
+
+.logoandname {
+
+    img {}
+    h1 {}
+}
+
+// Left Sidebar Section Ends
+
+// Header Section Starts
+.header {
+
+}
+
+.headerleftside {
+
+}
+
+.headerrightside {
+
+}
+
+.profile {
+
+    img {}
+    div {}
+    p {}
+    button {}
+    img {}
+}
+// Header Section Ends
+
+//Overview Section Starts
+.overview {
+
+    h1 {}
+}
+
+.rowofcards {
+
+}
+
+.overviewcard {
+
+    div {}
+    img {}
+    h3 {}
+    p {}
+}
+// Overview Section Ends
+
+// Your Decks Section Starts
+.yourdecks {
+
+    table {}
+}
+
+.deckimageandname {
+    
+    img{}
+    p{}
+
+}
+// Your Deck Section Ends
+
+// Upcoming Studying Section Starts
+.upcoming {
+
+    h1 {}
+    article {}
+    button {}
+}
+
+.exampletest {
+
+    div {}
+    h2 {}
+    time {}
+
+}
+
+//I've chosen to add classes to these images as they are both imgs
+//within the same div
+//however, if no special styling is needed then I may be able to delete them
+.upcomingleftsideimage {
+
+}
+.upcomingtestnavimage {
+
 }

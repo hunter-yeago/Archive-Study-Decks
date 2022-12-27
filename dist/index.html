@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Decks</title>
     <script src="main.js"></script>
     <link href="css/style.css" rel="stylesheet" />
 </head>
@@ -13,7 +13,10 @@
     <!-- Left Side Bar -->
     <aside id="leftsidebar">
         <!-- For the logo and SiteName -->
-        <div></div>
+        <div class="logoandname">
+            <img src="" alt="">
+            <h1>Name of Site</h1>
+        </div>
         <!-- For the menu -->
         <nav>
             <!-- Menu -->
@@ -26,40 +29,139 @@
         </nav>
     </aside>
 
-    <!-- Overview Section -->
-    <section>
-        <h1>Overview</h1>
-
+    <header class="header">
         
-        <!-- Overview Card -->
-        <div class="overviewcard">
-            <!-- Card image + Title -->
-            <div>
-                <img src="" alt=""><h3>Card Title</h3>
+        <!-- Searchbar -->
+        <div class="headerleftside"></div>
+
+        <!-- Header Right Side -->
+        <div class="headerrightside">
+            <!-- Notification Icon -->
+            <img src="" alt="">
+
+            <!-- Profile -->
+            <div class="profile">
+                <img src="" alt="">
+
+                <!-- Name and Number -->
+                <div>
+                    <p>Robert Fox</p>
+                    <p>#10352</p>
+                </div>
+
+                <!-- Nav Button -->
+                <button>
+                    <img src="" alt="">
+                </button>
             </div>
-        
-            <!-- Statistic -->
-            <p>18</p>
         </div>
-    
+    </header>
+
+    <!-- Main Part of Document -->
+    <main class="main">
+
+        <!-- Overview Section -->
+        <section class="overview">
+            <h1>Overview</h1>
+            
+            <div class="rowofcards">
+                <!-- Overview Cards -->
+                <div class="overviewcard">
+                    <div>
+                        <img src="" alt="" />
+                        <h3>Card 1 Title</h3>
+                    </div>
+
+                    <p>18</p>
+                </div>
+
+                <div class="overviewcard">
+                    <div>
+                        <img src="" alt="" />
+                        <h3>Card 2 Title</h3>
+                    </div>
+
+                    <p>73</p>
+                </div>
+
+                <div class="overviewcard">
+                    <div>
+                        <img src="" alt="" />
+                        <h3>Card 3 Title</h3>
+                    </div>
+
+                    <p>9</p>
+                </div>
+
+                <div class="overviewcard">
+                    <div>
+                        <img src="" alt="" />
+                        <h3>Card 4 Title</h3>
+                    </div>
+
+                    <p>100</p>
+                </div>
+            </div>
+        </section>
+            
+        <!-- Your Decks Section -->
+        <section class="yourdecks">
+            
+            <h2>Your Decks</h2>
+            
+            <table>
+                <tr>
+                    <th>Deck Name</th>
+                    <th> Due Date </th>
+                    <th>Cards to Complete</th>
+                </tr>
+                
+                <tr>
+                    <!-- Deck Image + Name -->
+                    <td class="deckimageandname">
+                        <img src="" alt="">
+                        <p>Example Deck</p>
+                    </td>
+
+                    <!-- Due Date -->
+                    <td>
+                        <time>February 15th 2023 </time>
+                    </td>
+                    <!-- Cards to Complete -->
+                    <td>40</td>
+                </tr>
+            </table>
+        </section>
+    </main>
+
+    <!-- Upcoming Studying -->
+    <aside class="upcoming">
+
+        <!-- Section 1/3 -->
+        <h1>Upcoming Studying</h1>
         
-    </section>
+        <!-- Container for Tests -->
+        <!-- Section 2/3 -->
+        <article>
+            <!-- Test -->
+            <div class="exampletest">
+                
+                <!-- Left Side -->
+                <img class="upcomingleftsideimage" src="" alt="">
+                
+                <!-- Middle -->
+                <div>
+                    <h2>French</h2>
+                    <time>Due Date</time>
+                </div>
 
-    <table>Your Decks</table>
-    <tr>
-        <th>Deck Name</th>
-        <th>Due Date </th>
-        <th>Cards to Complete</th>
-    </tr>
-    <tr>
-        <!-- Deck Image + Name -->
-        <div><img src="" alt=""><td>Example Deck</td></div>
-        <!-- Due Date -->
-        <td>Due: Jan 15th </td>
-        <!-- Cards to Complete -->
-        <td>40</td>
-    </tr>
+                <!-- Right Side / Arrow Nav  -->
+                <img class="upcomingtestnavimage" src="" alt="">
+            </div>
+        </article>
 
-
+        <!-- Section 3/3 -->
+        <button>See All Upcoming Tests</button>
+    </aside>
 </body>
 </html>
