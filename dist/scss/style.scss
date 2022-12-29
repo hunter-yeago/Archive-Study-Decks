@@ -1,4 +1,4 @@
-@use 'reset';
+@import 'reset';
 
 $font-stack: Arial, Helvetica, sans-serif;
 $light-color: #f4f4f4;
@@ -9,11 +9,11 @@ $light-color: #f4f4f4;
     padding: 0;
 }
 
+html,
 body {
     background-color: $light-color;
     font-family: $font-stack;
     line-height: 1.6;
-    color: blue;
 }
 
 // Left Sidebar Section Starts
@@ -27,7 +27,16 @@ body {
 
 .logoandname {
 
-    img {}
+    border: 1px solid red;
+    padding: .5rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    img {
+        width: 20%;
+    }
     h1 {}
 }
 
@@ -57,21 +66,44 @@ body {
 // Header Section Ends
 
 //Overview Section Starts
-.overview {
+section {
 
-    h1 {}
+    h1 {
+        text-align: center;
+        padding: .5rem;
+    }
 }
 
 .rowofcards {
-
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    //Change to repeat(4, 1fr) at Media Query
+    grid-template-columns: 1fr 1fr;
+    gap: .5rem;
+    padding: .5rem;
 }
 
 .overviewcard {
+    display: flex;
+    flex-direction: column;
 
-    div {}
-    img {}
-    h3 {}
-    p {}
+    div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: .2rem;
+    }
+    img {
+        width: 1.5rem;
+    }
+    h3 {
+        font-size: .8rem;
+    }
+    p {
+        text-align: center;
+        font-size: 1.5rem;
+    }
 }
 // Overview Section Ends
 
@@ -81,12 +113,33 @@ body {
     table {}
 }
 
-.deckimageandname {
-    
+.deckdisplay {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.deck {
+    display: flex;
+    justify-content: space-between;
+    padding: 0rem .5rem 0rem .5rem;
+}
+
+.deckimageandname { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: .3rem;
     img{}
     p{}
-
 }
+
+.deckinfomenubutton {
+    width: 2rem;
+}
+
+
 // Your Deck Section Ends
 
 // Upcoming Studying Section Starts

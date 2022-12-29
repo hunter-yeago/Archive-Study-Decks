@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Decks</title>
+    <title>Flashcard Website</title>
     <script src="main.js"></script>
     <link href="css/style.css" rel="stylesheet" />
 </head>
@@ -14,48 +14,22 @@
     <aside id="leftsidebar">
         <!-- For the logo and SiteName -->
         <div class="logoandname">
-            <img src="" alt="">
+            <img src="logo.svg" alt="website logo">
             <h1>Name of Site</h1>
+            <img src="hamburgermenu.svg" alt="click here to open menu options">
         </div>
         <!-- For the menu -->
-        <nav>
-            <!-- Menu -->
+        <!-- <nav>
+            Menu
             <ul>
                 <li>Overview</li>
                 <li>Statistics</li>
                 <li>Other things</li>
                 <li>Maybe Others</li>
             </ul>
-        </nav>
+        </nav> -->
     </aside>
 
-    <header class="header">
-        
-        <!-- Searchbar -->
-        <div class="headerleftside"></div>
-
-        <!-- Header Right Side -->
-        <div class="headerrightside">
-            <!-- Notification Icon -->
-            <img src="" alt="">
-
-            <!-- Profile -->
-            <div class="profile">
-                <img src="" alt="">
-
-                <!-- Name and Number -->
-                <div>
-                    <p>Robert Fox</p>
-                    <p>#10352</p>
-                </div>
-
-                <!-- Nav Button -->
-                <button>
-                    <img src="" alt="">
-                </button>
-            </div>
-        </div>
-    </header>
 
     <!-- Main Part of Document -->
     <main class="main">
@@ -68,8 +42,8 @@
                 <!-- Overview Cards -->
                 <div class="overviewcard">
                     <div>
-                        <img src="" alt="" />
-                        <h3>Card 1 Title</h3>
+                        <img src="gridcheckmark.svg" alt=""/>
+                        <h3>Decks Created</h3>
                     </div>
 
                     <p>18</p>
@@ -77,7 +51,7 @@
 
                 <div class="overviewcard">
                     <div>
-                        <img src="" alt="" />
+                        <img src="gridcheckmark.svg" alt="" />
                         <h3>Card 2 Title</h3>
                     </div>
 
@@ -86,7 +60,7 @@
 
                 <div class="overviewcard">
                     <div>
-                        <img src="" alt="" />
+                        <img src="gridcheckmark.svg" alt="" />
                         <h3>Card 3 Title</h3>
                     </div>
 
@@ -95,7 +69,7 @@
 
                 <div class="overviewcard">
                     <div>
-                        <img src="" alt="" />
+                        <img src="gridcheckmark.svg" alt="" />
                         <h3>Card 4 Title</h3>
                     </div>
 
@@ -107,61 +81,37 @@
         <!-- Your Decks Section -->
         <section class="yourdecks">
             
-            <h2>Your Decks</h2>
-            
-            <table>
-                <tr>
-                    <th>Deck Name</th>
-                    <th> Due Date </th>
-                    <th>Cards to Complete</th>
-                </tr>
-                
-                <tr>
-                    <!-- Deck Image + Name -->
-                    <td class="deckimageandname">
-                        <img src="" alt="">
-                        <p>Example Deck</p>
-                    </td>
+            <h1>Your Decks</h1>
 
-                    <!-- Due Date -->
-                    <td>
-                        <time>February 15th 2023 </time>
-                    </td>
-                    <!-- Cards to Complete -->
-                    <td>40</td>
-                </tr>
-            </table>
+        <div class="deckdisplay">
+            <div class="deck">
+                <div class="deckimageandname">
+                    <img src="gridcheckmark.svg" alt="Deck Image">
+                    <h3>Deck Name</h3>
+                </div>
+                <img src="chevron-down.svg" alt="click here to see this decks info" class="deckinfomenubutton">
+            </div>
+
+            <div class="deck">
+                <div class="deckimageandname">
+                    <img src="gridcheckmark.svg" alt="Deck Image">
+                    <h3>Deck Name</h3>
+                </div>
+                <img src="chevron-down.svg" alt="click here to see this decks info" class="deckinfomenubutton">
+            </div>
+
+            <div class="deck">
+                <div class="deckimageandname">
+                    <img src="gridcheckmark.svg" alt="Deck Image">
+                    <h3>Deck Name</h3>
+                </div>
+                <img src="chevron-down.svg" alt="click here to see this decks info" class="deckinfomenubutton">
+            </div>
+        </div>
+
         </section>
     </main>
 
-    <!-- Upcoming Studying -->
-    <aside class="upcoming">
-
-        <!-- Section 1/3 -->
-        <h1>Upcoming Studying</h1>
-        
-        <!-- Container for Tests -->
-        <!-- Section 2/3 -->
-        <article>
-            <!-- Test -->
-            <div class="exampletest">
-                
-                <!-- Left Side -->
-                <img class="upcomingleftsideimage" src="" alt="">
-                
-                <!-- Middle -->
-                <div>
-                    <h2>French</h2>
-                    <time>Due Date</time>
-                </div>
-
-                <!-- Right Side / Arrow Nav  -->
-                <img class="upcomingtestnavimage" src="" alt="">
-            </div>
-        </article>
-
-        <!-- Section 3/3 -->
-        <button>See All Upcoming Tests</button>
-    </aside>
+   
 </body>
 </html>
