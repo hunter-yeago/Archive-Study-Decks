@@ -1,7 +1,5 @@
 @import 'reset';
-
-$font-stack: Arial, Helvetica, sans-serif;
-$light-color: #f4f4f4;
+@import 'config';
 
 * {
     box-sizing: border-box;
@@ -95,24 +93,45 @@ section {
         justify-content: center;
         align-items: center;
         gap: .2rem;
-        padding: .5rem;
+        padding-top: .5rem;
     }
     img {
-        width: 1.5rem;
+        width: max(1.5rem, 5vw);
     }
     h3 {
-        font-size: .8rem;
+        font-size: .9rem;
     }
-    p {
-        text-align: center;
-        font-size: 1.5rem;
-        // border-bottom: 1px solid red;
-        padding-bottom: .5rem;
-        text-decoration: underline;
-        text-decoration-color: red;
-        text-decoration-thickness: 1.5px;
-        text-underline-offset: 5px;
-    }
+}
+
+// using p{} nested in .overviewcard was overriding my
+//colors with these classes, so I just put everything here
+.greencardunderline,
+.brickcardunderline,
+.bluecardunderline,
+.sunshinecardunderline {
+    text-align: center;
+    font-size: 1.5rem;
+    padding-bottom: .5rem;
+
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 5px;
+}
+
+.greencardunderline {
+    text-decoration-color: $light-green-color;
+}
+
+.bluecardunderline{
+    text-decoration-color: $dark-blue-color;
+}
+
+.brickcardunderline {
+    text-decoration-color: $brick-color;
+}
+
+.sunshinecardunderline {
+    text-decoration-color: $sunshine-color;
 }
 // Overview Section Ends
 
