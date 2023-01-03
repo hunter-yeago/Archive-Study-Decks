@@ -3,12 +3,18 @@
 
 // this will be the main entry point for the application
 
-import {gogo} from './card.js';
+//Notes on how I'm going to use the Observer Pattern:
+//The list of Decks can be updated using it.
+//In fact, what I can do is to make different categories or tags or whatever, which will help to make better use of the
+//subscribe/unsubscribe function
 
-const deckDataObject = {
-    name: 'Michael Scott',
-    company: 'Dundler Mufflin'
-}
+//Seems a bit silly to only have 1 element in the whole thing being in the array of subscribers, so that will help make it
+//more of a 'use case'.
+
+//I think it could also be useful when editing decks - deleting or adding questions and updating the DOM.
+
+import {printQuestion} from './card.js';
+import './view.js';
 
 class Observable {
     
@@ -18,13 +24,13 @@ class Observable {
     }
 
     //ability to suscribe add something to observers array
-    subscribe(f) {
-        this.observers.push(f);
+    subscribe(func) {
+        this.observers.push(func);
     }
 
     //ability to unsubscribe / remove something from the array
-    unsubscribe(f) {
-        this.observers = this.observers.filter(subscriber => subscriber !== f);
+    unsubscribe(func) {
+        this.observers = this.observers.filter(subscriber => subscriber !== func);
     }
 
     //update all subscribed obects / pass them some data
@@ -33,4 +39,4 @@ class Observable {
     }
 }
 
-gogo();
+printQuestion();

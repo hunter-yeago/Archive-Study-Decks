@@ -6,39 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flashcard Website</title>
     <script src="main.js" defer></script>
-    <link href="css/style.css" rel="stylesheet" />
+    <link href="scss/style.css" rel="stylesheet" />
 </head>
 <body>
     
     <!-- Left Side Bar -->
-    <aside class="leftsidebar">
+    <header>
+        
         <!-- For the logo and SiteName -->
-        <div class="topbar">
             <div class="logoandname">
                 <img src="logo.svg" alt="website logo">
                 <h1>Flashcard</h1>
             </div>
             
-            <img class="mobilemenubuttonimage" src="hamburgermenu.svg" alt="click here to open menu options">
-        </div>
-        
-        
-        <!-- For the menu -->
-        <!-- <nav>
-            Menu
-            <ul>
-                <li>Overview</li>
-                <li>Statistics</li>
-                <li>Other things</li>
-                <li>Maybe Others</li>
-            </ul>
-        </nav> -->
-    </aside>
+            <div class="dropdown" data-dropdown>
+                <button class="mobilemenubutton" data-dropdown-button><img class="mobilemenubuttonimage" src="hamburgermenu.svg" alt="click here to open menu options"></button>
+            </div>   
+            
+    </header>
 
 
     <!-- Main Part of Document -->
     <main class="main">
-
+        <div class="dropdown-menu">
+            <nav>
+                <ul>
+                    <li> <a href="#">Dropdown Content</a></li>
+                    <li> <a href="#"> Other stuff</a></li>
+                </ul>
+            </nav>
+        </div>
+            
         <!-- Overview Section -->
         <section class="overview">
             <h1>Overview</h1>

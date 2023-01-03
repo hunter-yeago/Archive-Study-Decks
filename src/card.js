@@ -13,6 +13,6 @@ let hurt = 'hurt';
 
 const c1 = Card(`What is ${love}`, `Baby don't ${hurt} me`);
 
-export function gogo() {
+export function printQuestion() {
     console.log(`${c1.question} ... ${c1.answer}`);
 }
