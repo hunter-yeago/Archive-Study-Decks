@@ -21,6 +21,13 @@ document.addEventListener('click', e => {
     })
 }, false);
 
+//Finds the dropdown menu and removes Active class
+function closeMobileMenu () {
+    document.querySelector('.dropdown-menu').classList.remove('active');
+}
+
+//End Menu Button Logic
+
 
 //Create Array of Main's Children and remove them
 function removeMainTagContent () {
@@ -34,12 +41,10 @@ function removeMainTagContent () {
 //Add generateAddDeckPage logic to mobile menu
 let addADeckMenuOption = document.querySelector('.addadeckoption');
 addADeckMenuOption.addEventListener('click', () => {
+    closeMobileMenu();
     removeMainTagContent();
-    
     generateAddDeckPage();
 });
-
-
 
 function generateAddDeckPage () {
     let addDeckPageTitle = document.createElement('h1');
@@ -68,7 +73,6 @@ function generateModal() {
     
     let modalContentDiv = document.createElement('div');
     modalContentDiv.className = 'modal-content';
-    modalContentDiv.innerHTML = 'it worked!!!!';
 
     let modalHeaderDiv = document.createElement('div');
     let modalSpan = document.createElement('span');
@@ -88,10 +92,45 @@ function generateModal() {
 
     let modalBody = document.createElement('div');
     modalBody.className = 'modal-body';
-    let p1 = document.createElement('p');
-    let p2 = document.createElement('p');
+
+    let form = document.createElement('form');
+
+    let nameInputLabel = document.createElement('label');
+    nameInputLabel.htmlFor = 'deckname';
+    nameInputLabel.innerText = 'Deck Name:';
+    let nameInput = document.createElement('input');
+    nameInput.id = 'deckname';
+
+    let descriptionLabel = document.createElement('label');
+    descriptionLabel.htmlFor = 'description';
+    descriptionLabel.innerText = 'Description:';
+    let descriptionInput = document.createElement('textarea');
+    descriptionInput.id = 'description';
+
+    let dueDateLabel = document.createElement('label');
+    dueDateLabel.htmlFor = 'duedate';
+    dueDateLabel.innerText = 'Due Date:';
+    let dueDateInput = document.createElement('input');
+    dueDateInput.id = 'duedate';
+
+    let numberOfCardsLabel = document.createElement('label');
+    numberOfCardsLabel.htmlFor = 'numberofcards';
+    numberOfCardsLabel.innerText = 'Number of Cards'
+    let numberOfCardsInput = document.createElement('input');
+    numberOfCardsInput.id = 'numberofcards';
+    numberOfCardsInput.type = 'number';
+
+    let formInput = document.createElement('input');
+    formInput.type = 'submit';
+    formInput.value = 'Submit';
     
-    modalBody.append(p1, p2);
+    form.append(
+        nameInputLabel, nameInput,
+        descriptionLabel, descriptionInput,
+        dueDateLabel, dueDateInput,
+        numberOfCardsLabel, numberOfCardsInput,
+        formInput);
+    modalBody.append(form);
     modalDiv.appendChild(modalContentDiv);
     modalHeaderDiv.append(modalSpan, modalHeader);
     modalContentDiv.append(modalHeaderDiv, modalBody);
