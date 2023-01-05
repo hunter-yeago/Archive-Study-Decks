@@ -4,5 +4,13 @@
 frenchDeck = {
     name: 'French',
     description: 'A deck to learn French',
-    questionArray: [],
+    numberOfQuestions: 10,
+    dueDate: 'some time date thing',
+    category: 'Languages',
+    questionsList: []
+}
+
+frenchQuestionOne = {
+    question: 'How do you say \'a cat\' in French?',
+    answer: 'Un chat'
 }

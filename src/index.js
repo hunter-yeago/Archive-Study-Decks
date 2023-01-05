@@ -15,6 +15,7 @@
 
 import {printQuestion} from './card.js';
 import './view.js';
+import './adddeck.js';
 
 class Observable {
     

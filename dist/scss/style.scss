@@ -1,5 +1,6 @@
 @import 'reset';
 @import 'config';
+@import 'modal';
 
 * {
     box-sizing: border-box;
@@ -16,10 +17,6 @@ body {
 
 // Left Sidebar Section Starts
 header {
-    
-    nav {}
-    ul {}
-    li {}
 
     display: flex;
     justify-content: center;
@@ -109,27 +106,7 @@ header {
 
 // Left Sidebar Section Ends
 
-// Header Section Starts
-.header {
 
-}
-
-.headerleftside {
-
-}
-
-.headerrightside {
-
-}
-
-.profile {
-
-    img {}
-    div {}
-    p {}
-    button {}
-    img {}
-}
 // Header Section Ends
 
 section {
@@ -206,10 +183,6 @@ section {
 // Overview Section Ends
 
 // Your Decks Section Starts
-.yourdecks {
-
-    table {}
-}
 
 .deckdisplay {
     display: flex;
@@ -229,40 +202,14 @@ section {
     align-items: center;
 
     gap: .3rem;
-    img{}
-    p{}
 }
 
 .deckinfomenubutton {
-    width: 2rem;
+    width: 3rem;
 }
 
 
 // Your Deck Section Ends
-
-// Upcoming Studying Section Starts
-.upcoming {
-
-    h1 {}
-    article {}
-    button {}
-}
-
-.exampletest {
-
-    div {}
-    h2 {}
-    time {}
-
-}
-
 //I've chosen to add classes to these images as they are both imgs
 //within the same div
 //however, if no special styling is needed then I may be able to delete them
-.upcomingleftsideimage {
-
-}
-.upcomingtestnavimage {
-
-}
-
