@@ -1,6 +1,5 @@
-
+import { setAttributes } from "./helpers";
 let main = document.querySelector('main');
-let mobilemenubutton = document.querySelector('.mobilemenubutton');
 
 //Mobile Menu Button Logic
 document.addEventListener('click', e => {
@@ -25,7 +24,6 @@ document.addEventListener('click', e => {
 function closeMobileMenu () {
     document.querySelector('.dropdown-menu').classList.remove('active');
 }
-
 //End Menu Button Logic
 
 
@@ -66,53 +64,71 @@ function generateModal() {
 
     main.appendChild(triggerButton);
     
+    //Start Creating Modal
     let modalDiv = document.createElement('div');
     modalDiv.id = 'myModal';
     modalDiv.className = 'modal';
     modalDiv.style.display = 'none';
     
+    //Modal Content
     let modalContentDiv = document.createElement('div');
     modalContentDiv.className = 'modal-content';
 
+    //Modal Header
     let modalHeaderDiv = document.createElement('div');
+    modalHeaderDiv.className = 'modal-header';
+
+    //Modal Span / X to Close
     let modalSpan = document.createElement('span');
-    modalSpan.className = 'close';
     modalSpan.innerHTML = '&times;';
     modalSpan.onclick = function() {
         modalDiv.style.display = 'none';
     }
-
     window.onclick = function(event) {
         if (event.target == modalDiv) {
             modalDiv.style.display = 'none';
         }
     }
 
-    let modalHeader = document.createElement('h2');
+    //Header
+    let modalHeader = document.createElement('h5');
+    modalHeader.innerText = 'New Deck'
 
+    //Body
     let modalBody = document.createElement('div');
     modalBody.className = 'modal-body';
 
+    //Form
     let form = document.createElement('form');
 
+    //Name Input
     let nameInputLabel = document.createElement('label');
     nameInputLabel.htmlFor = 'deckname';
-    nameInputLabel.innerText = 'Deck Name:';
+    nameInputLabel.innerText = 'Deck Name:'
     let nameInput = document.createElement('input');
     nameInput.id = 'deckname';
 
+    //Description Input
     let descriptionLabel = document.createElement('label');
     descriptionLabel.htmlFor = 'description';
     descriptionLabel.innerText = 'Description:';
     let descriptionInput = document.createElement('textarea');
-    descriptionInput.id = 'description';
+    setAttributes(descriptionInput,
+        {
+            'id': 'description',
+            'rows': '4',
+            'cols': '20',
+            'maxLength': '150'
+        });
 
+    //Due Date Input
     let dueDateLabel = document.createElement('label');
     dueDateLabel.htmlFor = 'duedate';
     dueDateLabel.innerText = 'Due Date:';
     let dueDateInput = document.createElement('input');
     dueDateInput.id = 'duedate';
 
+    //# of Cards Input
     let numberOfCardsLabel = document.createElement('label');
     numberOfCardsLabel.htmlFor = 'numberofcards';
     numberOfCardsLabel.innerText = 'Number of Cards'
@@ -120,24 +136,29 @@ function generateModal() {
     numberOfCardsInput.id = 'numberofcards';
     numberOfCardsInput.type = 'number';
 
-    let formInput = document.createElement('input');
-    formInput.type = 'submit';
-    formInput.value = 'Submit';
+    //Submit button
+    let formSubmitButton = document.createElement('input');
+    setAttributes(formSubmitButton, {
+        "type": 'submit',
+        'value': 'Add Deck',
+        'class': 'submitbutton',
+    });
     
+    //Append the Modal to the MainPage Div
+    main.appendChild(modalDiv);
+    //Append HeaderDiv + BodyDiv to ContentDiv
+    modalContentDiv.append(modalHeaderDiv, modalBody);
+    //Append h5 + Span to HeaderDiv
+    modalHeaderDiv.append(modalHeader, modalSpan);
+    //Append ContentDiv to Modal
+    modalDiv.appendChild(modalContentDiv);
+    //Append Form to BodyDiv
+    modalBody.appendChild(form);
+    //Append Items to Form
     form.append(
         nameInputLabel, nameInput,
         descriptionLabel, descriptionInput,
         dueDateLabel, dueDateInput,
         numberOfCardsLabel, numberOfCardsInput,
-        formInput);
-    modalBody.append(form);
-    modalDiv.appendChild(modalContentDiv);
-    modalHeaderDiv.append(modalSpan, modalHeader);
-    modalContentDiv.append(modalHeaderDiv, modalBody);
-    main.appendChild(modalDiv);
+        formSubmitButton);
 }
-
-
-// removeMainTagContent();
-// generateModal();
-// generateAddDeckPage();
