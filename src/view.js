@@ -129,12 +129,28 @@ function generateModal() {
     dueDateInput.id = 'duedate';
 
     //# of Cards Input
-    let numberOfCardsLabel = document.createElement('label');
-    numberOfCardsLabel.htmlFor = 'numberofcards';
-    numberOfCardsLabel.innerText = 'Number of Cards'
-    let numberOfCardsInput = document.createElement('input');
-    numberOfCardsInput.id = 'numberofcards';
-    numberOfCardsInput.type = 'number';
+    let categoryLabel = document.createElement('label');
+    categoryLabel.htmlFor = 'category';
+    categoryLabel.innerText = 'Category'
+    
+    let category = document.createElement('input');
+    category.id = 'category';
+    category.className = 'test';
+    category.setAttribute('list', 'categorylist');
+
+    let categoryDataList = document.createElement('datalist');
+    categoryDataList.id = 'categorylist';
+
+    let optionLanguage = document.createElement('option');
+    optionLanguage.value = 'Languages';
+
+    let optionWebDevelopment = document.createElement('option');
+    optionWebDevelopment.value = 'Web Development';
+
+    let optionMusic = document.createElement('option');
+    optionMusic.value = 'Music';
+
+    categoryDataList.append(optionLanguage, optionWebDevelopment, optionMusic);
 
     //Submit button
     let formSubmitButton = document.createElement('input');
@@ -159,6 +175,6 @@ function generateModal() {
         nameInputLabel, nameInput,
         descriptionLabel, descriptionInput,
         dueDateLabel, dueDateInput,
-        numberOfCardsLabel, numberOfCardsInput,
+        categoryLabel, category, categoryDataList,
         formSubmitButton);
 }

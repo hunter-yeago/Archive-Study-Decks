@@ -16,6 +16,7 @@
 import {printQuestion} from './card.js';
 import './view.js';
 import './adddeck.js';
+import { frenchDeck } from './deckdata.js';
 
 class Observable {
     
@@ -39,5 +40,4 @@ class Observable {
         this.observers.forEach(observer => observer(data));
     }
 }
-
 printQuestion();

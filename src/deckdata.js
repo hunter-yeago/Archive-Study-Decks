@@ -1,16 +1,27 @@
 
-//This will hold all of the data for the decks
+const Deck = {
+    name: 'default name',
+    description: 'default description',
+    dueDate: 'default dueDate',
+    category: 'default category',
+    print: function () {
+        console.log(`printing from inside Deck`);
+    },
+};
 
-frenchDeck = {
+let frenchDeck = Object.assign(Object.create(Deck), {
     name: 'French',
     description: 'A deck to learn French',
     numberOfQuestions: 10,
     dueDate: 'some time date thing',
     category: 'Languages',
-    questionsList: []
-}
+    questionsList: [],
+})
 
-frenchQuestionOne = {
-    question: 'How do you say \'a cat\' in French?',
-    answer: 'Un chat'
-}
+export {frenchDeck};
+
+// const frenchQuestionOne = {
+//     question: 'How do you say \'a cat\' in French?',
+//     answer: 'Un chat'
+// };
+

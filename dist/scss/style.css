@@ -82,31 +82,74 @@ select {
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  color: white;
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
+.modal-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 5px;
+  position: relative;
+  margin: auto;
+  border: 1px solid #888;
+  width: 92%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+}
+
 .modal-header {
-  padding: 0.15rem 1rem;
-  background-color: #5cb85c;
-  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.8rem;
+  width: 100%;
+  border-bottom: 1px solid lightgrey;
+}
+.modal-header h5 {
+  font-size: 1.25rem;
+  font-weight: 550;
+}
+.modal-header span {
+  color: #aaa;
+  font-size: 1.75rem;
+  font-weight: bold;
+}
+.modal-header span:hover,
+.modal-header span:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .modal-body {
   padding: 0.15rem 1rem;
+  margin: 0.5rem 0 1rem 0;
+  width: 100%;
+}
+.modal-body form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.modal-body textarea {
+  resize: vertical;
+  min-height: 3.5rem;
+  max-height: 12rem;
+}
+.modal-body textarea :invalid {
+  border: 2px dashed red;
+}
+.modal-body textarea :valid {
+  border: 2px solid lime;
 }
 
-.modal-content {
-  background-color: white;
-  color: black;
-  position: relative;
-  margin: auto;
-  padding: 1.25rem;
-  border: 1px solid #888;
-  width: 80%;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  animation-name: animatetop;
-  animation-duration: 0.4s;
+.submitbutton {
+  width: 40%;
+  margin-left: auto;
 }
 
 @keyframes animatetop {
@@ -119,19 +162,6 @@ select {
     opacity: 1;
   }
 }
-.close {
-  color: #aaa;
-  font-size: 1.75rem;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
 * {
   box-sizing: border-box;
   margin: 0;

@@ -9,50 +9,91 @@
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    color:  white;
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-.modal-header {
-    padding: .15rem 1rem;
-    background-color: #5cb85c;
-    color: white;
-}
-
-.modal-body {
-    padding: .15rem 1rem ;
 }
 
 //Modal Content box
 .modal-content {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
     background-color: white;
-    color: black;
+    border-radius: 5px;
     position: relative;
-    //15% from the top and centered
     margin: auto;
-    padding: 1.25rem;
     border: 1px solid #888;
-    width: 80%;
+    width: 92%;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
     animation-name: animatetop;
     animation-duration: 0.4s
 }
 
+//Modal Header Begins
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5rem .8rem;
+    width: 100%;
+    border-bottom: 1px solid lightgrey;
+
+    h5 {
+        font-size: 1.25rem;
+        font-weight: 550;
+    }
+
+    span {
+        color: #aaa;
+        font-size: 1.75rem;
+        font-weight: bold;
+    }
+    
+    span:hover,
+    span:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+    }
+}
+//Modal Header Ends
+
+//Modal Body Begins
+.modal-body {
+    padding: .15rem 1rem ;
+    margin: .5rem 0 1rem 0;
+    width: 100%;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: .7rem;
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 3.5rem;
+        max-height: 12rem;
+        
+        :invalid {
+            border: 2px dashed red;
+        }
+        :valid {
+            border: 2px solid lime;
+        }
+    }
+}
+
+.submitbutton {
+    width: 40%;
+    margin-left: auto;
+}
+//Modal Body Ends
+
+
 @keyframes animatetop {
     from {top: -300px; opacity: 0;}
     to {top: 0; opacity: 1;}
-}
-
-//The close button
-.close {
-    color: #aaa;
-    font-size: 1.75rem;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
 }
