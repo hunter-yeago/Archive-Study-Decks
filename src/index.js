@@ -14,8 +14,8 @@
 //I think it could also be useful when editing decks - deleting or adding questions and updating the DOM.
 
 import {printQuestion} from './card.js';
-import './view.js';
-import './adddeck.js';
+import './view';
+import './model';
 
 class Observable {
     

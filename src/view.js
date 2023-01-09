@@ -1,5 +1,8 @@
 import { setAttributes } from "./helpers";
-import { addDeck } from "./adddeck";
+
+
+//! This is bad! View should not know about Model!!!
+import { addDeck } from "./model";
 
 let main = document.querySelector('main');
 
