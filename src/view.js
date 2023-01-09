@@ -1,6 +1,5 @@
 import { setAttributes } from "./helpers";
 
-
 //! This is bad! View should not know about Model!!!
 import { addDeck } from "./model";
 

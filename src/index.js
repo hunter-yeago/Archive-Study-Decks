@@ -13,9 +13,10 @@
 
 //I think it could also be useful when editing decks - deleting or adding questions and updating the DOM.
 
-import {printQuestion} from './card.js';
 import './view';
 import './model';
+
+//So this is effectively the 'Controller'
 
 class Observable {
     
@@ -39,4 +40,3 @@ class Observable {
         this.observers.forEach(observer => observer(data));
     }
 }
-printQuestion();

@@ -1,5 +1,39 @@
+//Holds the Deck, Card, and Question Objects
 
-import { Deck } from "./deckdata";
+//Deck Object
+export const Deck = {
+    name: 'default name',
+    description: 'default description',
+    dueDate: 'default dueDate',
+    category: 'default category',
+    print: function () {
+        console.log(`printing from inside Deck`);
+    },
+};
+
+let frenchDeck = Object.assign(Object.create(Deck), {
+    name: 'French',
+    description: 'A deck to learn French',
+    numberOfQuestions: 10,
+    dueDate: 'some time date thing',
+    category: 'Languages',
+    questionsList: [],
+});
+export {frenchDeck};
+
+
+// Question Object
+const frenchQuestionOne = {
+    question: 'How do you say \'a cat\' in French?',
+    answer: 'Un chat'
+};
+
+// Card Object
+const Card = (question, answer) => {
+
+    return { question, answer};
+
+};
 
 
 export function addDeck(event) {
@@ -23,8 +57,6 @@ export function addDeck(event) {
 //Now that I have the new deck object, I need to:
 //Add it to the cateogory and the complete deck list
 //Update the DOM (Do this through the Controller)
-
-
 
 //Pushes deck to Associated Category and to Complete Deck List
 function pushDeckToLists() {
