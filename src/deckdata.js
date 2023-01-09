@@ -1,5 +1,5 @@
 
-const Deck = {
+export const Deck = {
     name: 'default name',
     description: 'default description',
     dueDate: 'default dueDate',
@@ -16,7 +16,7 @@ let frenchDeck = Object.assign(Object.create(Deck), {
     dueDate: 'some time date thing',
     category: 'Languages',
     questionsList: [],
-})
+});
 
 export {frenchDeck};
 

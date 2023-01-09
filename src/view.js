@@ -1,4 +1,6 @@
 import { setAttributes } from "./helpers";
+import { addDeck } from "./adddeck";
+
 let main = document.querySelector('main');
 
 //Mobile Menu Button Logic
@@ -99,44 +101,60 @@ function generateModal() {
     modalBody.className = 'modal-body';
 
     //Form
-    let form = document.createElement('form');
+    const form = document.createElement('form');
+    form.className = 'modal-form';
+    form.addEventListener('submit', addDeck);
+    form.action = '';
 
     //Name Input
     let nameInputLabel = document.createElement('label');
     nameInputLabel.htmlFor = 'deckname';
     nameInputLabel.innerText = 'Deck Name:'
     let nameInput = document.createElement('input');
-    nameInput.id = 'deckname';
+    setAttributes(nameInput, {
+        'name': 'deckname',
+        'id': 'deckname',
+        'class': 'deckname',
+    });
 
     //Description Input
     let descriptionLabel = document.createElement('label');
-    descriptionLabel.htmlFor = 'description';
+    descriptionLabel.htmlFor = 'deckdescription';
     descriptionLabel.innerText = 'Description:';
     let descriptionInput = document.createElement('textarea');
     setAttributes(descriptionInput,
         {
-            'id': 'description',
+            'id': 'deckdescription',
+            'class': 'deckdescription',
+            'name': 'deckdescription',
             'rows': '4',
             'cols': '20',
-            'maxLength': '150'
+            'maxLength': '150',
         });
 
     //Due Date Input
     let dueDateLabel = document.createElement('label');
-    dueDateLabel.htmlFor = 'duedate';
+    dueDateLabel.htmlFor = 'deckduedate';
     dueDateLabel.innerText = 'Due Date:';
     let dueDateInput = document.createElement('input');
-    dueDateInput.id = 'duedate';
+    setAttributes(dueDateInput, {
+        'id': 'deckduedate',
+        'name': 'deckduedate',
+        'class': 'deckduedate',
+    });
 
     //# of Cards Input
     let categoryLabel = document.createElement('label');
-    categoryLabel.htmlFor = 'category';
-    categoryLabel.innerText = 'Category'
+    categoryLabel.htmlFor = 'deckcategory';
+    categoryLabel.innerText = 'Category';
     
     let category = document.createElement('input');
-    category.id = 'category';
-    category.className = 'test';
-    category.setAttribute('list', 'categorylist');
+    setAttributes(category, {
+        'id': 'deckcategory',
+        'name': 'deckcategory',
+        'class': 'deckcategory',
+        'list': 'categorylist',
+    });
 
     let categoryDataList = document.createElement('datalist');
     categoryDataList.id = 'categorylist';
@@ -155,7 +173,7 @@ function generateModal() {
     //Submit button
     let formSubmitButton = document.createElement('input');
     setAttributes(formSubmitButton, {
-        "type": 'submit',
+        'type': 'submit',
         'value': 'Add Deck',
         'class': 'submitbutton',
     });
@@ -177,4 +195,4 @@ function generateModal() {
         dueDateLabel, dueDateInput,
         categoryLabel, category, categoryDataList,
         formSubmitButton);
-}
+};
