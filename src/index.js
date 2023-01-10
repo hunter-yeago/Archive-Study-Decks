@@ -13,8 +13,9 @@
 
 //I think it could also be useful when editing decks - deleting or adding questions and updating the DOM.
 
+import { addDeck } from './model';
 import './view';
-import './model';
+import {generateHomePage, addMenuButtonListeners} from './view';
 
 //So this is effectively the 'Controller'
 
@@ -40,5 +41,9 @@ class Observable {
         this.observers.forEach(observer => observer(data));
     }
 }
+
+generateHomePage();
+addMenuButtonListeners();
+
 
 export const addDeckFunction = addDeck;

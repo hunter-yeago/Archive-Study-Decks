@@ -1,6 +1,5 @@
 import { setAttributes } from "./helpers";
 import { addDeckFunction } from "./index";
-import { addDeck } from "./model";
 
 let main = document.querySelector('main');
 
@@ -29,23 +28,160 @@ function closeMobileMenu () {
 }
 //End Menu Button Logic
 
-
 //Create Array of Main's Children and remove them
 function removeMainTagContent () {
     
-    let mainChildren = Array.from(document.querySelector('.main').children);
+    const mainChildren = Array.from(document.querySelector('.main').children);
     mainChildren.forEach(element => {
         element.remove();
     });
-}
+};
 
-//Add generateAddDeckPage logic to mobile menu
-let addADeckMenuOption = document.querySelector('.addadeckoption');
-addADeckMenuOption.addEventListener('click', () => {
-    closeMobileMenu();
-    removeMainTagContent();
-    generateAddDeckPage();
-});
+export function addMenuButtonListeners() {
+    //Children of dropdown <ul> element (Array of the <li> elements)
+    let children = Array.from(document.getElementById('dropdownmenuoptionlist').children);
+
+    children.forEach((element) => {
+        //Access the Anchor of each <li>
+        let anchor = element.children[0];
+        anchor.addEventListener('click', () => {
+            closeMobileMenu();
+            removeMainTagContent();
+
+            switch(anchor.className) {
+                case 'home': 
+                    generateHomePage();
+                    break;
+
+                case 'addadeckoption':
+                    generateAddDeckPage();
+                    break;
+                
+                default:
+                    break;
+            };
+        });
+    });
+};
+
+export function generateHomePage() {
+
+    //Overview Section
+    const overviewSection = document.createElement('section');
+    overviewSection.className = 'overview'
+
+    const overviewSectionTitle = document.createElement('h1');
+    overviewSectionTitle.innerText = 'Overview';
+
+    const rowOfCardsDiv = document.createElement('div');
+    rowOfCardsDiv.className = 'rowofcards';
+
+    //Temporary PlaceHolder Card Information
+    const card1 = {
+        imagesrc: 'images/learning-color.svg',
+        title: 'Decks Created',
+        underlinecolor: 'greencardunderline',
+        statistic: '18',
+    };
+
+    const card2 = {
+        imagesrc: 'images/education-color.svg',
+        title: 'Card 2 Title',
+        underlinecolor: 'bluecardunderline',
+        statistic: '73',
+    };
+
+    const card3 = {
+        imagesrc: 'images/study-desk-color.svg',
+        title: 'Card 3 Title',
+        underlinecolor: 'brickcardunderline',
+        statistic: '9',
+    };
+
+    const card4 = {
+        imagesrc: 'images/study-lamp-color.svg',
+        title: 'Card 4 Title',
+        underlinecolor: 'sunshinecardunderline',
+        statistic: '100',
+    };
+
+    const overviewCards = [card1, card2, card3, card4];
+    overviewCards.forEach((element) => {
+        const OuterDiv = document.createElement('div');
+        OuterDiv.className = 'overviewcard';
+
+        const innerDiv = document.createElement('div');
+        
+        const image = document.createElement('img');
+        image.src = element.imagesrc;
+
+        const title = document.createElement('h3');
+        title.innerText = element.title;
+ 
+        const statisticContainer = document.createElement('p');
+        statisticContainer.className = element.underlinecolor;
+        statisticContainer.innerText = element.statistic;
+
+        //Constructing InnerDiv
+        innerDiv.append(image, title);
+
+        //Constructing OuterDiv
+        OuterDiv.append(innerDiv, statisticContainer);
+
+        //Append card to rowOfCardsDiv
+        rowOfCardsDiv.appendChild(OuterDiv);
+    });
+
+    //Your Decks Section
+    const yourDecksSection = document.createElement('section');
+    const yourDecksTitle = document.createElement('h1');
+    yourDecksTitle.innerText = 'Your Decks';
+
+    const deckDisplayDiv = document.createElement('div');
+    deckDisplayDiv.className = 'deckdisplay';
+
+    let deck1 = 'deck1';
+    let deck2 = 'deck2';
+    let deck3 = 'deck3';
+    const decks = [deck1, deck2, deck3];
+
+    decks.forEach((element) => {
+        let deckDiv = document.createElement('div');
+        deckDiv.className = 'deck';
+
+        const deckImageAndNameDiv = document.createElement('div');
+        deckImageAndNameDiv.className = 'deckimageandname';
+
+        const deckImage = document.createElement('img');
+        setAttributes(deckImage, {
+            'src': 'gridcheckmark.svg',
+            'alt': 'click here to see this decks info',
+        });
+
+        const deckName = document.createElement('h3');
+        deckName.id = element;
+
+        deckImageAndNameDiv.append(deckImage, deckName);
+
+        const deckInfoButton = document.createElement('img');
+        setAttributes(deckInfoButton, {
+            'src': 'chevron-down.svg',
+            'alt': 'click here to see this decks info',
+            'class': 'deckinfomenubuttonimage',
+        });
+
+        deckDiv.append(deckImageAndNameDiv, deckInfoButton);
+        deckDisplayDiv.appendChild(deckDiv);
+    });
+
+    //Appending Sections
+    yourDecksSection.append(yourDecksTitle, deckDisplayDiv);
+    overviewSection.append(overviewSectionTitle, rowOfCardsDiv);
+
+    //Appending the sections to main
+    main.append(overviewSection, yourDecksSection);
+
+};
 
 function generateAddDeckPage () {
     let addDeckPageTitle = document.createElement('h1');
@@ -53,7 +189,7 @@ function generateAddDeckPage () {
 
     generateModal();
     main.appendChild(addDeckPageTitle);
-}
+};
 
 function generateModal() {
 
