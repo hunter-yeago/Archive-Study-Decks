@@ -40,3 +40,5 @@ class Observable {
         this.observers.forEach(observer => observer(data));
     }
 }
+
+export const addDeckFunction = addDeck;

@@ -1,6 +1,5 @@
 import { setAttributes } from "./helpers";
-
-//! This is bad! View should not know about Model!!!
+import { addDeckFunction } from "./index";
 import { addDeck } from "./model";
 
 let main = document.querySelector('main');
@@ -58,8 +57,8 @@ function generateAddDeckPage () {
 
 function generateModal() {
 
-    let main = document.querySelector('.main');
-    let triggerButton = document.createElement('button');
+    const main = document.querySelector('.main');
+    const triggerButton = document.createElement('button');
     triggerButton.id = 'myBtn';
     triggerButton.innerText = 'Add a Deck';
     triggerButton.onclick = function() {
@@ -105,7 +104,6 @@ function generateModal() {
     //Form
     const form = document.createElement('form');
     form.className = 'modal-form';
-    form.addEventListener('submit', addDeck);
     form.action = '';
 
     //Name Input
@@ -174,6 +172,7 @@ function generateModal() {
 
     //Submit button
     let formSubmitButton = document.createElement('input');
+    formSubmitButton.addEventListener('click', addDeckFunction);
     setAttributes(formSubmitButton, {
         'type': 'submit',
         'value': 'Add Deck',

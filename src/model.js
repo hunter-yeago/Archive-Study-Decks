@@ -38,7 +38,7 @@ const Card = (question, answer) => {
 
 export function addDeck(event) {
     event.preventDefault();
-    const myFormData = new FormData(event.target);
+    const myFormData = new FormData(document.querySelector('.modal-form'));
     const formDataObj = Object.fromEntries(myFormData.entries());
 
     let newDeck = Object.assign(Object.create(Deck), {
