@@ -21,7 +21,6 @@ let frenchDeck = Object.assign(Object.create(Deck), {
 });
 export {frenchDeck};
 
-
 // Question Object
 const frenchQuestionOne = {
     question: 'How do you say \'a cat\' in French?',
@@ -30,11 +29,8 @@ const frenchQuestionOne = {
 
 // Card Object
 const Card = (question, answer) => {
-
     return { question, answer};
-
 };
-
 
 export function addDeck(event) {
     event.preventDefault();
@@ -47,11 +43,10 @@ export function addDeck(event) {
         dueDate: formDataObj.deckduedate,
         category: formDataObj.deckcategory,
     });
-    
-    console.log(` The deck name is ${newDeck.name}`);
-    console.log(` The deck description is ${newDeck.description}`);
-    console.log(` The deck Due Date is ${newDeck.dueDate}`);
-    console.log(` The deck Category is ${newDeck.category}`);
+
+    console.log({newDeck});
+    populateStorage(newDeck);
+    pushDeckToLists(newDeck);
 };
 
 //Now that I have the new deck object, I need to:
@@ -59,6 +54,60 @@ export function addDeck(event) {
 //Update the DOM (Do this through the Controller)
 
 //Pushes deck to Associated Category and to Complete Deck List
-function pushDeckToLists() {
 
+let categoryLanguages = [];
+function pushDeckToLists(deck) {
+    categoryLanguages.push(deck);
+    console.log(categoryLanguages);
+    console.log(`printing from pushdeck function and adding new deck go ${categoryLanguages}`);
+}
+
+//Local Storage
+
+//This updates the page
+function setStyles() {
+    const deck = localStorage.getItem('newdeck');
+    console.log({deck});
+
+    console.log(document.getElementById('adddeckpapetitle'));
+    document.getElementById('adddeckpapetitle').innerText = deck;
+}
+
+//Sets the item in local Storage
+function populateStorage(deck) {
+    localStorage.setItem('newdeck', deck.name);
+    setStyles();
+}
+
+function storageAvailable(type) {
+    let storage;
+    try {
+        storage = window[type];
+        const x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch (e) {
+        return e instanceof DOMException && (
+            //everything except Firefox
+            e.code === 22 ||
+            //Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            //everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            //Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            //acknowledge QuotaExceededError only if there's something
+            //already stored
+            (storage && storage.length !== 0);
+    }
+}
+
+if (storageAvailable('localStorage')) {
+    console.log('Yippeee! We can use localStorage awesomeness');
+}
+else {
+    console.log('Too badm no localStorage for us');
 }

@@ -72,6 +72,7 @@ export function generateHomePage() {
 
     const overviewSectionTitle = document.createElement('h1');
     overviewSectionTitle.innerText = 'Overview';
+    overviewSectionTitle.id = 'overviewsectiontitle';
 
     const rowOfCardsDiv = document.createElement('div');
     rowOfCardsDiv.className = 'rowofcards';
@@ -136,6 +137,7 @@ export function generateHomePage() {
     const yourDecksSection = document.createElement('section');
     const yourDecksTitle = document.createElement('h1');
     yourDecksTitle.innerText = 'Your Decks';
+    yourDecksTitle.id = 'yourdeckstitle';
 
     const deckDisplayDiv = document.createElement('div');
     deckDisplayDiv.className = 'deckdisplay';
@@ -186,6 +188,7 @@ export function generateHomePage() {
 function generateAddDeckPage () {
     let addDeckPageTitle = document.createElement('h1');
     addDeckPageTitle.innerText = 'Add a Deck Here';
+    addDeckPageTitle.id = 'adddeckpapetitle';
 
     generateModal();
     main.appendChild(addDeckPageTitle);
@@ -314,6 +317,11 @@ function generateModal() {
         'value': 'Add Deck',
         'class': 'submitbutton',
     });
+    formSubmitButton.onclick = function(event) {
+        if (event.target == this) {
+            modalDiv.style.display = 'none';
+        }
+    }
     
     //Append the Modal to the MainPage Div
     main.appendChild(modalDiv);
