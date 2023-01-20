@@ -3,29 +3,6 @@ import { addDeckFunction } from "./index";
 
 let main = document.querySelector('main');
 
-//Mobile Menu Button Logic
-document.addEventListener('click', e => {
-    const isDropdownButton = e.target.matches('[data-dropdown-button]')
-    if(!isDropdownButton && e.target.closest('[data-dropdown') != null) {
-        return;
-    }
-
-    let currentDropDown;
-    if (isDropdownButton) {
-        currentDropDown = document.querySelector('.dropdown-menu');
-        currentDropDown.classList.toggle('active');
-    }
-
-    document.querySelectorAll('[data-dropdown].active').forEach(dropdown => {
-        if (dropdown === currentDropDown) return;
-        dropdown.classList.remove('active');
-    })
-}, false);
-
-//Finds the dropdown menu and removes Active class
-function closeMobileMenu () {
-    document.querySelector('.dropdown-menu').classList.remove('active');
-}
 //End Menu Button Logic
 
 //Create Array of Main's Children and remove them
@@ -37,34 +14,13 @@ function removeMainTagContent () {
     });
 };
 
-export function addMenuButtonListeners() {
-    //Children of dropdown <ul> element (Array of the <li> elements)
-    let children = Array.from(document.getElementById('dropdownmenuoptionlist').children);
-
-    children.forEach((element) => {
-        //Access the Anchor of each <li>
-        let anchor = element.children[0];
-        anchor.addEventListener('click', () => {
-            closeMobileMenu();
-            removeMainTagContent();
-
-            switch(anchor.className) {
-                case 'home': 
-                    generateHomePage();
-                    break;
-
-                case 'addadeckoption':
-                    generateAddDeckPage();
-                    break;
-                
-                default:
-                    break;
-            };
-        });
-    });
-};
-
 export function generateHomePage() {
+
+    //temporary testing for left nav bar
+
+    //get openbutton and add toggleNav function / same for closebutton
+    document.getElementById('opennavbtn').addEventListener('click', toggleNav);
+    // document.getElementById('closeNavbtn').addEventListener('click', closeNav);
 
     //Overview Section
     const overviewSection = document.createElement('section');
@@ -341,3 +297,13 @@ function generateModal() {
         categoryLabel, category, categoryDataList,
         formSubmitButton);
 };
+
+function toggleNav() {
+    
+    let sideNav = document.getElementById('mySidenav');
+    sideNav.classList.toggle('active');
+}
+
+// function closeNav() {
+//     document.getElementById('mySidenav').style.width = '0';
+// }

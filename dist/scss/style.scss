@@ -42,6 +42,37 @@ header {
     }
 }
 
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(246, 246, 246);
+    overflow-x: hidden;
+    margin-top: 42.3px;
+    transition: .3s;
+
+    //The navigation menu links
+    a {
+        padding: .5rem .5rem .6rem 2rem;
+        text-decoration: none;
+        font-size: 1.2rem;
+        color: #818181;
+        display: block;
+        transition: .2s;
+    }
+
+    a:hover {
+        color: #f1f1f1;
+    }
+}
+
+.sidenav.active {
+    width: 250px;
+}
+
 .main {
     border-top: 1px solid black;
 }

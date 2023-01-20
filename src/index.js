@@ -18,5 +18,4 @@ import './view';
 import {generateHomePage, addMenuButtonListeners} from './view';
 
 generateHomePage();
-addMenuButtonListeners();
 export const addDeckFunction = addDeck;
