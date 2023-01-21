@@ -19,8 +19,18 @@ export function generateHomePage() {
     //temporary testing for left nav bar
 
     //get openbutton and add toggleNav function / same for closebutton
-    document.getElementById('opennavbtn').addEventListener('click', toggleNav);
-    // document.getElementById('closeNavbtn').addEventListener('click', closeNav);
+    const openNavButton = document.getElementById('opennavbtn');
+    const openNavButtonImage = document.getElementById('opennavbuttonimage');
+
+    openNavButton.addEventListener('click', toggleNav);
+    // openNavButton.addEventListener('mouseover', () => {
+    //     openNavButton.style.opacity = '.5';
+    //     openNavButtonImage.style.opacity = '1';
+    //     console.log('firing');
+    // });
+    // openNavButton.addEventListener('mouseout', () => {
+    //    openNavButton.style.opacity = '1'; 
+    // });
 
     //Overview Section
     const overviewSection = document.createElement('section');

@@ -56,7 +56,7 @@ header {
 
     //The navigation menu links
     a {
-        padding: .5rem .5rem .6rem 2rem;
+        padding: 2.5rem .5rem .6rem 2rem;
         text-decoration: none;
         font-size: 1.2rem;
         color: #818181;
@@ -129,6 +129,10 @@ header {
     width: 1.5rem;
 }
 
+path {
+    fill: white;
+}
+
 //Makes the Mobile Menu Button Image not clickable, so that
 //I will click the Button instead
 .mobilemenubutton:hover img {
@@ -137,13 +141,16 @@ header {
 }
 
 .mobilemenubutton:hover {
-    background-color: rgba($color: #ffffff, $alpha: 1.0);
+    background-color: rgba(254, 254, 255, 0.9);
     opacity: .3;
     border-radius: .1rem;
 }
 
 
+
 .mobilemenubutton {
+
+    position: relative;
     background: none;
 	color: inherit;
 	border: none;
