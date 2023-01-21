@@ -1,7 +1,7 @@
 import { setAttributes } from "./helpers";
 import { addDeckFunction } from "./index";
 
-let main = document.querySelector('main');
+const main = document.querySelector('main');
 
 //End Menu Button Logic
 
@@ -16,21 +16,12 @@ function removeMainTagContent () {
 
 export function generateHomePage() {
 
-    //temporary testing for left nav bar
-
+    removeMainTagContent();
     //get openbutton and add toggleNav function / same for closebutton
     const openNavButton = document.getElementById('opennavbtn');
     const openNavButtonImage = document.getElementById('opennavbuttonimage');
 
     openNavButton.addEventListener('click', toggleNav);
-    // openNavButton.addEventListener('mouseover', () => {
-    //     openNavButton.style.opacity = '.5';
-    //     openNavButtonImage.style.opacity = '1';
-    //     console.log('firing');
-    // });
-    // openNavButton.addEventListener('mouseout', () => {
-    //    openNavButton.style.opacity = '1'; 
-    // });
 
     //Overview Section
     const overviewSection = document.createElement('section');
@@ -108,13 +99,13 @@ export function generateHomePage() {
     const deckDisplayDiv = document.createElement('div');
     deckDisplayDiv.className = 'deckdisplay';
 
-    let deck1 = 'deck1';
-    let deck2 = 'deck2';
-    let deck3 = 'deck3';
+    const deck1 = 'deck1';
+    const deck2 = 'deck2';
+    const deck3 = 'deck3';
     const decks = [deck1, deck2, deck3];
 
     decks.forEach((element) => {
-        let deckDiv = document.createElement('div');
+        const deckDiv = document.createElement('div');
         deckDiv.className = 'deck';
 
         const deckImageAndNameDiv = document.createElement('div');
@@ -151,8 +142,25 @@ export function generateHomePage() {
 
 };
 
-function generateAddDeckPage () {
-    let addDeckPageTitle = document.createElement('h1');
+export function generateMenuButtonEventListeners(id) {
+
+    removeMainTagContent();
+    toggleNav();
+
+    switch (id) {
+        case 'overviewoption':
+             generateHomePage();
+            break;
+        case 'adddeckoption':
+            generateAddDeckPage();
+    }
+
+}
+
+export function generateAddDeckPage () {
+    toggleNav();
+    removeMainTagContent();
+    const addDeckPageTitle = document.createElement('h1');
     addDeckPageTitle.innerText = 'Add a Deck Here';
     addDeckPageTitle.id = 'adddeckpapetitle';
 
@@ -173,21 +181,21 @@ function generateModal() {
     main.appendChild(triggerButton);
     
     //Start Creating Modal
-    let modalDiv = document.createElement('div');
+    const modalDiv = document.createElement('div');
     modalDiv.id = 'myModal';
     modalDiv.className = 'modal';
     modalDiv.style.display = 'none';
     
     //Modal Content
-    let modalContentDiv = document.createElement('div');
+    const modalContentDiv = document.createElement('div');
     modalContentDiv.className = 'modal-content';
 
     //Modal Header
-    let modalHeaderDiv = document.createElement('div');
+    const modalHeaderDiv = document.createElement('div');
     modalHeaderDiv.className = 'modal-header';
 
     //Modal Span / X to Close
-    let modalSpan = document.createElement('span');
+    const modalSpan = document.createElement('span');
     modalSpan.innerHTML = '&times;';
     modalSpan.onclick = function() {
         modalDiv.style.display = 'none';
@@ -199,11 +207,11 @@ function generateModal() {
     }
 
     //Header
-    let modalHeader = document.createElement('h5');
+    const modalHeader = document.createElement('h5');
     modalHeader.innerText = 'New Deck'
 
     //Body
-    let modalBody = document.createElement('div');
+    const modalBody = document.createElement('div');
     modalBody.className = 'modal-body';
 
     //Form
@@ -212,10 +220,11 @@ function generateModal() {
     form.action = '';
 
     //Name Input
-    let nameInputLabel = document.createElement('label');
+    const nameInputLabel = document.createElement('label');
     nameInputLabel.htmlFor = 'deckname';
     nameInputLabel.innerText = 'Deck Name:'
-    let nameInput = document.createElement('input');
+    const nameInput = document.createElement('input');
+    
     setAttributes(nameInput, {
         'name': 'deckname',
         'id': 'deckname',
@@ -223,10 +232,10 @@ function generateModal() {
     });
 
     //Description Input
-    let descriptionLabel = document.createElement('label');
+    const descriptionLabel = document.createElement('label');
     descriptionLabel.htmlFor = 'deckdescription';
     descriptionLabel.innerText = 'Description:';
-    let descriptionInput = document.createElement('textarea');
+    const descriptionInput = document.createElement('textarea');
     setAttributes(descriptionInput,
         {
             'id': 'deckdescription',
@@ -238,10 +247,10 @@ function generateModal() {
         });
 
     //Due Date Input
-    let dueDateLabel = document.createElement('label');
+    const dueDateLabel = document.createElement('label');
     dueDateLabel.htmlFor = 'deckduedate';
     dueDateLabel.innerText = 'Due Date:';
-    let dueDateInput = document.createElement('input');
+    const dueDateInput = document.createElement('input');
     setAttributes(dueDateInput, {
         'id': 'deckduedate',
         'name': 'deckduedate',
@@ -249,11 +258,11 @@ function generateModal() {
     });
 
     //# of Cards Input
-    let categoryLabel = document.createElement('label');
+    const categoryLabel = document.createElement('label');
     categoryLabel.htmlFor = 'deckcategory';
     categoryLabel.innerText = 'Category';
     
-    let category = document.createElement('input');
+    const category = document.createElement('input');
     setAttributes(category, {
         'id': 'deckcategory',
         'name': 'deckcategory',
@@ -261,28 +270,29 @@ function generateModal() {
         'list': 'categorylist',
     });
 
-    let categoryDataList = document.createElement('datalist');
+    const categoryDataList = document.createElement('datalist');
     categoryDataList.id = 'categorylist';
 
-    let optionLanguage = document.createElement('option');
+    const optionLanguage = document.createElement('option');
     optionLanguage.value = 'Languages';
 
-    let optionWebDevelopment = document.createElement('option');
+    const optionWebDevelopment = document.createElement('option');
     optionWebDevelopment.value = 'Web Development';
 
-    let optionMusic = document.createElement('option');
+    const optionMusic = document.createElement('option');
     optionMusic.value = 'Music';
 
     categoryDataList.append(optionLanguage, optionWebDevelopment, optionMusic);
 
     //Submit button
-    let formSubmitButton = document.createElement('input');
+    const formSubmitButton = document.createElement('input');
     formSubmitButton.addEventListener('click', addDeckFunction);
     setAttributes(formSubmitButton, {
         'type': 'submit',
         'value': 'Add Deck',
         'class': 'submitbutton',
     });
+    
     formSubmitButton.onclick = function(event) {
         if (event.target == this) {
             modalDiv.style.display = 'none';
@@ -310,6 +320,6 @@ function generateModal() {
 
 function toggleNav() {
     
-    let sideNav = document.getElementById('mySidenav');
+    const sideNav = document.getElementById('mySidenav');
     sideNav.classList.toggle('active');
 }

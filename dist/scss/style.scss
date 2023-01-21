@@ -27,7 +27,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: .3rem;
-
+    
 }
 
 .nav-right {
@@ -42,8 +42,7 @@ header {
 
 .sidenav {
     height: 100%;
-    //temporarily 250px so that I don't have to keep clicking it to open
-    width: 250px;
+    width: 0;
     position: fixed;
     z-index: 1;
     top: 0;
@@ -72,15 +71,17 @@ header {
         font-size: 1.1rem;
         color: black;
         display: block;
-        transition: .2s;
-    }
-    
-    a:hover {
-        background-color: white;
+        transition: .2.5s;
     }
 
     li {
         list-style: none;
+        //Prevents text from wrapping when Nav comes in and out
+        white-space: nowrap;
+    }
+
+    li:hover {
+        background-color: white;
     }
 }
 
@@ -118,7 +119,6 @@ header {
     }
     
     li {
-        // width: 80vw;
         gap: .5rem;
         text-decoration: none;
         padding: .3rem;
@@ -138,17 +138,13 @@ header {
 
 .mobilemenubuttonimage {
     width: 1.5rem;
+    position: relative;
+    right: 1.75rem;
+    pointer-events: none;
 }
 
 path {
     fill: white;
-}
-
-//Makes the Mobile Menu Button Image not clickable, so that
-//I will click the Button instead
-.mobilemenubutton:hover img {
-    pointer-events: none;
-    
 }
 
 .mobilemenubutton:hover {

@@ -15,7 +15,11 @@
 
 import { addDeck } from './model';
 import './view';
-import {generateHomePage, addMenuButtonListeners} from './view';
+import {generateHomePage, generateAddDeckPage} from './view';
 
 generateHomePage();
 export const addDeckFunction = addDeck;
+
+//temporarily adding menu event listeners here
+document.getElementById('overviewoption').addEventListener('click', generateHomePage);
+document.getElementById('adddeckoption').addEventListener('click', generateAddDeckPage);
