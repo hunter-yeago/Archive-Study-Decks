@@ -313,7 +313,3 @@ function toggleNav() {
     let sideNav = document.getElementById('mySidenav');
     sideNav.classList.toggle('active');
 }
-
-// function closeNav() {
-//     document.getElementById('mySidenav').style.width = '0';
-// }
