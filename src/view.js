@@ -196,8 +196,6 @@ export function generateAddDeckPage () {
     const tableHeaderRow = document.createElement('tr');
     deckTable.appendChild(tableHeaderRow);
 
- 
-    
     for (let i = 0; i <= 2; i++) {
         
         //Table Header
@@ -220,17 +218,14 @@ export function generateAddDeckPage () {
         deckTable.append(tableRow);
     }
     
-    
     addDeckPageDiv.appendChild(addDeckPageTitle);
     addDeckPageDiv.appendChild(triggerButton);
     addDeckPageDiv.appendChild(deckTable);
 
     //just going to create an empty p tag and use that to
     //test the pubsub pattern with
-    
 
-
-    export const paragraphTagObject = {
+    const paragraphTagObject = {
         list: [],
         render: container => {
             let pTag = document.createElement('p');    
@@ -246,6 +241,7 @@ export function generateAddDeckPage () {
             Observable.publish('pTagUpdated', paragraphTagObject.list)
         },
     };
+}
 
 function generateModal() {
 
