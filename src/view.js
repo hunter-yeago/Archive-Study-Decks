@@ -1,5 +1,6 @@
 import { setAttributes } from "./helpers";
 import { addDeckFunction } from "./index";
+import { addDeck } from "./model";
 
 const main = document.querySelector('main');
 
@@ -138,7 +139,6 @@ export function generateHomePage() {
 
     //Appending the sections to main
     main.append(overviewSection, yourDecksSection);
-
 };
 
 export function generateMenuButtonEventListeners(id) {
@@ -153,28 +153,76 @@ export function generateMenuButtonEventListeners(id) {
         case 'adddeckoption':
             generateAddDeckPage();
     }
-
 }
 
 export function generateAddDeckPage () {
     
+    //If I don't have this here, then when I try add the onclick
+    //function to the triggerButton below, then it returns null
+    //(since the modal is created with this function)
+    generateModal();
+
     const main = document.querySelector('.main');
+
+    const addDeckPageDiv = document.createElement('div');
+    addDeckPageDiv.className = 'addeckpagediv';
+    main.appendChild(addDeckPageDiv);
 
     const triggerButton = document.createElement('button');
     triggerButton.id = 'myBtn';
     triggerButton.className = 'adddeckbutton';
     triggerButton.innerText = 'Add a Deck';
+    const modalDiv = document.getElementById('myModal');
     triggerButton.onclick = function() {
         modalDiv.style.display = 'block';
     }
 
     const addDeckPageTitle = document.createElement('h1');
     addDeckPageTitle.innerText = 'Decks';
+    addDeckPageTitle.className = 'deckpagetitle';
     addDeckPageTitle.id = 'adddeckpapetitle';
 
-    generateModal();
-    main.appendChild(addDeckPageTitle);
-    main.appendChild(triggerButton);
+    //Create
+    //Deck Name - Last Studied - Show More Button
+
+    //Table
+    //Row: Header Header header
+    //Row: DName  LstStd ShowMore
+    const deckTable = document.createElement('table');
+    deckTable.className = 'decktable';
+    
+    //Table Row (Header)
+    const tableHeaderRow = document.createElement('tr');
+    deckTable.appendChild(tableHeaderRow);
+
+ 
+    
+    for (let i = 0; i <= 2; i++) {
+        
+        //Table Header
+        const tableHeader = document.createElement('th');
+        tableHeaderRow.appendChild(tableHeader);
+        tableHeader.innerText = 'Header';
+
+        const tableRow = document.createElement('tr');
+        
+        const deckNameCell = document.createElement('td');
+        deckNameCell.innerText = 'Deck Name';
+        
+        const lastStudiedCell = document.createElement('td');
+        lastStudiedCell.innerText = 'Last Studied';
+        
+        const showMoreCell = document.createElement('td');
+        showMoreCell.innerText = 'Show More';
+        
+        tableRow.append(deckNameCell, lastStudiedCell, showMoreCell);
+        deckTable.append(tableRow);
+    }
+    
+    
+    addDeckPageDiv.appendChild(addDeckPageTitle);
+    addDeckPageDiv.appendChild(triggerButton);
+    addDeckPageDiv.appendChild(deckTable);
 };
 
 function generateModal() {
@@ -321,9 +369,7 @@ export function toggleNav() {
     
     const sideNav = document.getElementById('mySidenav');
     sideNav.classList.toggle('active');
-    console.log('firing');
 }
-
 
 //This is janky as funk but at least it works as a prototype
 export function changeTabColor (id) {

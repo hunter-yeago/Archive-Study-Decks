@@ -16,6 +16,8 @@
 import { addDeck } from './model';
 import {generateHomePage, generateAddDeckPage, removeMainTagContent, toggleNav, changeTabColor, generateAboutPage} from './view';
 
+//Temporarily changing to Add Deck Page so that I don't have to keep
+//switching tabs
 generateHomePage();
 changeTabColor('leftoverviewbutton');
 export const addDeckFunction = addDeck;

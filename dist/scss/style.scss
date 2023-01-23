@@ -126,8 +126,35 @@ header {
     border-top: 1px solid black;
 }
 
-.adddeckbutton {
+//Add Deck Page Start
+
+.addeckpagediv {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
+
+.adddeckbutton {
+    width: 50%;
+    align-self: center;
+}
+
+.deckpagetitle {
+    text-align: center;
+}
+
+//Deck Table
+
+.decktable {
+    border: 1px solid black;
+
+    td {
+        border: 1px solid blue;
+    }
+}
+
+//Add Deck Page Finish
 
 //Dropdown Menu
 .dropdown {
