@@ -6,7 +6,7 @@ const main = document.querySelector('main');
 //End Menu Button Logic
 
 //Create Array of Main's Children and remove them
-function removeMainTagContent () {
+export function removeMainTagContent () {
     
     const mainChildren = Array.from(document.querySelector('.main').children);
     mainChildren.forEach(element => {
@@ -16,7 +16,6 @@ function removeMainTagContent () {
 
 export function generateHomePage() {
 
-    removeMainTagContent();
     //get openbutton and add toggleNav function / same for closebutton
     const openNavButton = document.getElementById('opennavbtn');
     const openNavButtonImage = document.getElementById('opennavbuttonimage');
@@ -158,8 +157,7 @@ export function generateMenuButtonEventListeners(id) {
 }
 
 export function generateAddDeckPage () {
-    toggleNav();
-    removeMainTagContent();
+    
     const addDeckPageTitle = document.createElement('h1');
     addDeckPageTitle.innerText = 'Add a Deck Here';
     addDeckPageTitle.id = 'adddeckpapetitle';
@@ -318,8 +316,9 @@ function generateModal() {
         formSubmitButton);
 };
 
-function toggleNav() {
+export function toggleNav() {
     
     const sideNav = document.getElementById('mySidenav');
     sideNav.classList.toggle('active');
+    console.log('firing');
 }

@@ -15,11 +15,32 @@
 
 import { addDeck } from './model';
 import './view';
-import {generateHomePage, generateAddDeckPage} from './view';
+import {generateHomePage, generateAddDeckPage, removeMainTagContent, toggleNav} from './view';
 
 generateHomePage();
 export const addDeckFunction = addDeck;
 
 //temporarily adding menu event listeners here
-document.getElementById('overviewoption').addEventListener('click', generateHomePage);
-document.getElementById('adddeckoption').addEventListener('click', generateAddDeckPage);
+document.getElementById('overviewoption').addEventListener('click', () => {    
+    removeMainTagContent();
+    generateHomePage()
+    toggleNav();
+});
+
+document.getElementById('leftoverviewbutton').addEventListener('click', () => {    
+    removeMainTagContent();
+    generateHomePage()
+    // toggleNav();
+});
+
+document.getElementById('adddeckoption').addEventListener('click', () => {
+    removeMainTagContent();
+    generateAddDeckPage();
+    toggleNav();
+});
+
+document.getElementById('rightstudybutton').addEventListener('click', () => {
+    removeMainTagContent();
+    generateAddDeckPage();
+    // toggleNav();
+});
