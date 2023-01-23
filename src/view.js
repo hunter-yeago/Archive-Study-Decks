@@ -322,3 +322,40 @@ export function toggleNav() {
     sideNav.classList.toggle('active');
     console.log('firing');
 }
+
+
+//This is janky as funk but at least it works as a prototype
+export function changeTabColor (id) {
+
+    switch (id) {
+        case 'leftoverviewbutton':
+            document.getElementById('leftoverviewbutton').style.borderTop = '1px solid blue';
+            document.getElementById('overviewh3').style.color = 'blue';
+
+            document.getElementById('rightstudybutton').style.borderTop = 'none';
+            document.getElementById('aboutbutton').style.borderTop = 'none';
+            document.getElementById('studyh3').style.color = 'grey';
+            document.getElementById('abouth3').style.color = 'grey';
+            break;
+
+        case 'rightstudybutton':
+            document.getElementById('rightstudybutton').style.borderTop = '1px solid blue';
+            document.getElementById('studyh3').style.color = 'blue';
+
+            document.getElementById('leftoverviewbutton').style.borderTop = 'none';
+            document.getElementById('aboutbutton').style.borderTop = 'none';
+            document.getElementById('overviewh3').style.color = 'grey';
+            document.getElementById('abouth3').style.color = 'grey';
+            break;
+        
+        case 'aboutbutton':
+            document.getElementById('aboutbutton').style.borderTop = '1px solid blue';
+            document.getElementById('abouth3').style.color = 'blue';
+
+            document.getElementById('leftoverviewbutton').style.borderTop = 'none';
+            document.getElementById('rightstudybutton').style.borderTop = 'none';
+            document.getElementById('overviewh3').style.color = 'grey';
+            document.getElementById('studyh3').style.color = 'grey';
+            break;
+    }
+}

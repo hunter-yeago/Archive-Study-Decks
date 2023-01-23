@@ -14,10 +14,10 @@
 //I think it could also be useful when editing decks - deleting or adding questions and updating the DOM.
 
 import { addDeck } from './model';
-import './view';
-import {generateHomePage, generateAddDeckPage, removeMainTagContent, toggleNav} from './view';
+import {generateHomePage, generateAddDeckPage, removeMainTagContent, toggleNav, changeTabColor} from './view';
 
 generateHomePage();
+changeTabColor('leftoverviewbutton');
 export const addDeckFunction = addDeck;
 
 //temporarily adding menu event listeners here
@@ -30,7 +30,7 @@ document.getElementById('overviewoption').addEventListener('click', () => {
 document.getElementById('leftoverviewbutton').addEventListener('click', () => {    
     removeMainTagContent();
     generateHomePage()
-    // toggleNav();
+    changeTabColor(document.getElementById('leftoverviewbutton').id);
 });
 
 document.getElementById('adddeckoption').addEventListener('click', () => {
@@ -42,5 +42,11 @@ document.getElementById('adddeckoption').addEventListener('click', () => {
 document.getElementById('rightstudybutton').addEventListener('click', () => {
     removeMainTagContent();
     generateAddDeckPage();
-    // toggleNav();
+    changeTabColor(document.getElementById('rightstudybutton').id);
+});
+
+document.getElementById('aboutbutton').addEventListener('click', () => {
+    removeMainTagContent();
+    generateAddDeckPage();
+    changeTabColor(document.getElementById('aboutbutton').id);
 });
