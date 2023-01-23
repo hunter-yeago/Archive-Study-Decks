@@ -23,17 +23,13 @@ changeTabColor('leftoverviewbutton');
 export const addDeckFunction = addDeck;
 
 //temporarily adding menu event listeners here
+//These are the event listeners for the left slide-in navbar
 document.getElementById('overviewoption').addEventListener('click', () => {    
     removeMainTagContent();
     generateHomePage()
     toggleNav();
 });
 
-document.getElementById('leftoverviewbutton').addEventListener('click', () => {    
-    removeMainTagContent();
-    generateHomePage()
-    changeTabColor(document.getElementById('leftoverviewbutton').id);
-});
 
 document.getElementById('adddeckoption').addEventListener('click', () => {
     removeMainTagContent();
@@ -41,14 +37,43 @@ document.getElementById('adddeckoption').addEventListener('click', () => {
     toggleNav();
 });
 
-document.getElementById('rightstudybutton').addEventListener('click', () => {
-    removeMainTagContent();
-    generateAddDeckPage();
-    changeTabColor(document.getElementById('rightstudybutton').id);
-});
 
-document.getElementById('aboutbutton').addEventListener('click', () => {
+const mobileNavButton = Array.from([
+    document.getElementById('leftoverviewbutton'),
+    document.getElementById('rightstudybutton'),
+    document.getElementById('aboutbutton')
+    ]);
+
+    console.log({mobileNavButton});
+
+    mobileNavButton.forEach((button) => {
+        button.addEventListener('click', addMobileNavEventListeners);
+    });
+
+// These are the event listeners for the bottom nav bar
+
+function addMobileNavEventListeners(e) {
+    
+    const buttonID = e.target.id;
+
     removeMainTagContent();
-    generateAboutPage();
-    changeTabColor(document.getElementById('aboutbutton').id);
-});
+    changeTabColor(buttonID);
+    console.log('addmobileeventlistenersfunction');
+
+    switch (buttonID) {
+        case 'leftoverviewbutton':
+            generateHomePage();
+            console.log('firing home');
+            break;
+
+        case 'rightstudybutton':
+            generateAddDeckPage();
+            console.log('firing study');
+            break;
+
+        case 'aboutbutton':
+            generateAboutPage();
+            console.log('firing about');
+            break;
+    }
+}
