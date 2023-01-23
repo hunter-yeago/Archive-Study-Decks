@@ -14,7 +14,7 @@
 //I think it could also be useful when editing decks - deleting or adding questions and updating the DOM.
 
 import { addDeck } from './model';
-import {generateHomePage, generateAddDeckPage, removeMainTagContent, toggleNav, changeTabColor} from './view';
+import {generateHomePage, generateAddDeckPage, removeMainTagContent, toggleNav, changeTabColor, generateAboutPage} from './view';
 
 generateHomePage();
 changeTabColor('leftoverviewbutton');
@@ -47,6 +47,6 @@ document.getElementById('rightstudybutton').addEventListener('click', () => {
 
 document.getElementById('aboutbutton').addEventListener('click', () => {
     removeMainTagContent();
-    generateAddDeckPage();
+    generateAboutPage();
     changeTabColor(document.getElementById('aboutbutton').id);
 });

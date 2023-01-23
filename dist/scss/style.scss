@@ -126,6 +126,9 @@ header {
     border-top: 1px solid black;
 }
 
+.adddeckbutton {
+}
+
 //Dropdown Menu
 .dropdown {
     position: relative;
@@ -179,18 +182,11 @@ header {
     right: 1.75rem;
     pointer-events: none;
 }
-
-path {
-    fill: white;
-}
-
 .mobilemenubutton:hover {
     background-color: rgba(254, 254, 255, 0.9);
     opacity: .3;
     border-radius: .1rem;
 }
-
-
 
 .mobilemenubutton {
 

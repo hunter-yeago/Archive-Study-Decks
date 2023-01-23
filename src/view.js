@@ -92,7 +92,7 @@ export function generateHomePage() {
     //Your Decks Section
     const yourDecksSection = document.createElement('section');
     const yourDecksTitle = document.createElement('h1');
-    yourDecksTitle.innerText = 'Your Decks';
+    yourDecksTitle.innerText = 'Top Decks';
     yourDecksTitle.id = 'yourdeckstitle';
 
     const deckDisplayDiv = document.createElement('div');
@@ -158,26 +158,27 @@ export function generateMenuButtonEventListeners(id) {
 
 export function generateAddDeckPage () {
     
-    const addDeckPageTitle = document.createElement('h1');
-    addDeckPageTitle.innerText = 'Add a Deck Here';
-    addDeckPageTitle.id = 'adddeckpapetitle';
-
-    generateModal();
-    main.appendChild(addDeckPageTitle);
-};
-
-function generateModal() {
-
     const main = document.querySelector('.main');
+
     const triggerButton = document.createElement('button');
     triggerButton.id = 'myBtn';
+    triggerButton.className = 'adddeckbutton';
     triggerButton.innerText = 'Add a Deck';
     triggerButton.onclick = function() {
         modalDiv.style.display = 'block';
     }
 
+    const addDeckPageTitle = document.createElement('h1');
+    addDeckPageTitle.innerText = 'Decks';
+    addDeckPageTitle.id = 'adddeckpapetitle';
+
+    generateModal();
+    main.appendChild(addDeckPageTitle);
     main.appendChild(triggerButton);
-    
+};
+
+function generateModal() {
+
     //Start Creating Modal
     const modalDiv = document.createElement('div');
     modalDiv.id = 'myModal';
@@ -358,4 +359,10 @@ export function changeTabColor (id) {
             document.getElementById('studyh3').style.color = 'grey';
             break;
     }
+}
+
+export function generateAboutPage() {
+    let aboutPageTitle = document.createElement('h1');
+    aboutPageTitle.innerText = 'About Page';
+    main.appendChild(aboutPageTitle);
 }
