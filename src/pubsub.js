@@ -1,4 +1,4 @@
-class Observable {
+export class Observable {
     
     //list of observers
     constructor() {

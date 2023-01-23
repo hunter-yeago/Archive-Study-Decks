@@ -1,6 +1,7 @@
 import { setAttributes } from "./helpers";
 import { addDeckFunction } from "./index";
 import { addDeck } from "./model";
+import { Observable } from "./pubsub";
 
 const main = document.querySelector('main');
 
@@ -223,7 +224,28 @@ export function generateAddDeckPage () {
     addDeckPageDiv.appendChild(addDeckPageTitle);
     addDeckPageDiv.appendChild(triggerButton);
     addDeckPageDiv.appendChild(deckTable);
-};
+
+    //just going to create an empty p tag and use that to
+    //test the pubsub pattern with
+    
+
+
+    export const paragraphTagObject = {
+        list: [],
+        render: container => {
+            let pTag = document.createElement('p');    
+            addDeckPageDiv.appendChild(pTag);
+            Observable.subscribe('addDeckFunction', thingImgonnado);
+        },
+        addDataToPTag: name => {
+            pTag.innerText = name;
+            list.add
+            let list = new Set(paragraphTagObject.list);
+            list.add(name);
+            paragraphTagObject.list = Array.from(list).sort();
+            Observable.publish('pTagUpdated', paragraphTagObject.list)
+        },
+    };
 
 function generateModal() {
 
