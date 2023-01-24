@@ -7,6 +7,18 @@ const main = document.querySelector('main');
 
 //End Menu Button Logic
 
+//Some issues to fix:
+//If I add a second deck with the same name, i. e. two 'French decks', only 1 is added to storage.
+//I could just create a form issue that says ' You already have a deck with that name' - makes sense for flashcard decks.
+// But at the same time, it shows an inefficiency with the system as it exists right now.
+
+//I really gotta go back and un-spaheghti the code though. Some places it just doens't make sense with naming conventions.
+//Just a bit of spring cleaning.
+
+//Need to find a way to create just one function between Add Local Storage Decks and actors.adddeck.
+//Probably just create a single function that just straightforwardly creates the elements
+//Then I can pass in either the new deck object from the form or an array of objects from the localStorage as needed
+
 //Create Array of Main's Children and remove them
 export function removeMainTagContent () {
     
@@ -208,7 +220,6 @@ export function generateAddDeckPage () {
     const actors = {
         addDataToTable: deck => {
 
-            console.log('firing AddDataToTable');
             const table = document.getElementById('huntersfirstdecktable');
             const row = document.createElement('tr');
 
@@ -223,7 +234,6 @@ export function generateAddDeckPage () {
 
                  //Associates Row ID w/the deck
                  const num = Math.random().toString(16).slice(2);
-                 console.log(num);
                  row.id = `${num}rowid`;
                  // var id = "id" + Math.random().toString(16).slice(2);
      
@@ -253,7 +263,6 @@ function addStoredDeckToTable() {
 
     if (localStorage.length > 0) {
 
-        console.log('firing addStoredDeckToTable');
 
         //Query Deck Table
         const deckTable = document.getElementById('huntersfirstdecktable');
@@ -274,7 +283,6 @@ function addStoredDeckToTable() {
             
             //Associates Row ID w/the deck
             const num = Math.random().toString(16).slice(2);
-            console.log(num);
             row.id = `${num}rowid`;
             // var id = "id" + Math.random().toString(16).slice(2);
 
