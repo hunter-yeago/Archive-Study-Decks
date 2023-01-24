@@ -178,17 +178,14 @@ export function generateAddDeckPage () {
         modalDiv.style.display = 'block';
     }
 
+
+    //Create Page Title
     const addDeckPageTitle = document.createElement('h1');
     addDeckPageTitle.innerText = 'Decks';
     addDeckPageTitle.className = 'deckpagetitle';
     addDeckPageTitle.id = 'adddeckpapetitle';
 
-    //Create
-    //Deck Name - Last Studied - Show More Button
-
-    //Table
-    //Row: Header Header header
-    //Row: DName  LstStd ShowMore
+    //Create Table
     const deckTable = document.createElement('table');
     deckTable.className = 'decktable';
     deckTable.id = 'huntersfirstdecktable';
@@ -197,34 +194,17 @@ export function generateAddDeckPage () {
     const tableHeaderRow = document.createElement('tr');
     deckTable.appendChild(tableHeaderRow);
 
+    //Create table header for each category
     for (let i = 0; i <= 2; i++) {
-        
         //Table Header
         const tableHeader = document.createElement('th');
         tableHeaderRow.appendChild(tableHeader);
         tableHeader.innerText = 'Header';
-
-        const tableRow = document.createElement('tr');
-        
-        const deckNameCell = document.createElement('td');
-        deckNameCell.innerText = 'Deck Name';
-        
-        const lastStudiedCell = document.createElement('td');
-        lastStudiedCell.innerText = 'Last Studied';
-        
-        const showMoreCell = document.createElement('td');
-        showMoreCell.innerText = 'Show More';
-        
-        tableRow.append(deckNameCell, lastStudiedCell, showMoreCell);
-        deckTable.append(tableRow);
     }
-    
     addDeckPageDiv.appendChild(addDeckPageTitle);
     addDeckPageDiv.appendChild(triggerButton);
     addDeckPageDiv.appendChild(deckTable);
-
-    //just going to create an empty p tag and use that to
-    //test the pubsub pattern with
+    addStoredDeckToTable();
 
     const actors = {
         addDataToTable: deck => {
@@ -246,6 +226,32 @@ export function generateAddDeckPage () {
     };
 
     Observable.subscribe('addDeckFunction', actors.addDataToTable);
+}
+
+function addStoredDeckToTable() {
+    //If there's something in localStorage, add it to the table
+
+    if (localStorage.length > 0) {
+
+        const deckTable = document.getElementById('huntersfirstdecktable');
+        console.log(deckTable);
+
+        for (let i = 0; i < localStorage.length; i++) {
+            const row = document.createElement('tr');
+            const deckName = document.createElement('td');
+            const dueDate = document.createElement('td');
+            const category = document.createElement('td');
+            
+            //JSON.parse converts JSON -> Object
+            const deck = JSON.parse(localStorage.getItem(localStorage.key(i)));
+            deckName.innerText = deck.name;
+            dueDate.innerText = deck.dueDate;
+            category.innerText = deck.category;
+    
+            row.append(deckName, dueDate, category);
+            deckTable.append(row);
+        }
+    }
 }
 
 function generateModal() {

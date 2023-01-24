@@ -39,13 +39,14 @@ export function addDeck(event) {
     const myFormData = new FormData(document.querySelector('.modal-form'));
     const formDataObj = Object.fromEntries(myFormData.entries());
 
-    let newDeck = Object.assign(Object.create(Deck), {
+    const newDeck = Object.assign(Object.create(Deck), {
         name: formDataObj.deckname,
         description: formDataObj.deckdescription,
         dueDate: formDataObj.deckduedate,
         category: formDataObj.deckcategory,
     });
 
+    console.log({newDeck});
     populateStorage(newDeck);
     pushDeckToLists(newDeck);
     Observable.publish('addDeckFunction', newDeck);
@@ -72,7 +73,7 @@ function setStyles() {
 
 //Sets the item in local Storage
 function populateStorage(deck) {
-    localStorage.setItem('newdeck', deck.name);
+    localStorage.setItem(deck.name, JSON.stringify(deck));
     setStyles();
 }
 
