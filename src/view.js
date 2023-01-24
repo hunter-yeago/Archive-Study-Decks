@@ -388,7 +388,8 @@ function generateModal() {
         // 1. Add Deck Function 
         // 2. Hide Modal. 
         // 3. Reset Form.
-        addDeckFunction(event);
+        event.preventDefault();
+        addDeckFunction();
         if (event.target == formSubmitButton) {
             modalDiv.style.display = 'none';
             form.reset();

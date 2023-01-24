@@ -24,18 +24,19 @@ export const addDeckFunction = addDeck;
 
 //temporarily adding menu event listeners here
 //These are the event listeners for the left slide-in navbar
-document.getElementById('overviewoption').addEventListener('click', () => {    
-    removeMainTagContent();
-    generateHomePage()
-    toggleNav();
-});
+
+// document.getElementById('overviewoption').addEventListener('click', () => {    
+//     removeMainTagContent();
+//     generateHomePage()
+//     toggleNav();
+// });
 
 
-document.getElementById('adddeckoption').addEventListener('click', () => {
-    removeMainTagContent();
-    generateAddDeckPage();
-    toggleNav();
-});
+// document.getElementById('adddeckoption').addEventListener('click', () => {
+//     removeMainTagContent();
+//     generateAddDeckPage();
+//     toggleNav();
+// });
 
 
 const mobileNavButton = Array.from([
