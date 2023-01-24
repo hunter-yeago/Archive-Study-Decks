@@ -221,20 +221,24 @@ export function generateAddDeckPage () {
             const showMoreCell = document.createElement('td');
             showMoreCell.innerText = deck.category;
 
-            //Associates Row ID w/the deck
-            row.id = `${deck.name}row`;
-
-            //Create Delete Button / Associate ID w/Deck
-            const deleteBtn = document.createElement('button');
-            deleteBtn.innerText = 'Delete';
-            deleteBtn.id = deck.name;
-
-            // 1. remove Item from localStorage
-            // 2. remove row from DOM
-            deleteBtn.onclick = () => {
-                localStorage.removeItem(deleteBtn.id);
-                document.getElementById(`${deleteBtn.id}row`).remove();;
-            }
+                 //Associates Row ID w/the deck
+                 const num = Math.random().toString(16).slice(2);
+                 console.log(num);
+                 row.id = `${num}rowid`;
+                 // var id = "id" + Math.random().toString(16).slice(2);
+     
+                 //Create Delete Button / Associate ID w/Deck
+                 const deleteBtn = document.createElement('button');
+                 deleteBtn.innerText = 'Delete';
+                 deleteBtn.id = num;
+     
+                 // 1. remove Item from localStorage
+                 // 2. remove row from DOM
+                 //Need to make the id's unique.
+                 deleteBtn.onclick = () => {
+                     localStorage.removeItem(deleteBtn.id);
+                     document.getElementById(`${deleteBtn.id}rowid`).remove();;
+                 }
             
             row.append(deckNameCell, lastStudiedCell, showMoreCell, deleteBtn);
             table.appendChild(row);
@@ -269,18 +273,22 @@ function addStoredDeckToTable() {
             category.innerText = deck.category;
             
             //Associates Row ID w/the deck
-            row.id = `${deck.name}row`;
+            const num = Math.random().toString(16).slice(2);
+            console.log(num);
+            row.id = `${num}rowid`;
+            // var id = "id" + Math.random().toString(16).slice(2);
 
             //Create Delete Button / Associate ID w/Deck
             const deleteBtn = document.createElement('button');
             deleteBtn.innerText = 'Delete';
-            deleteBtn.id = deck.name;
+            deleteBtn.id = num;
 
             // 1. remove Item from localStorage
             // 2. remove row from DOM
+            //Need to make the id's unique.
             deleteBtn.onclick = () => {
                 localStorage.removeItem(deleteBtn.id);
-                document.getElementById(`${deleteBtn.id}row`).remove();;
+                document.getElementById(`${deleteBtn.id}rowid`).remove();;
             }
     
             row.append(deckName, dueDate, category, deleteBtn);
