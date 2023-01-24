@@ -178,7 +178,6 @@ export function generateAddDeckPage () {
         modalDiv.style.display = 'block';
     }
 
-
     //Create Page Title
     const addDeckPageTitle = document.createElement('h1');
     addDeckPageTitle.innerText = 'Decks';
@@ -195,7 +194,7 @@ export function generateAddDeckPage () {
     deckTable.appendChild(tableHeaderRow);
 
     //Create table header for each category
-    for (let i = 0; i <= 2; i++) {
+    for (let i = 0; i <= 3; i++) {
         //Table Header
         const tableHeader = document.createElement('th');
         tableHeaderRow.appendChild(tableHeader);
@@ -208,6 +207,8 @@ export function generateAddDeckPage () {
 
     const actors = {
         addDataToTable: deck => {
+
+            console.log('firing AddDataToTable');
             const table = document.getElementById('huntersfirstdecktable');
             const row = document.createElement('tr');
 
@@ -219,8 +220,23 @@ export function generateAddDeckPage () {
             
             const showMoreCell = document.createElement('td');
             showMoreCell.innerText = deck.category;
+
+            //Associates Row ID w/the deck
+            row.id = `${deck.name}row`;
+
+            //Create Delete Button / Associate ID w/Deck
+            const deleteBtn = document.createElement('button');
+            deleteBtn.innerText = 'Delete';
+            deleteBtn.id = deck.name;
+
+            // 1. remove Item from localStorage
+            // 2. remove row from DOM
+            deleteBtn.onclick = () => {
+                localStorage.removeItem(deleteBtn.id);
+                document.getElementById(`${deleteBtn.id}row`).remove();;
+            }
             
-            row.append(deckNameCell, lastStudiedCell, showMoreCell);
+            row.append(deckNameCell, lastStudiedCell, showMoreCell, deleteBtn);
             table.appendChild(row);
         }
     };
@@ -233,22 +249,41 @@ function addStoredDeckToTable() {
 
     if (localStorage.length > 0) {
 
+        console.log('firing addStoredDeckToTable');
+
+        //Query Deck Table
         const deckTable = document.getElementById('huntersfirstdecktable');
-        console.log(deckTable);
 
         for (let i = 0; i < localStorage.length; i++) {
+            
+            //Create Row and Data Elements
             const row = document.createElement('tr');
             const deckName = document.createElement('td');
             const dueDate = document.createElement('td');
             const category = document.createElement('td');
-            
+   
             //JSON.parse converts JSON -> Object
             const deck = JSON.parse(localStorage.getItem(localStorage.key(i)));
             deckName.innerText = deck.name;
             dueDate.innerText = deck.dueDate;
             category.innerText = deck.category;
+            
+            //Associates Row ID w/the deck
+            row.id = `${deck.name}row`;
+
+            //Create Delete Button / Associate ID w/Deck
+            const deleteBtn = document.createElement('button');
+            deleteBtn.innerText = 'Delete';
+            deleteBtn.id = deck.name;
+
+            // 1. remove Item from localStorage
+            // 2. remove row from DOM
+            deleteBtn.onclick = () => {
+                localStorage.removeItem(deleteBtn.id);
+                document.getElementById(`${deleteBtn.id}row`).remove();;
+            }
     
-            row.append(deckName, dueDate, category);
+            row.append(deckName, dueDate, category, deleteBtn);
             deckTable.append(row);
         }
     }
@@ -346,34 +381,25 @@ function generateModal() {
         'list': 'categorylist',
     });
 
-    const categoryDataList = document.createElement('datalist');
-    categoryDataList.id = 'categorylist';
-
-    const optionLanguage = document.createElement('option');
-    optionLanguage.value = 'Languages';
-
-    const optionWebDevelopment = document.createElement('option');
-    optionWebDevelopment.value = 'Web Development';
-
-    const optionMusic = document.createElement('option');
-    optionMusic.value = 'Music';
-
-    categoryDataList.append(optionLanguage, optionWebDevelopment, optionMusic);
-
     //Submit button
     const formSubmitButton = document.createElement('input');
-    formSubmitButton.addEventListener('click', addDeckFunction);
+    formSubmitButton.addEventListener('click', (event) => {
+        
+        // 1. Add Deck Function 
+        // 2. Hide Modal. 
+        // 3. Reset Form.
+        addDeckFunction(event);
+        if (event.target == formSubmitButton) {
+            modalDiv.style.display = 'none';
+            form.reset();
+        }
+    });
+
     setAttributes(formSubmitButton, {
         'type': 'submit',
         'value': 'Add Deck',
         'class': 'submitbutton',
     });
-    
-    formSubmitButton.onclick = function(event) {
-        if (event.target == this) {
-            modalDiv.style.display = 'none';
-        }
-    }
     
     //Append the Modal to the MainPage Div
     main.appendChild(modalDiv);
@@ -390,7 +416,7 @@ function generateModal() {
         nameInputLabel, nameInput,
         descriptionLabel, descriptionInput,
         dueDateLabel, dueDateInput,
-        categoryLabel, category, categoryDataList,
+        categoryLabel, category,
         formSubmitButton);
 };
 
