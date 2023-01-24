@@ -191,6 +191,7 @@ export function generateAddDeckPage () {
     //Row: DName  LstStd ShowMore
     const deckTable = document.createElement('table');
     deckTable.className = 'decktable';
+    deckTable.id = 'huntersfirstdecktable';
     
     //Table Row (Header)
     const tableHeaderRow = document.createElement('tr');
@@ -225,22 +226,26 @@ export function generateAddDeckPage () {
     //just going to create an empty p tag and use that to
     //test the pubsub pattern with
 
-    const paragraphTagObject = {
-        list: [],
-        render: container => {
-            let pTag = document.createElement('p');    
-            addDeckPageDiv.appendChild(pTag);
-            Observable.subscribe('addDeckFunction', thingImgonnado);
-        },
-        addDataToPTag: name => {
-            pTag.innerText = name;
-            list.add
-            let list = new Set(paragraphTagObject.list);
-            list.add(name);
-            paragraphTagObject.list = Array.from(list).sort();
-            Observable.publish('pTagUpdated', paragraphTagObject.list)
-        },
+    const actors = {
+        addDataToTable: deck => {
+            const table = document.getElementById('huntersfirstdecktable');
+            const row = document.createElement('tr');
+
+            const deckNameCell = document.createElement('td');
+            deckNameCell.innerText = deck.name;
+            
+            const lastStudiedCell = document.createElement('td');
+            lastStudiedCell.innerText = deck.dueDate;
+            
+            const showMoreCell = document.createElement('td');
+            showMoreCell.innerText = deck.category;
+            
+            row.append(deckNameCell, lastStudiedCell, showMoreCell);
+            table.appendChild(row);
+        }
     };
+
+    Observable.subscribe('addDeckFunction', actors.addDataToTable);
 }
 
 function generateModal() {

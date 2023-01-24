@@ -44,36 +44,29 @@ const mobileNavButton = Array.from([
     document.getElementById('aboutbutton')
     ]);
 
-    console.log({mobileNavButton});
-
     mobileNavButton.forEach((button) => {
         button.addEventListener('click', addMobileNavEventListeners);
     });
 
 // These are the event listeners for the bottom nav bar
-
 function addMobileNavEventListeners(e) {
     
     const buttonID = e.target.id;
 
     removeMainTagContent();
     changeTabColor(buttonID);
-    console.log('addmobileeventlistenersfunction');
 
     switch (buttonID) {
         case 'leftoverviewbutton':
             generateHomePage();
-            console.log('firing home');
             break;
 
         case 'rightstudybutton':
             generateAddDeckPage();
-            console.log('firing study');
             break;
 
         case 'aboutbutton':
             generateAboutPage();
-            console.log('firing about');
             break;
     }
 }

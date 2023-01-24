@@ -1,3 +1,5 @@
+import { Observable } from "./pubsub";
+
 //Holds the Deck, Card, and Question Objects
 
 //Deck Object
@@ -44,9 +46,9 @@ export function addDeck(event) {
         category: formDataObj.deckcategory,
     });
 
-    console.log({newDeck});
     populateStorage(newDeck);
     pushDeckToLists(newDeck);
+    Observable.publish('addDeckFunction', newDeck);
 };
 
 //Now that I have the new deck object, I need to:
@@ -58,8 +60,6 @@ export function addDeck(event) {
 let categoryLanguages = [];
 function pushDeckToLists(deck) {
     categoryLanguages.push(deck);
-    console.log(categoryLanguages);
-    console.log(`printing from pushdeck function and adding new deck go ${categoryLanguages}`);
 }
 
 //Local Storage
@@ -67,9 +67,6 @@ function pushDeckToLists(deck) {
 //This updates the page
 function setStyles() {
     const deck = localStorage.getItem('newdeck');
-    console.log({deck});
-
-    console.log(document.getElementById('adddeckpapetitle'));
     document.getElementById('adddeckpapetitle').innerText = deck;
 }
 
@@ -103,11 +100,4 @@ function storageAvailable(type) {
             //already stored
             (storage && storage.length !== 0);
     }
-}
-
-if (storageAvailable('localStorage')) {
-    console.log('Yippeee! We can use localStorage awesomeness');
-}
-else {
-    console.log('Too badm no localStorage for us');
 }
