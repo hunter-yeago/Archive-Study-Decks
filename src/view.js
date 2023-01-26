@@ -32,7 +32,6 @@ export function generateHomePage() {
 
     //get openbutton and add toggleNav function / same for closebutton
     const openNavButton = document.getElementById('opennavbtn');
-    const openNavButtonImage = document.getElementById('opennavbuttonimage');
 
     openNavButton.addEventListener('click', toggleNav);
 
@@ -112,10 +111,7 @@ export function generateHomePage() {
     const deckDisplayDiv = document.createElement('div');
     deckDisplayDiv.className = 'deckdisplay';
 
-    const deck1 = 'deck1';
-    const deck2 = 'deck2';
-    const deck3 = 'deck3';
-    const decks = [deck1, deck2, deck3];
+    const decks = ['deck1', 'deck2', 'deck3'];
 
     decks.forEach((element) => {
         const deckDiv = document.createElement('div');
@@ -182,8 +178,11 @@ export function generateAddDeckPage () {
     main.appendChild(addDeckPageDiv);
 
     const triggerButton = document.createElement('button');
-    triggerButton.id = 'myBtn';
-    triggerButton.className = 'adddeckbutton';
+    setAttributes(triggerButton, {
+        'id': 'myBtn',
+        'class': 'adddeckbutton',
+    });
+
     triggerButton.innerText = 'Add a Deck';
     const modalDiv = document.getElementById('myModal');
     triggerButton.onclick = function() {
@@ -216,6 +215,12 @@ export function generateAddDeckPage () {
     addDeckPageDiv.appendChild(triggerButton);
     addDeckPageDiv.appendChild(deckTable);
     addStoredDeckToTable();
+
+    // Need to rename this (I got confused and named it actors),
+    // When actors was just what the example was using
+    // With regard to movies/actors lists
+
+    // Reaaaally need to make these two functions into one.
 
     const actors = {
         addDataToTable: deck => {
