@@ -7,18 +7,6 @@ const main = document.querySelector('main');
 
 //End Menu Button Logic
 
-//Some issues to fix:
-//If I add a second deck with the same name, i. e. two 'French decks', only 1 is added to storage.
-//I could just create a form issue that says ' You already have a deck with that name' - makes sense for flashcard decks.
-// But at the same time, it shows an inefficiency with the system as it exists right now.
-
-//I really gotta go back and un-spaheghti the code though. Some places it just doens't make sense with naming conventions.
-//Just a bit of spring cleaning.
-
-//Need to find a way to create just one function between Add Local Storage Decks and actors.adddeck.
-//Probably just create a single function that just straightforwardly creates the elements
-//Then I can pass in either the new deck object from the form or an array of objects from the localStorage as needed
-
 //Create Array of Main's Children and remove them
 export function removeMainTagContent () {
     
@@ -182,11 +170,9 @@ export function generateAddDeckPage () {
         'id': 'myBtn',
         'class': 'adddeckbutton',
     });
-
-    triggerButton.innerText = 'Add a Deck';
-    const modalDiv = document.getElementById('myModal');
+    triggerButton.innerText = 'Add a Deck';  
     triggerButton.onclick = function() {
-        modalDiv.style.display = 'block';
+        document.getElementById('myModal').style.display = 'block';
     }
 
     //Create Page Title
@@ -216,97 +202,48 @@ export function generateAddDeckPage () {
     addDeckPageDiv.appendChild(deckTable);
     addStoredDeckToTable();
 
-    // Need to rename this (I got confused and named it actors),
-    // When actors was just what the example was using
-    // With regard to movies/actors lists
+    Observable.subscribe('addDeckFunction', addDataToTable);
+}
 
-    // Reaaaally need to make these two functions into one.
+    function addDataToTable (deck) {
 
-    const actors = {
-        addDataToTable: deck => {
+    // Creates a unique ID# for delete button to target
+    const num = Math.random().toString(16).slice(2);
+    
+    const deckTable = document.getElementById('huntersfirstdecktable');
+    const row = document.createElement('tr');
+    row.id = `RowID:${num}`;
 
-            const table = document.getElementById('huntersfirstdecktable');
-            const row = document.createElement('tr');
+    const deckName = document.createElement('td');
+    deckName.innerText = deck.name;
+    
+    const dueDate = document.createElement('td');
+    dueDate.innerText = deck.dueDate;
+    
+    const category = document.createElement('td');
+    category.innerText = deck.category;
 
-            const deckNameCell = document.createElement('td');
-            deckNameCell.innerText = deck.name;
-            
-            const lastStudiedCell = document.createElement('td');
-            lastStudiedCell.innerText = deck.dueDate;
-            
-            const showMoreCell = document.createElement('td');
-            showMoreCell.innerText = deck.category;
+    const deleteBtn = document.createElement('button');
+    deleteBtn.innerText = 'Delete';
 
-                 //Associates Row ID w/the deck
-                 const num = Math.random().toString(16).slice(2);
-                 row.id = `${num}rowid`;
-                 // var id = "id" + Math.random().toString(16).slice(2);
-     
-                 //Create Delete Button / Associate ID w/Deck
-                 const deleteBtn = document.createElement('button');
-                 deleteBtn.innerText = 'Delete';
-                 deleteBtn.id = num;
-     
-                 // 1. remove Item from localStorage
-                 // 2. remove row from DOM
-                 //Need to make the id's unique.
-                 deleteBtn.onclick = () => {
-                     localStorage.removeItem(deleteBtn.id);
-                     document.getElementById(`${deleteBtn.id}rowid`).remove();;
-                 }
-            
-            row.append(deckNameCell, lastStudiedCell, showMoreCell, deleteBtn);
-            table.appendChild(row);
-        }
+    // 1. remove Item from localStorage
+    // 2. remove row from DOM
+    deleteBtn.onclick = () => {
+        localStorage.removeItem(deck.name);
+        document.getElementById(row.id).remove();
     };
 
-    Observable.subscribe('addDeckFunction', actors.addDataToTable);
+    row.append(deckName, dueDate, category, deleteBtn);
+    deckTable.appendChild(row);
 }
 
 function addStoredDeckToTable() {
     //If there's something in localStorage, add it to the table
 
-    if (localStorage.length > 0) {
+    for (let i = 0; i < localStorage.length; i++) {
 
-
-        //Query Deck Table
-        const deckTable = document.getElementById('huntersfirstdecktable');
-
-        for (let i = 0; i < localStorage.length; i++) {
-            
-            //Create Row and Data Elements
-            const row = document.createElement('tr');
-            const deckName = document.createElement('td');
-            const dueDate = document.createElement('td');
-            const category = document.createElement('td');
-   
-            //JSON.parse converts JSON -> Object
-            const deck = JSON.parse(localStorage.getItem(localStorage.key(i)));
-            deckName.innerText = deck.name;
-            dueDate.innerText = deck.dueDate;
-            category.innerText = deck.category;
-            
-            //Associates Row ID w/the deck
-            const num = Math.random().toString(16).slice(2);
-            row.id = `${num}rowid`;
-            // var id = "id" + Math.random().toString(16).slice(2);
-
-            //Create Delete Button / Associate ID w/Deck
-            const deleteBtn = document.createElement('button');
-            deleteBtn.innerText = 'Delete';
-            deleteBtn.id = num;
-
-            // 1. remove Item from localStorage
-            // 2. remove row from DOM
-            //Need to make the id's unique.
-            deleteBtn.onclick = () => {
-                localStorage.removeItem(deleteBtn.id);
-                document.getElementById(`${deleteBtn.id}rowid`).remove();;
-            }
-    
-            row.append(deckName, dueDate, category, deleteBtn);
-            deckTable.append(row);
-        }
+        const deck = JSON.parse(localStorage.getItem(localStorage.key(i)));
+        addDataToTable(deck)
     }
 }
 
