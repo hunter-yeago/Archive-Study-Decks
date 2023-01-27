@@ -27,10 +27,12 @@ export function generateHomePage() {
     const overviewSection = document.createElement('section');
     overviewSection.className = 'overview'
 
+    //Overview Section Title
     const overviewSectionTitle = document.createElement('h1');
     overviewSectionTitle.innerText = 'Overview';
     overviewSectionTitle.id = 'overviewsectiontitle';
 
+    //Row of Cards Div
     const rowOfCardsDiv = document.createElement('div');
     rowOfCardsDiv.className = 'rowofcards';
 
@@ -63,6 +65,7 @@ export function generateHomePage() {
         statistic: '100',
     };
 
+    //Array of Cards
     const overviewCards = [card1, card2, card3, card4];
     overviewCards.forEach((element) => {
         const OuterDiv = document.createElement('div');
@@ -138,6 +141,7 @@ export function generateHomePage() {
     main.append(overviewSection, yourDecksSection);
 };
 
+//This fires each time bottom mobile Nav button is clicked
 export function generateMenuButtonEventListeners(id) {
 
     removeMainTagContent();
@@ -214,15 +218,19 @@ export function generateAddDeckPage () {
     const row = document.createElement('tr');
     row.id = `RowID:${num}`;
 
+    //Deck Name Data Cell
     const deckName = document.createElement('td');
     deckName.innerText = deck.name;
     
+    //Due Date Data Cell
     const dueDate = document.createElement('td');
     dueDate.innerText = deck.dueDate;
     
+    //Category Data Cell
     const category = document.createElement('td');
     category.innerText = deck.category;
 
+    //Delete Button
     const deleteBtn = document.createElement('button');
     deleteBtn.innerText = 'Delete';
 
