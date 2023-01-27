@@ -5,8 +5,6 @@ import { Observable } from "./pubsub";
 
 const main = document.querySelector('main');
 
-//End Menu Button Logic
-
 //Create Array of Main's Children and remove them
 export function removeMainTagContent () {
     
@@ -405,6 +403,7 @@ export function changeTabColor (id) {
                      ]);
 
             // if current tab, switch to blue, otherwise one
+            // the id for the h3 is just navTab.idh3, to keep things simple
             tabArray.forEach((navTab) => {
                 if (id === navTab.id) {
                     navTab.style.borderTop = '1px solid blue';
@@ -424,9 +423,6 @@ export function generateAboutPage() {
     aboutPageTitle.innerText = 'About Page';
     main.appendChild(aboutPageTitle);
 }
-
-
-
 
 //temporarily adding menu event listeners here
 //These are the event listeners for the left slide-in navbar
