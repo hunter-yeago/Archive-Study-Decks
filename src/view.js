@@ -394,39 +394,29 @@ export function toggleNav() {
 }
 
 //This is janky as funk but at least it works as a prototype
+// Better to use a function to say 'current tab elements = blue, all others = gray'""
+
 export function changeTabColor (id) {
 
-    switch (id) {
-        case 'leftoverviewbutton':
-            document.getElementById('leftoverviewbutton').style.borderTop = '1px solid blue';
-            document.getElementById('overviewh3').style.color = 'blue';
+    //Repeating yourself: You do the same thing in index.js
+    const tabArray = Array.from([document.getElementById('leftoverviewbutton'), 
+                      document.getElementById('rightstudybutton'), 
+                      document.getElementById('aboutbutton')
+                     ]);
 
-            document.getElementById('rightstudybutton').style.borderTop = 'none';
-            document.getElementById('aboutbutton').style.borderTop = 'none';
-            document.getElementById('studyh3').style.color = 'grey';
-            document.getElementById('abouth3').style.color = 'grey';
-            break;
-
-        case 'rightstudybutton':
-            document.getElementById('rightstudybutton').style.borderTop = '1px solid blue';
-            document.getElementById('studyh3').style.color = 'blue';
-
-            document.getElementById('leftoverviewbutton').style.borderTop = 'none';
-            document.getElementById('aboutbutton').style.borderTop = 'none';
-            document.getElementById('overviewh3').style.color = 'grey';
-            document.getElementById('abouth3').style.color = 'grey';
-            break;
-        
-        case 'aboutbutton':
-            document.getElementById('aboutbutton').style.borderTop = '1px solid blue';
-            document.getElementById('abouth3').style.color = 'blue';
-
-            document.getElementById('leftoverviewbutton').style.borderTop = 'none';
-            document.getElementById('rightstudybutton').style.borderTop = 'none';
-            document.getElementById('overviewh3').style.color = 'grey';
-            document.getElementById('studyh3').style.color = 'grey';
-            break;
-    }
+            // if current tab, switch to blue, otherwise one
+            tabArray.forEach((navTab) => {
+                if (id === navTab.id) {
+                    navTab.style.borderTop = '1px solid blue';
+                    document.getElementById(`${navTab.id}h3`).style.color = 'blue';
+                    console.log('firing if');
+                }
+                else {
+                    console.log('firing else');
+                    navTab.style.borderTop = 'none';
+                    document.getElementById(`${navTab.id}h3`).style.color = 'grey';
+                }
+            })
 }
 
 export function generateAboutPage() {
@@ -434,3 +424,22 @@ export function generateAboutPage() {
     aboutPageTitle.innerText = 'About Page';
     main.appendChild(aboutPageTitle);
 }
+
+
+
+
+//temporarily adding menu event listeners here
+//These are the event listeners for the left slide-in navbar
+
+// document.getElementById('overviewoption').addEventListener('click', () => {    
+//     removeMainTagContent();
+//     generateHomePage()
+//     toggleNav();
+// });
+
+
+// document.getElementById('adddeckoption').addEventListener('click', () => {
+//     removeMainTagContent();
+//     generateAddDeckPage();
+//     toggleNav();
+// });
