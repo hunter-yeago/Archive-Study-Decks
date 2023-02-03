@@ -1,6 +1,5 @@
 import { setAttributes } from "./helpers";
 import { addDeckFunction } from "./index";
-import { addDeck } from "./model";
 import { Observable } from "./pubsub";
 
 const main = document.querySelector('main');
@@ -204,75 +203,72 @@ export function generateAddDeckPage () {
     addDeckPageDiv.appendChild(deckTable);
     addStoredDeckToTable();
 
-    Observable.subscribe('addDeckFunction', addDataToTable);
+    Observable.subscribe('addDeckFunction', appendDeckToTable);
 }
 
-    function addDataToTable (deck) {
-
-    // Creates a unique ID# for delete button to target
-    const num = Math.random().toString(16).slice(2);
+//Is this the right name?
+function appendDeckToTable (deck){
     
     const deckTable = document.getElementById('huntersfirstdecktable');
     const row = document.createElement('tr');
-    row.id = `RowID:${num}`;
+    row.id = `RowID:${Math.random().toString(16).slice(2)}`;
 
-    //Deck Name Data Cell
-    const deckName = document.createElement('td');
-    deckName.innerText = deck.name;
-    
-    //Due Date Data Cell
-    const dueDate = document.createElement('td');
-    dueDate.innerText = deck.dueDate;
-    
-    //Category Data Cell
-    const category = document.createElement('td');
-    category.innerText = deck.category;
+    const tableDataCellArray = generateTableDataCells(deck.name, deck.dueDate, deck.category);
 
-    //Delete Button
-    const deleteBtn = document.createElement('button');
-    deleteBtn.innerText = 'Delete';
-
-    // 1. remove Item from localStorage
-    // 2. remove row from DOM
-    deleteBtn.onclick = () => {
+    const deleteButton = document.createElement('button');
+    deleteButton.innerText = 'Delete';
+    deleteButton.onclick = () => {
         localStorage.removeItem(deck.name);
         document.getElementById(row.id).remove();
     };
 
-    row.append(deckName, dueDate, category, deleteBtn);
+    for (let i = 0; i < tableDataCellArray.length; i++) {
+        row.appendChild(tableDataCellArray[i]);
+    }
+
+    row.appendChild(deleteButton);
     deckTable.appendChild(row);
 }
 
-function addStoredDeckToTable() {
-    //If there's something in localStorage, add it to the table
+function generateTableDataCells () {
 
+    let arrayOfDataCells = [];
+
+    for (let i = 0; i < arguments.length; i++) {
+        const tableDataCell = document.createElement('td');
+        tableDataCell.innerText = arguments[i];
+        arrayOfDataCells.push(tableDataCell);
+    }
+
+    return arrayOfDataCells;
+
+}
+
+function addStoredDeckToTable() {
     for (let i = 0; i < localStorage.length; i++) {
 
         const deck = JSON.parse(localStorage.getItem(localStorage.key(i)));
-        addDataToTable(deck)
+        appendDeckToTable(deck);
     }
 }
 
 function generateModal() {
 
-    //Start Creating Modal
     const modalDiv = document.createElement('div');
-    modalDiv.id = 'myModal';
-    modalDiv.className = 'modal';
-    modalDiv.style.display = 'none';
+    setAttributes(modalDiv, {
+        'id': 'myModal',
+        'class': 'modal',
+    });
     
-    //Modal Content
     const modalContentDiv = document.createElement('div');
     modalContentDiv.className = 'modal-content';
 
-    //Modal Header
     const modalHeaderDiv = document.createElement('div');
     modalHeaderDiv.className = 'modal-header';
 
-    //Modal Span / X to Close
-    const modalSpan = document.createElement('span');
-    modalSpan.innerHTML = '&times;';
-    modalSpan.onclick = function() {
+    const exitSpan = document.createElement('span');
+    exitSpan.innerHTML = '&times;';
+    exitSpan.onclick = function() {
         modalDiv.style.display = 'none';
     }
     window.onclick = function(event) {
@@ -281,35 +277,31 @@ function generateModal() {
         }
     }
 
-    //Header
     const modalHeader = document.createElement('h5');
     modalHeader.innerText = 'New Deck'
 
-    //Body
     const modalBody = document.createElement('div');
     modalBody.className = 'modal-body';
 
-    //Form
-    const form = document.createElement('form');
-    form.className = 'modal-form';
-    form.action = '';
+    const modalForm = document.createElement('form');
+    modalForm.className = 'modal-form';
+    modalForm.action = '';
 
-    //Name Input
     const nameInputLabel = document.createElement('label');
     nameInputLabel.htmlFor = 'deckname';
     nameInputLabel.innerText = 'Deck Name:'
-    const nameInput = document.createElement('input');
     
+    const nameInput = document.createElement('input');
     setAttributes(nameInput, {
         'name': 'deckname',
         'id': 'deckname',
         'class': 'deckname',
     });
 
-    //Description Input
     const descriptionLabel = document.createElement('label');
     descriptionLabel.htmlFor = 'deckdescription';
     descriptionLabel.innerText = 'Description:';
+
     const descriptionInput = document.createElement('textarea');
     setAttributes(descriptionInput,
         {
@@ -321,10 +313,10 @@ function generateModal() {
             'maxLength': '150',
         });
 
-    //Due Date Input
     const dueDateLabel = document.createElement('label');
     dueDateLabel.htmlFor = 'deckduedate';
     dueDateLabel.innerText = 'Due Date:';
+
     const dueDateInput = document.createElement('input');
     setAttributes(dueDateInput, {
         'id': 'deckduedate',
@@ -332,31 +324,25 @@ function generateModal() {
         'class': 'deckduedate',
     });
 
-    //# of Cards Input
     const categoryLabel = document.createElement('label');
     categoryLabel.htmlFor = 'deckcategory';
     categoryLabel.innerText = 'Category';
     
-    const category = document.createElement('input');
-    setAttributes(category, {
+    const categoryInput = document.createElement('input');
+    setAttributes(categoryInput, {
         'id': 'deckcategory',
         'name': 'deckcategory',
         'class': 'deckcategory',
         'list': 'categorylist',
     });
 
-    //Submit button
     const formSubmitButton = document.createElement('input');
     formSubmitButton.addEventListener('click', (event) => {
-        
-        // 1. Add Deck Function 
-        // 2. Hide Modal. 
-        // 3. Reset Form.
         event.preventDefault();
         addDeckFunction();
         if (event.target == formSubmitButton) {
             modalDiv.style.display = 'none';
-            form.reset();
+            modalForm.reset();
         }
     });
 
@@ -366,22 +352,16 @@ function generateModal() {
         'class': 'submitbutton',
     });
     
-    //Append the Modal to the MainPage Div
     main.appendChild(modalDiv);
-    //Append HeaderDiv + BodyDiv to ContentDiv
     modalContentDiv.append(modalHeaderDiv, modalBody);
-    //Append h5 + Span to HeaderDiv
-    modalHeaderDiv.append(modalHeader, modalSpan);
-    //Append ContentDiv to Modal
+    modalHeaderDiv.append(modalHeader, exitSpan);
     modalDiv.appendChild(modalContentDiv);
-    //Append Form to BodyDiv
-    modalBody.appendChild(form);
-    //Append Items to Form
-    form.append(
+    modalBody.appendChild(modalForm);
+    modalForm.append(
         nameInputLabel, nameInput,
         descriptionLabel, descriptionInput,
         dueDateLabel, dueDateInput,
-        categoryLabel, category,
+        categoryLabel, categoryInput,
         formSubmitButton);
 };
 
@@ -391,37 +371,40 @@ export function toggleNav() {
     sideNav.classList.toggle('active');
 }
 
-//This is janky as funk but at least it works as a prototype
-// Better to use a function to say 'current tab elements = blue, all others = gray'""
+export function changeTabColor (currentTabID, mobileNavButtonArray) {
 
-export function changeTabColor (id) {
-
-    //Repeating yourself: You do the same thing in index.js
-    const tabArray = Array.from([document.getElementById('leftoverviewbutton'), 
-                      document.getElementById('rightstudybutton'), 
-                      document.getElementById('aboutbutton')
-                     ]);
-
-            // if current tab, switch to blue, otherwise one
-            // the id for the h3 is just navTab.idh3, to keep things simple
-            tabArray.forEach((navTab) => {
-                if (id === navTab.id) {
-                    navTab.style.borderTop = '1px solid blue';
-                    document.getElementById(`${navTab.id}h3`).style.color = 'blue';
-                    console.log('firing if');
-                }
-                else {
-                    console.log('firing else');
-                    navTab.style.borderTop = 'none';
-                    document.getElementById(`${navTab.id}h3`).style.color = 'grey';
-                }
-            })
+    mobileNavButtonArray.forEach((navTab) => {
+        if ( navTab.id === currentTabID) {
+            navTab.style.borderTop = '1px solid blue';
+            document.getElementById(`${navTab.id}h3`).style.color = 'blue';
+        }
+        else {
+            navTab.style.borderTop = 'none';
+            document.getElementById(`${navTab.id}h3`).style.color = 'grey';
+        }
+    })
 }
 
 export function generateAboutPage() {
     let aboutPageTitle = document.createElement('h1');
     aboutPageTitle.innerText = 'About Page';
     main.appendChild(aboutPageTitle);
+}
+
+export function changeCurrentTab(currentTabID) {
+    switch (currentTabID) {
+        case 'leftoverviewbutton':
+            generateHomePage();
+            break;
+    
+        case 'rightstudybutton':
+            generateAddDeckPage();
+            break;
+    
+        case 'aboutbutton':
+            generateAboutPage();
+            break;
+    }
 }
 
 //temporarily adding menu event listeners here
