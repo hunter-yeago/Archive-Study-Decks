@@ -1,10 +1,20 @@
 import { setAttributes } from "./helpers";
 import { addDeckFunction } from "./index";
 import { Observable } from "./pubsub";
+import { controllerOverviewCards, controllerTemporaryDecks } from "./controller";
 
 const main = document.querySelector('main');
 
-//Create Array of Main's Children and remove them
+export const mobileNavButtonArray = Array.from([
+    document.getElementById('leftoverviewbutton'),
+    document.getElementById('rightstudybutton'),
+    document.getElementById('aboutbutton')
+    ]);
+    
+mobileNavButtonArray.forEach((button) => {
+    button.addEventListener('click', addMobileNavEventListeners);
+});
+
 export function removeMainTagContent () {
     
     const mainChildren = Array.from(document.querySelector('.main').children);
@@ -15,93 +25,79 @@ export function removeMainTagContent () {
 
 export function generateHomePage() {
 
-    //get openbutton and add toggleNav function / same for closebutton
     const openNavButton = document.getElementById('opennavbtn');
-
     openNavButton.addEventListener('click', toggleNav);
 
-    //Overview Section
+    const overviewSection = generateHomePageOverViewSection();
+    const topDecksSection = generateHomePageTopDecksSection();
+    
+    main.append(overviewSection, topDecksSection);
+};
+
+function generateHomePageTopDecksSection() {
+    const topDecksSection = document.createElement('section');
+    
+    const topDecksTitle = document.createElement('h1');
+    topDecksTitle.innerText = 'Top Decks';
+    topDecksTitle.id = 'topdeckstitle';
+
+    const deckDisplayDiv = generateDeckDisplayDiv(controllerTemporaryDecks);
+
+    topDecksSection.append(topDecksTitle, deckDisplayDiv);
+
+    return topDecksSection;
+}
+
+function generateHomePageOverViewSection() {
+
     const overviewSection = document.createElement('section');
     overviewSection.className = 'overview'
 
-    //Overview Section Title
     const overviewSectionTitle = document.createElement('h1');
     overviewSectionTitle.innerText = 'Overview';
     overviewSectionTitle.id = 'overviewsectiontitle';
 
-    //Row of Cards Div
+    const rowOfCardsDiv = generatePlaceHolderOverviewCards(controllerOverviewCards);
+    overviewSection.append(overviewSectionTitle, rowOfCardsDiv);
+
+    return overviewSection;
+}
+
+function generatePlaceHolderOverviewCards (controllerOverviewCards) {
+
     const rowOfCardsDiv = document.createElement('div');
     rowOfCardsDiv.className = 'rowofcards';
+    rowOfCardsDiv.id = 'rowofcards';
 
-    //Temporary PlaceHolder Card Information
-    const card1 = {
-        imagesrc: 'images/learning-color.svg',
-        title: 'Decks Created',
-        underlinecolor: 'greencardunderline',
-        statistic: '18',
-    };
-
-    const card2 = {
-        imagesrc: 'images/education-color.svg',
-        title: 'Card 2 Title',
-        underlinecolor: 'bluecardunderline',
-        statistic: '73',
-    };
-
-    const card3 = {
-        imagesrc: 'images/study-desk-color.svg',
-        title: 'Card 3 Title',
-        underlinecolor: 'brickcardunderline',
-        statistic: '9',
-    };
-
-    const card4 = {
-        imagesrc: 'images/study-lamp-color.svg',
-        title: 'Card 4 Title',
-        underlinecolor: 'sunshinecardunderline',
-        statistic: '100',
-    };
-
-    //Array of Cards
-    const overviewCards = [card1, card2, card3, card4];
-    overviewCards.forEach((element) => {
-        const OuterDiv = document.createElement('div');
-        OuterDiv.className = 'overviewcard';
-
-        const innerDiv = document.createElement('div');
+    controllerOverviewCards.forEach((card) => {
         
-        const image = document.createElement('img');
-        image.src = element.imagesrc;
+        const cardOuterDiv = document.createElement('div');
+        cardOuterDiv.className = 'overviewcard';
 
-        const title = document.createElement('h3');
-        title.innerText = element.title;
+        const cardInnerDiv = document.createElement('div');
+        
+        const cardImage = document.createElement('img');
+        cardImage.src = card.imagesrc;
+
+        const cardTitle = document.createElement('h3');
+        cardTitle.innerText = card.title;
  
-        const statisticContainer = document.createElement('p');
-        statisticContainer.className = element.underlinecolor;
-        statisticContainer.innerText = element.statistic;
+        const cardStatisticContainer = document.createElement('p');
+        cardStatisticContainer.className = card.underlinecolor;
+        cardStatisticContainer.innerText = card.statistic;
 
-        //Constructing InnerDiv
-        innerDiv.append(image, title);
+        cardInnerDiv.append(cardImage, cardTitle);
+        cardOuterDiv.append(cardInnerDiv, cardStatisticContainer);
 
-        //Constructing OuterDiv
-        OuterDiv.append(innerDiv, statisticContainer);
-
-        //Append card to rowOfCardsDiv
-        rowOfCardsDiv.appendChild(OuterDiv);
+        rowOfCardsDiv.appendChild(cardOuterDiv);
     });
+    return rowOfCardsDiv;
+}
 
-    //Your Decks Section
-    const yourDecksSection = document.createElement('section');
-    const yourDecksTitle = document.createElement('h1');
-    yourDecksTitle.innerText = 'Top Decks';
-    yourDecksTitle.id = 'yourdeckstitle';
+function generateDeckDisplayDiv(deckArray) {
 
-    const deckDisplayDiv = document.createElement('div');
-    deckDisplayDiv.className = 'deckdisplay';
-
-    const decks = ['deck1', 'deck2', 'deck3'];
-
-    decks.forEach((element) => {
+    let arrayOfDeckHTMLRows = [];
+    deckArray.forEach((element) => {
         const deckDiv = document.createElement('div');
         deckDiv.className = 'deck';
 
@@ -127,15 +123,17 @@ export function generateHomePage() {
         });
 
         deckDiv.append(deckImageAndNameDiv, deckInfoButton);
-        deckDisplayDiv.appendChild(deckDiv);
+        arrayOfDeckHTMLRows.push(deckDiv);
     });
 
-    //Appending Sections
-    yourDecksSection.append(yourDecksTitle, deckDisplayDiv);
-    overviewSection.append(overviewSectionTitle, rowOfCardsDiv);
+    const deckDisplayDiv = document.createElement('div');
+    deckDisplayDiv.className = 'deckdisplay';
 
-    //Appending the sections to main
-    main.append(overviewSection, yourDecksSection);
+    arrayOfDeckHTMLRows.forEach((deckRow) => {
+        deckDisplayDiv.appendChild(deckRow);
+    });
+
+    return deckDisplayDiv;
 };
 
 //This fires each time bottom mobile Nav button is clicked
@@ -386,7 +384,7 @@ export function changeTabColor (currentTabID, mobileNavButtonArray) {
 }
 
 export function generateAboutPage() {
-    let aboutPageTitle = document.createElement('h1');
+    const aboutPageTitle = document.createElement('h1');
     aboutPageTitle.innerText = 'About Page';
     main.appendChild(aboutPageTitle);
 }
@@ -405,6 +403,13 @@ export function changeCurrentTab(currentTabID) {
             generateAboutPage();
             break;
     }
+}
+
+export function addMobileNavEventListeners(event) {
+    const currentTabID = event.target.id;
+    removeMainTagContent();
+    changeTabColor(currentTabID, mobileNavButtonArray);
+    changeCurrentTab(currentTabID);
 }
 
 //temporarily adding menu event listeners here

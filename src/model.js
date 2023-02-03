@@ -74,3 +74,35 @@ function populateStorage(deck) {
     localStorage.setItem(deck.name, JSON.stringify(deck));
     setStyles();
 }
+
+//Temporary PlaceHolder Card Information
+const card1 = {
+    imagesrc: 'images/learning-color.svg',
+    title: 'Decks Created',
+    underlinecolor: 'greencardunderline',
+    statistic: '18',
+};
+
+const card2 = {
+    imagesrc: 'images/education-color.svg',
+    title: 'Card 2 Title',
+    underlinecolor: 'bluecardunderline',
+    statistic: '73',
+};
+
+const card3 = {
+    imagesrc: 'images/study-desk-color.svg',
+    title: 'Card 3 Title',
+    underlinecolor: 'brickcardunderline',
+    statistic: '9',
+};
+
+const card4 = {
+    imagesrc: 'images/study-lamp-color.svg',
+    title: 'Card 4 Title',
+    underlinecolor: 'sunshinecardunderline',
+    statistic: '100',
+};
+
+export const overviewCards = [card1, card2, card3, card4];
+export const temporaryDecks = ['deck1', 'deck2', 'deck3'];
