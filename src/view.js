@@ -17,7 +17,7 @@ mobileNavButtonArray.forEach((button) => {
 
 export function removeMainTagContent () {
     
-    const mainChildren = Array.from(document.querySelector('.main').children);
+    const mainChildren = Array.from(main.children);
     mainChildren.forEach(element => {
         element.remove();
     });
@@ -157,8 +157,6 @@ export function generateAddDeckPage () {
     //function to the triggerButton below, then it returns null
     //(since the modal is created with this function)
     generateModal();
-
-    const main = document.querySelector('.main');
 
     const addDeckPageDiv = document.createElement('div');
     addDeckPageDiv.className = 'addeckpagediv';
