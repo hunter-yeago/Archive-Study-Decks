@@ -14,17 +14,16 @@ export const view = (function() {
         ]);
         
         // Looks like I'm making a function to make a function... fix this soon.
-    function addListeners() {
+    function addMobileNavEventListeners() {
         mobileNavButtonArray.forEach((button) => {
-            button.addEventListener('click', addMobileNavEventListeners);
+            button.addEventListener('click', (event) => {
+                
+                const currentTabID = event.target.id;
+                removeMainTagContent();
+                changeTabColor(currentTabID, mobileNavButtonArray);
+                changeCurrentTab(currentTabID);
+            });
         });
-    };
-
-    function addMobileNavEventListeners(event) {
-        const currentTabID = event.target.id;
-        removeMainTagContent();
-        changeTabColor(currentTabID, mobileNavButtonArray);
-        changeCurrentTab(currentTabID);
     };
     
     //suggested by ChatGPT
@@ -35,7 +34,7 @@ export const view = (function() {
     function generateDefaultView() {
         const defaultTabID = 'leftoverviewbutton';
         generateHomePage();
-        addListeners();
+        addMobileNavEventListeners();
         changeTabColor(defaultTabID);
     }
 
@@ -305,8 +304,10 @@ export const view = (function() {
     };
 
     function generateHomePage() {
+        //This is for the slide in menu nav bar
         const openNavButton = document.getElementById('opennavbtn');
         openNavButton.addEventListener('click', toggleNav);
+        //This is for the slide in menu nav bar
     
         const overviewSection = generateHomePageOverViewSection();
         const topDecksSection = generateHomePageTopDecksSection();
@@ -334,24 +335,19 @@ export const view = (function() {
         document.getElementById('myModal').style.display = 'block';
     }
 
-    //Create Page Title
     const addDeckPageTitle = document.createElement('h1');
     addDeckPageTitle.innerText = 'Decks';
     addDeckPageTitle.className = 'deckpagetitle';
     addDeckPageTitle.id = 'adddeckpapetitle';
 
-    //Create Table
     const deckTable = document.createElement('table');
     deckTable.className = 'decktable';
     deckTable.id = 'huntersfirstdecktable';
     
-    //Table Row (Header)
     const tableHeaderRow = document.createElement('tr');
     deckTable.appendChild(tableHeaderRow);
 
-    //Create table header for each category
     for (let i = 0; i <= 3; i++) {
-        //Table Header
         const tableHeader = document.createElement('th');
         tableHeaderRow.appendChild(tableHeader);
         tableHeader.innerText = 'Header';
