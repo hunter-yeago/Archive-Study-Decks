@@ -136,21 +136,6 @@ function generateDeckDisplayDiv(deckArray) {
     return deckDisplayDiv;
 };
 
-//This fires each time bottom mobile Nav button is clicked
-export function generateMenuButtonEventListeners(id) {
-
-    removeMainTagContent();
-    toggleNav();
-
-    switch (id) {
-        case 'overviewoption':
-             generateHomePage();
-            break;
-        case 'adddeckoption':
-            generateAddDeckPage();
-    }
-}
-
 export function generateAddDeckPage () {
     
     //If I don't have this here, then when I try add the onclick
