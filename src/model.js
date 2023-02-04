@@ -2,6 +2,22 @@ import { Observable } from "./pubsub";
 
 //Holds the Deck, Card, and Question Objects
 
+
+
+const model = {
+    data: {},
+    setData: function(data) {
+        this.data = data;
+    },
+
+    getData: function() {
+        return this.data;
+    }
+};
+
+
+
+
 //Deck Object
 export const Deck = {
     name: 'default name',
