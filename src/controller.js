@@ -1,5 +1,6 @@
 import { overviewCards } from "./model";
 import { temporaryDecks } from "./model";
+import { addDeck } from './model';
 export const controllerOverviewCards = overviewCards;
 export const controllerTemporaryDecks = temporaryDecks;
 
@@ -10,3 +11,5 @@ const controller = {
         visualViewport.render(model.getData());
     }
 }
+
+export const addDeckFunction = addDeck;

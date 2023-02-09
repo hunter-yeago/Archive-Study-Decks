@@ -1,5 +1,5 @@
 import { setAttributes } from "./helpers";
-import { addDeckFunction } from "./index";
+import { addDeckFunction } from "./controller";
 import { Observable } from "./pubsub";
 import { controllerOverviewCards, controllerTemporaryDecks } from "./controller";
 
@@ -7,119 +7,215 @@ const main = document.querySelector('main');
 
 export const view = (function() {
     
-    const mobileNavButtonArray = Array.from([
-        document.getElementById('leftoverviewbutton'),
-        document.getElementById('rightstudybutton'),
+    const mobileNavButtons = Array.from([
+        document.getElementById('overviewbutton'),
+        document.getElementById('studybutton'),
         document.getElementById('aboutbutton')
         ]);
         
-        // Looks like I'm making a function to make a function... fix this soon.
     function addMobileNavEventListeners() {
-        mobileNavButtonArray.forEach((button) => {
+        mobileNavButtons.forEach((button) => {
             button.addEventListener('click', (event) => {
                 
                 const currentTabID = event.target.id;
                 removeMainTagContent();
-                changeTabColor(currentTabID, mobileNavButtonArray);
+                changeTabColor(currentTabID, mobileNavButtons);
                 changeCurrentTab(currentTabID);
             });
         });
     };
-    
-    //suggested by ChatGPT
-    function render(data) {
-        //render data to the UI
-    };
 
-    function generateDefaultView() {
-        const defaultTabID = 'leftoverviewbutton';
-        generateHomePage();
+    function renderDefaultView() {
+        const defaultTabID = 'overviewbutton';
+        renderHomePage();
         addMobileNavEventListeners();
         changeTabColor(defaultTabID);
     }
 
-    function removeMainTagContent() {
+    function renderHomePage() {
+        //This is for the slide in menu nav bar
+        // const openNavButton = document.getElementById('opennavbtn');
+        // openNavButton.addEventListener('click', toggleNav);
+        //This is for the slide in menu nav bar
     
-            const mainChildren = Array.from(main.children);
-            mainChildren.forEach(element => {
-                element.remove();
+        const overviewSection = createHomePageOverviewSection();
+        const topDecksSection = createHomePageTopDecksSection();
+        
+        main.append(overviewSection, topDecksSection);
+    };
+
+    function createHomePageOverviewSection() {
+        const section = document.createElement('section');
+        section.className = 'overview'
+
+        const title = document.createElement('h1');
+        title.innerText = 'Overview';
+        title.id = 'overviewsectiontitle';
+
+        const rowOfCardsDiv = createOverviewCards(controllerOverviewCards);
+        section.append(title, rowOfCardsDiv);
+
+        return section;
+    };
+
+    function createHomePageTopDecksSection() {
+        const section = document.createElement('section');
+    
+        const title = document.createElement('h1');
+        title.innerText = 'Top Decks';
+        title.id = 'topdeckstitle';
+        
+        const deckDisplayDiv = createDeckDisplay(controllerTemporaryDecks);
+        
+        section.append(title, deckDisplayDiv);
+        
+        return section;
+    };
+
+    function createDeckDisplay(deckArray) {
+
+        const rows = [];
+        deckArray.forEach((element) => {
+            const deckDiv = document.createElement('div');
+            deckDiv.className = 'deck';
+    
+            const imageAndNameDiv = document.createElement('div');
+            imageAndNameDiv.className = 'deckimageandname';
+    
+            const image = document.createElement('img');
+            setAttributes(image, {
+                'src': 'gridcheckmark.svg',
+                'alt': 'click here to see this decks info',
             });
-    };
-
-    function generateHomePageOverViewSection() {
-        const overviewSection = document.createElement('section');
-        overviewSection.className = 'overview'
-
-        const overviewSectionTitle = document.createElement('h1');
-        overviewSectionTitle.innerText = 'Overview';
-        overviewSectionTitle.id = 'overviewsectiontitle';
-
-        const rowOfCardsDiv = generatePlaceHolderOverviewCards(controllerOverviewCards);
-        overviewSection.append(overviewSectionTitle, rowOfCardsDiv);
-
-        return overviewSection;
-    };
-
-    function generateHomePageTopDecksSection() {
-        const topDecksSection = document.createElement('section');
     
-            const topDecksTitle = document.createElement('h1');
-            topDecksTitle.innerText = 'Top Decks';
-            topDecksTitle.id = 'topdeckstitle';
-        
-            const deckDisplayDiv = generateDeckDisplayDiv(controllerTemporaryDecks);
-        
-            topDecksSection.append(topDecksTitle, deckDisplayDiv);
-        
-            return topDecksSection;
-    };
-
-    function generateTableDataCells() {
-        let arrayOfDataCells = [];
-
-        for (let i = 0; i < arguments.length; i++) {
-            const tableDataCell = document.createElement('td');
-            tableDataCell.innerText = arguments[i];
-            arrayOfDataCells.push(tableDataCell);
-        }
+            const name = document.createElement('h3');
+            name.id = element;
     
-        return arrayOfDataCells;
-    };
-
-    function generateModal() {
-
-        const modalDiv = document.createElement('div');
-        setAttributes(modalDiv, {
-            'id': 'myModal',
-            'class': 'modal',
+            imageAndNameDiv.append(image, name);
+    
+            const infoButton = document.createElement('img');
+            setAttributes(infoButton, {
+                'src': 'chevron-down.svg',
+                'alt': 'click here to see this decks info',
+                'class': 'deckinfomenubuttonimage',
+            });
+    
+            deckDiv.append(imageAndNameDiv, infoButton);
+            rows.push(deckDiv);
         });
+    
+        const deckDisplayDiv = document.createElement('div');
+        deckDisplayDiv.className = 'deckdisplay';
+    
+        rows.forEach((deckRow) => {
+            deckDisplayDiv.appendChild(deckRow);
+        });
+    
+        return deckDisplayDiv;
+    };
+
+    function createOverviewCards(cards) {
+
+        const rowOfCardsDiv = document.createElement('div');
+        rowOfCardsDiv.className = 'rowofcards';
+        rowOfCardsDiv.id = 'rowofcards';
+    
+        cards.forEach((card) => {
+            
+            const cardOuterDiv = document.createElement('div');
+            cardOuterDiv.className = 'overviewcard';
+    
+            const cardInnerDiv = document.createElement('div');
+            
+            const image = document.createElement('img');
+            image.src = card.imagesrc;
+    
+            const title = document.createElement('h3');
+            title.innerText = card.title;
+     
+            const statistic = document.createElement('p');
+            statistic.className = card.underlinecolor;
+            statistic.innerText = card.statistic;
+    
+            cardInnerDiv.append(image, title);
+            cardOuterDiv.append(cardInnerDiv, statistic);
+    
+            rowOfCardsDiv.appendChild(cardOuterDiv);
+        });
+        return rowOfCardsDiv;
+    };
+
+    function renderAddDeckPage() {
+
+        createModal();
+
+        const title = document.createElement('h1');
+        title.innerText = 'Decks';
+        title.className = 'deckpagetitle';
+
+        const addDeckButton = document.createElement('button');
+        addDeckButton.className = 'adddeckbutton';
+        addDeckButton.innerText = 'Add a Deck';  
+        addDeckButton.onclick = function() {
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        const table = createDeckPageTable();
+
+        const pageDiv = document.createElement('div');
+        pageDiv.className = 'addeckpagediv';
+        pageDiv.append(title, addDeckButton, table);
         
-        const modalContentDiv = document.createElement('div');
-        modalContentDiv.className = 'modal-content';
+        main.appendChild(pageDiv);
+        appendStoredDecksToTable();
 
-        const modalHeaderDiv = document.createElement('div');
-        modalHeaderDiv.className = 'modal-header';
+        Observable.subscribe('addDeckFunction', appendDeckToTable);
+    };
 
-        const exitSpan = document.createElement('span');
-        exitSpan.innerHTML = '&times;';
-        exitSpan.onclick = function() {
-            modalDiv.style.display = 'none';
-        }
-        window.onclick = function(event) {
-            if (event.target == modalDiv) {
-                modalDiv.style.display = 'none';
-            }
-        }
+    function createModal() {
+
+        const modal = document.createElement('div');
+        modal.id = 'modal';
+        modal.className = 'modal';
+        main.appendChild(modal);
+
+        const modalHeader = createModalHeader(modal);
+        const modalForm = createModalForm();
+
+        const modalBody = document.createElement('div');
+        modalBody.className = 'modal-body';
+        modalBody.appendChild(modalForm);
+        
+        const modalContent = document.createElement('div');
+        modalContent.className = 'modal-content';
+        modalContent.append(modalHeader, modalBody);
+
+        modal.appendChild(modalContent);
+    };
+
+    function createModalHeader(modal) {
 
         const modalHeader = document.createElement('h5');
         modalHeader.innerText = 'New Deck'
 
-        const modalBody = document.createElement('div');
-        modalBody.className = 'modal-body';
+        const exitSpan = document.createElement('span');
+        exitSpan.innerHTML = '&times;';
+        exitSpan.onclick = function() {
+            modal.style.display = 'none';
+        }
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
 
-        const modalForm = document.createElement('form');
-        modalForm.className = 'modal-form';
-        modalForm.action = '';
+        const modalHeaderDiv = document.createElement('div');
+        modalHeaderDiv.className = 'modal-header';
+        modalHeaderDiv.append(modalHeader, exitSpan);
+        return modalHeaderDiv;
+    };
+
+    function createModalForm() {
 
         const nameInputLabel = document.createElement('label');
         nameInputLabel.htmlFor = 'deckname';
@@ -175,8 +271,8 @@ export const view = (function() {
             event.preventDefault();
             addDeckFunction();
             if (event.target == formSubmitButton) {
-                modalDiv.style.display = 'none';
-                modalForm.reset();
+                document.getElementById('modal').style.display = 'none';
+                form.reset();
             }
         });
 
@@ -185,23 +281,23 @@ export const view = (function() {
             'value': 'Add Deck',
             'class': 'submitbutton',
         });
-        
-        main.appendChild(modalDiv);
-        modalContentDiv.append(modalHeaderDiv, modalBody);
-        modalHeaderDiv.append(modalHeader, exitSpan);
-        modalDiv.appendChild(modalContentDiv);
-        modalBody.appendChild(modalForm);
-        modalForm.append(
+
+
+        const form = document.createElement('form');
+        form.className = 'modal-form';
+        form.action = '';
+        form.append(
             nameInputLabel, nameInput,
             descriptionLabel, descriptionInput,
             dueDateLabel, dueDateInput,
             categoryLabel, categoryInput,
             formSubmitButton);
+
+        return form;
     };
 
-    function addStoredDeckToTable() {
+    function appendStoredDecksToTable() {
         for (let i = 0; i < localStorage.length; i++) {
-
             const deck = JSON.parse(localStorage.getItem(localStorage.key(i)));
             appendDeckToTable(deck);
         }
@@ -209,11 +305,9 @@ export const view = (function() {
 
     function appendDeckToTable(deck) {
 
-        const deckTable = document.getElementById('huntersfirstdecktable');
+        const table = document.getElementById('decktable');
         const row = document.createElement('tr');
         row.id = `RowID:${Math.random().toString(16).slice(2)}`;
-    
-        const tableDataCellArray = generateTableDataCells(deck.name, deck.dueDate, deck.category);
     
         const deleteButton = document.createElement('button');
         deleteButton.innerText = 'Delete';
@@ -222,151 +316,46 @@ export const view = (function() {
             document.getElementById(row.id).remove();
         };
     
-        for (let i = 0; i < tableDataCellArray.length; i++) {
-            row.appendChild(tableDataCellArray[i]);
+        const dataCells = createTableCells(deck.name, deck.dueDate, deck.category);
+        for (let i = 0; i < dataCells.length; i++) {
+            row.appendChild(dataCells[i]);
         }
     
         row.appendChild(deleteButton);
-        deckTable.appendChild(row);
+        table.appendChild(row);
     };
 
-    function generateDeckDisplayDiv(deckArray) {
+    function createTableCells() {
+        let dataCells = [];
 
-        let arrayOfDeckHTMLRows = [];
-        deckArray.forEach((element) => {
-            const deckDiv = document.createElement('div');
-            deckDiv.className = 'deck';
-    
-            const deckImageAndNameDiv = document.createElement('div');
-            deckImageAndNameDiv.className = 'deckimageandname';
-    
-            const deckImage = document.createElement('img');
-            setAttributes(deckImage, {
-                'src': 'gridcheckmark.svg',
-                'alt': 'click here to see this decks info',
-            });
-    
-            const deckName = document.createElement('h3');
-            deckName.id = element;
-    
-            deckImageAndNameDiv.append(deckImage, deckName);
-    
-            const deckInfoButton = document.createElement('img');
-            setAttributes(deckInfoButton, {
-                'src': 'chevron-down.svg',
-                'alt': 'click here to see this decks info',
-                'class': 'deckinfomenubuttonimage',
-            });
-    
-            deckDiv.append(deckImageAndNameDiv, deckInfoButton);
-            arrayOfDeckHTMLRows.push(deckDiv);
-        });
-    
-        const deckDisplayDiv = document.createElement('div');
-        deckDisplayDiv.className = 'deckdisplay';
-    
-        arrayOfDeckHTMLRows.forEach((deckRow) => {
-            deckDisplayDiv.appendChild(deckRow);
-        });
-    
-        return deckDisplayDiv;
+        for (let i = 0; i < arguments.length; i++) {
+            const cell = document.createElement('td');
+            cell.innerText = arguments[i];
+            dataCells.push(cell);
+        }
+
+        return dataCells;
     };
 
-    function generatePlaceHolderOverviewCards(controllerOverviewCards) {
-
-        const rowOfCardsDiv = document.createElement('div');
-        rowOfCardsDiv.className = 'rowofcards';
-        rowOfCardsDiv.id = 'rowofcards';
-    
-        controllerOverviewCards.forEach((card) => {
-            
-            const cardOuterDiv = document.createElement('div');
-            cardOuterDiv.className = 'overviewcard';
-    
-            const cardInnerDiv = document.createElement('div');
-            
-            const cardImage = document.createElement('img');
-            cardImage.src = card.imagesrc;
-    
-            const cardTitle = document.createElement('h3');
-            cardTitle.innerText = card.title;
-     
-            const cardStatisticContainer = document.createElement('p');
-            cardStatisticContainer.className = card.underlinecolor;
-            cardStatisticContainer.innerText = card.statistic;
-    
-            cardInnerDiv.append(cardImage, cardTitle);
-            cardOuterDiv.append(cardInnerDiv, cardStatisticContainer);
-    
-            rowOfCardsDiv.appendChild(cardOuterDiv);
-        });
-        return rowOfCardsDiv;
-    };
-
-    function generateHomePage() {
-        //This is for the slide in menu nav bar
-        const openNavButton = document.getElementById('opennavbtn');
-        openNavButton.addEventListener('click', toggleNav);
-        //This is for the slide in menu nav bar
-    
-        const overviewSection = generateHomePageOverViewSection();
-        const topDecksSection = generateHomePageTopDecksSection();
+    function createDeckPageTable() {
+        const table = document.createElement('table');
+        table.className = 'decktable';
+        table.id = 'decktable';
         
-        main.append(overviewSection, topDecksSection);
-    };
+        const tableHeaderRow = document.createElement('tr');
+        table.appendChild(tableHeaderRow);
 
-    function generateAddDeckPage() {
-        //If I don't have this here, then when I try add the onclick
-    //function to the triggerButton below, then it returns null
-    //(since the modal is created with this function)
-    generateModal();
+        for (let i = 0; i <= 3; i++) {
+            const tableHeader = document.createElement('th');
+            tableHeaderRow.appendChild(tableHeader);
+            tableHeader.innerText = 'Header';
+        }
 
-    const addDeckPageDiv = document.createElement('div');
-    addDeckPageDiv.className = 'addeckpagediv';
-    main.appendChild(addDeckPageDiv);
-
-    const triggerButton = document.createElement('button');
-    setAttributes(triggerButton, {
-        'id': 'myBtn',
-        'class': 'adddeckbutton',
-    });
-    triggerButton.innerText = 'Add a Deck';  
-    triggerButton.onclick = function() {
-        document.getElementById('myModal').style.display = 'block';
+        return table;
     }
-
-    const addDeckPageTitle = document.createElement('h1');
-    addDeckPageTitle.innerText = 'Decks';
-    addDeckPageTitle.className = 'deckpagetitle';
-    addDeckPageTitle.id = 'adddeckpapetitle';
-
-    const deckTable = document.createElement('table');
-    deckTable.className = 'decktable';
-    deckTable.id = 'huntersfirstdecktable';
-    
-    const tableHeaderRow = document.createElement('tr');
-    deckTable.appendChild(tableHeaderRow);
-
-    for (let i = 0; i <= 3; i++) {
-        const tableHeader = document.createElement('th');
-        tableHeaderRow.appendChild(tableHeader);
-        tableHeader.innerText = 'Header';
-    }
-    addDeckPageDiv.appendChild(addDeckPageTitle);
-    addDeckPageDiv.appendChild(triggerButton);
-    addDeckPageDiv.appendChild(deckTable);
-    addStoredDeckToTable();
-
-    Observable.subscribe('addDeckFunction', appendDeckToTable);
-    };
-
-    function toggleNav() {
-        const sideNav = document.getElementById('mySidenav');
-        sideNav.classList.toggle('active');
-    };
 
     function changeTabColor(currentTabID) {
-        mobileNavButtonArray.forEach((navTab) => {
+        mobileNavButtons.forEach((navTab) => {
             if ( navTab.id === currentTabID) {
                 navTab.style.borderTop = '1px solid blue';
                 document.getElementById(`${navTab.id}h3`).style.color = 'blue';
@@ -378,7 +367,7 @@ export const view = (function() {
         })
     };
 
-    function generateAboutPage() {
+    function renderAboutPage() {
         const aboutPageTitle = document.createElement('h1');
         aboutPageTitle.innerText = 'About Page';
         main.appendChild(aboutPageTitle);
@@ -386,37 +375,52 @@ export const view = (function() {
     
     function changeCurrentTab(currentTabID) {
         switch (currentTabID) {
-            case 'leftoverviewbutton':
-                generateHomePage();
+            case 'overviewbutton':
+                renderHomePage();
                 break;
         
-            case 'rightstudybutton':
-                generateAddDeckPage();
+            case 'studybutton':
+                renderAddDeckPage();
                 break;
         
             case 'aboutbutton':
-                generateAboutPage();
+                renderAboutPage();
                 break;
         }
     }
 
+    function removeMainTagContent() {
+    
+        const mainChildren = Array.from(main.children);
+        mainChildren.forEach(element => {
+            element.remove();
+        });
+};
+
     return {
-        generateDefaultView,
+        renderDefaultView,
         };
 })();
+
+//Side-bar Nav
 
 //temporarily adding menu event listeners here
 //These are the event listeners for the left slide-in navbar
 
 // document.getElementById('overviewoption').addEventListener('click', () => {    
 //     removeMainTagContent();
-//     generateHomePage()
+//     renderHomePage()
 //     toggleNav();
 // });
 
 
 // document.getElementById('adddeckoption').addEventListener('click', () => {
 //     removeMainTagContent();
-//     generateAddDeckPage();
+//     renderAddDeckPage();
 //     toggleNav();
 // });
+
+// function toggleNav() {
+//     const sideNav = document.getElementById('mySidenav');
+//     sideNav.classList.toggle('active');
+// };

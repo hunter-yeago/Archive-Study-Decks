@@ -2,8 +2,6 @@ import { Observable } from "./pubsub";
 
 //Holds the Deck, Card, and Question Objects
 
-
-
 const model = {
     data: {},
     setData: function(data) {
@@ -14,8 +12,6 @@ const model = {
         return this.data;
     }
 };
-
-
 
 
 //Deck Object
