@@ -241,7 +241,7 @@ export const view = (function() {
 
         const descriptionLabel = document.createElement('label');
         descriptionLabel.htmlFor = 'deckdescription';
-        descriptionLabel.innerText = 'Description:';
+        descriptionLabel.innerText = 'Description (Max 50 charachters):';
 
         const descriptionInput = document.createElement('textarea');
         setAttributes(descriptionInput,
@@ -251,7 +251,7 @@ export const view = (function() {
                 'name': 'deckdescription',
                 'rows': '4',
                 'cols': '20',
-                'maxLength': '150',
+                'maxLength': '50',
             });
 
         const dueDateLabel = document.createElement('label');
@@ -299,11 +299,7 @@ export const view = (function() {
 
         formSubmitButton.addEventListener('click', () => {
 
-            //get converted Date
-            const convertedDate = convertDateData(dueDateInput.value);
-            console.log(convertedDate);
-            const truth = validateUserDate(convertedDate);
-            console.log(truth);
+            // checkInputs();
 
             if (!validateNameInput()) {
                 nameInput.setCustomValidity('This field cannot be empty');
@@ -321,13 +317,53 @@ export const view = (function() {
         const form = document.createElement('form');
         form.className = 'modal-form';
         form.append(
-            nameInputLabel, nameInput,
+            nameInputLabel, nameInput, 
+            categoryLabel, categorySelect,
             descriptionLabel, descriptionInput,
             dueDateLabel, dueDateInput,
-            categoryLabel, categorySelect,
             formSubmitButton);
         return form;
     };
+
+    function checkInputs(inputs) {
+        
+        let inputsAreValid = false;
+
+        //Check name Input
+        if (!validateNameInput()) {
+            nameInput.setCustomValidity('This field cannot be empty');
+            nameInput.reportValidity();
+            nameInput.classList.add('invalid');
+        }
+
+        //check description input - only X words long?
+        
+        //get converted Date
+            const convertedDate = convertDateData(dueDateInput.value);
+            console.log(convertedDate);
+        
+            //check date input
+            const truth = validateUserDate(convertedDate);
+            console.log(truth);
+
+        //Check category input
+        const categoryInputValidity = validateCategoryInput();
+
+        //use that ALL array function to return an array if its all true 
+        //or something like that
+    }
+
+    function validateCategoryInput() {
+        const value = document.getElementById('deckcategory').value;
+        console.log(value);
+
+        if (value === '' || null) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 
     function convertDateData(userInputDate) {
         const array = userInputDate.split('-');
@@ -356,7 +392,6 @@ export const view = (function() {
         inputDate = x.value;
     }
 
- 
 
     function resetInputValidity(inputs) {
         inputs.forEach(element => {
