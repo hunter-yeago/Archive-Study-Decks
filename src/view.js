@@ -2,6 +2,7 @@ import { setAttributes } from "./helpers";
 import { addDeckFunction } from "./controller";
 import { Observable } from "./pubsub";
 import { controllerOverviewCards, controllerTemporaryDecks } from "./controller";
+import {isFuture} from 'date-fns';
 
 const main = document.querySelector('main');
 
@@ -298,6 +299,12 @@ export const view = (function() {
 
         formSubmitButton.addEventListener('click', () => {
 
+            //get converted Date
+            const convertedDate = convertDateData(dueDateInput.value);
+            console.log(convertedDate);
+            const truth = validateUserDate(convertedDate);
+            console.log(truth);
+
             if (!validateNameInput()) {
                 nameInput.setCustomValidity('This field cannot be empty');
                 nameInput.reportValidity();
@@ -319,9 +326,20 @@ export const view = (function() {
             dueDateLabel, dueDateInput,
             categoryLabel, categorySelect,
             formSubmitButton);
-
         return form;
     };
+
+    function convertDateData(userInputDate) {
+        const array = userInputDate.split('-');
+        const year = array[0];
+        const month = array[1];
+        const day = array[2];
+        return new Date(`${year}/${month}/${day}`);
+    }
+
+    function validateUserDate(userDate) {
+        return isFuture(userDate);
+    }
 
     function validateNameInput() {
         const nameInput = document.getElementById('deckname');
@@ -332,6 +350,13 @@ export const view = (function() {
         }
         else {return true;}
     }
+
+    function validateDateInput() {
+        let x = document.getElementById('deckduedate');
+        inputDate = x.value;
+    }
+
+ 
 
     function resetInputValidity(inputs) {
         inputs.forEach(element => {
