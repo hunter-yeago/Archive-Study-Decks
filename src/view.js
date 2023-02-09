@@ -180,7 +180,7 @@ export const view = (function() {
         main.appendChild(modal);
 
         const modalHeader = createModalHeader(modal);
-        const modalForm = createModalForm();
+        const modalForm = createModalForm(modal);
 
         const modalBody = document.createElement('div');
         modalBody.className = 'modal-body';
@@ -215,18 +215,28 @@ export const view = (function() {
         return modalHeaderDiv;
     };
 
-    function createModalForm() {
+    function createModalForm(modal) {
 
         const nameInputLabel = document.createElement('label');
         nameInputLabel.htmlFor = 'deckname';
         nameInputLabel.innerText = 'Deck Name:'
         
         const nameInput = document.createElement('input');
+        nameInput.required = true;
         setAttributes(nameInput, {
-            'name': 'deckname',
             'id': 'deckname',
-            'class': 'deckname',
+            'name': 'deckname',
+            'type': 'text',
         });
+        nameInput.oninput = () => {
+            const length = nameInput.value.trim().length;
+            if (length < 1) {
+                nameInput.className = 'invalid';
+            }
+            else {
+                nameInput.className = 'valid';
+            }
+        };
 
         const descriptionLabel = document.createElement('label');
         descriptionLabel.htmlFor = 'deckdescription';
@@ -252,49 +262,82 @@ export const view = (function() {
             'id': 'deckduedate',
             'name': 'deckduedate',
             'class': 'deckduedate',
+            'type': 'date',
         });
 
         const categoryLabel = document.createElement('label');
         categoryLabel.htmlFor = 'deckcategory';
         categoryLabel.innerText = 'Category';
         
-        const categoryInput = document.createElement('input');
-        setAttributes(categoryInput, {
+        const categorySelect = document.createElement('select');
+        setAttributes(categorySelect, {
             'id': 'deckcategory',
             'name': 'deckcategory',
             'class': 'deckcategory',
-            'list': 'categorylist',
         });
+        
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.innerText = 'Please choose a Category';
+        
+        const languageOption = document.createElement('option');
+        languageOption.value = 'Language';
+        languageOption.innerText = 'Language';
+        
+        const mathOption = document.createElement('option');
+        mathOption.value = 'Math';
+        mathOption.innerText = 'Math';
 
-        const formSubmitButton = document.createElement('input');
-        formSubmitButton.addEventListener('click', (event) => {
-            event.preventDefault();
-            addDeckFunction();
-            if (event.target == formSubmitButton) {
-                document.getElementById('modal').style.display = 'none';
+        categorySelect.append(defaultOption, languageOption, mathOption);
+
+        const inputs = [nameInput, descriptionInput, dueDateInput, categorySelect];
+        const formSubmitButton = document.createElement('button');
+        formSubmitButton.innerText = 'Add Deck';
+        formSubmitButton.type = 'button';
+        formSubmitButton.className = 'submitbutton';
+
+        formSubmitButton.addEventListener('click', () => {
+
+            if (!validateNameInput()) {
+                nameInput.setCustomValidity('This field cannot be empty');
+                nameInput.reportValidity();
+                nameInput.classList.add('invalid');
+            }
+            else {
+                addDeckFunction();
+                modal.style.display = 'none';
                 form.reset();
+                resetInputValidity(inputs);
             }
         });
 
-        setAttributes(formSubmitButton, {
-            'type': 'submit',
-            'value': 'Add Deck',
-            'class': 'submitbutton',
-        });
-
-
         const form = document.createElement('form');
         form.className = 'modal-form';
-        form.action = '';
         form.append(
             nameInputLabel, nameInput,
             descriptionLabel, descriptionInput,
             dueDateLabel, dueDateInput,
-            categoryLabel, categoryInput,
+            categoryLabel, categorySelect,
             formSubmitButton);
 
         return form;
     };
+
+    function validateNameInput() {
+        const nameInput = document.getElementById('deckname');
+        const length = nameInput.value.trim().length;
+
+        if (length < 1) {
+            return false;
+        }
+        else {return true;}
+    }
+
+    function resetInputValidity(inputs) {
+        inputs.forEach(element => {
+            element.classList.remove('valid');
+        });
+    }
 
     function appendStoredDecksToTable() {
         for (let i = 0; i < localStorage.length; i++) {
