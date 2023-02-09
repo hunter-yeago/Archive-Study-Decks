@@ -4,7 +4,7 @@
   "description": "A website to study pre-built or your own custom-made study decks!",
   "main": "main.js",
   "scripts": {
-    "test": "jest",
+    "test": "test",
     "build": "webpack",
     "watch": "webpack --watch",
     "start": "webpack serve --open",

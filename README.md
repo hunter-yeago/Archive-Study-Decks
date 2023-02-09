@@ -13,3 +13,10 @@ Constraint Validation API
 MVC Pattern with Pub/Sub Pattern
 <br />
 Vanilla Javascript
+<br />
+Webpack (Custom Configuration)
+<br />
+SCSS
+<br />
+Affinity Designer 2
+<br />
