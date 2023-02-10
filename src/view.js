@@ -1,37 +1,11 @@
 import { setAttributes } from "./helpers";
-import { addDeckFunction } from "./controller";
+import { cards, controller } from "./controller";
 import { Observable } from "./pubsub";
-import { controllerOverviewCards, controllerTemporaryDecks } from "./controller";
 import {isFuture} from 'date-fns';
 
 const main = document.querySelector('main');
 
 export const view = (function() {
-    
-    const mobileNavButtons = Array.from([
-        document.getElementById('overviewbutton'),
-        document.getElementById('studybutton'),
-        document.getElementById('aboutbutton')
-        ]);
-        
-    function addMobileNavEventListeners() {
-        mobileNavButtons.forEach((button) => {
-            button.addEventListener('click', (event) => {
-                
-                const currentTabID = event.target.id;
-                removeMainTagContent();
-                changeTabColor(currentTabID, mobileNavButtons);
-                changeCurrentTab(currentTabID);
-            });
-        });
-    };
-
-    function renderDefaultView() {
-        const defaultTabID = 'overviewbutton';
-        renderHomePage();
-        addMobileNavEventListeners();
-        changeTabColor(defaultTabID);
-    }
 
     function renderHomePage() {
         //This is for the slide in menu nav bar
@@ -53,7 +27,7 @@ export const view = (function() {
         title.innerText = 'Overview';
         title.id = 'overviewsectiontitle';
 
-        const rowOfCardsDiv = createOverviewCards(controllerOverviewCards);
+        const rowOfCardsDiv = createOverviewCards(controller.controllerOverviewCards);
         section.append(title, rowOfCardsDiv);
 
         return section;
@@ -66,7 +40,7 @@ export const view = (function() {
         title.innerText = 'Top Decks';
         title.id = 'topdeckstitle';
         
-        const deckDisplayDiv = createDeckDisplay(controllerTemporaryDecks);
+        const deckDisplayDiv = createDeckDisplay(controller.controllerTemporaryDecks);
         
         section.append(title, deckDisplayDiv);
         
@@ -307,7 +281,7 @@ export const view = (function() {
                 nameInput.classList.add('invalid');
             }
             else {
-                addDeckFunction();
+                controller.addDeckFunction();
                 modal.style.display = 'none';
                 form.reset();
                 resetInputValidity(inputs);
@@ -458,7 +432,7 @@ export const view = (function() {
     }
 
     function changeTabColor(currentTabID) {
-        mobileNavButtons.forEach((navTab) => {
+        controller.mobileNavButtons.forEach((navTab) => {
             if ( navTab.id === currentTabID) {
                 navTab.style.borderTop = '1px solid blue';
                 document.getElementById(`${navTab.id}h3`).style.color = 'blue';
@@ -476,21 +450,7 @@ export const view = (function() {
         main.appendChild(aboutPageTitle);
     }
     
-    function changeCurrentTab(currentTabID) {
-        switch (currentTabID) {
-            case 'overviewbutton':
-                renderHomePage();
-                break;
-        
-            case 'studybutton':
-                renderAddDeckPage();
-                break;
-        
-            case 'aboutbutton':
-                renderAboutPage();
-                break;
-        }
-    }
+
 
     function removeMainTagContent() {
     
@@ -501,7 +461,11 @@ export const view = (function() {
 };
 
     return {
-        renderDefaultView,
+        renderHomePage,
+        renderAddDeckPage,
+        renderAboutPage,
+        changeTabColor,
+        removeMainTagContent,
         };
 })();
 

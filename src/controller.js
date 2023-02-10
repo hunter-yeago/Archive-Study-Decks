@@ -1,15 +1,63 @@
-import { overviewCards } from "./model";
-import { temporaryDecks } from "./model";
-import { addDeck } from './model';
-export const controllerOverviewCards = overviewCards;
-export const controllerTemporaryDecks = temporaryDecks;
+import { model } from "./model";
+import { view } from "./view";
 
-// Got the code from ChatGPT
-const controller = {
-    updateData: function(data) {
-        model.setData(data);
-        visualViewport.render(model.getData());
+export const controller = (function(){
+
+    const controllerOverviewCards = model.overviewCards;
+    const controllerTemporaryDecks = model.temporaryDecks;
+    const defaultTabID = 'overviewbutton';
+
+    const mobileNavButtons = Array.from([
+        document.getElementById('overviewbutton'),
+        document.getElementById('studybutton'),
+        document.getElementById('aboutbutton')
+        ]);
+    
+    function startApplication() {
+        view.renderHomePage();
+        addMobileNavEventListeners();
+        view.changeTabColor(defaultTabID);
+    };
+
+    function addMobileNavEventListeners() {
+        mobileNavButtons.forEach((button) => {
+            button.addEventListener('click', (event) => {
+                
+                const currentTabID = event.target.id;
+                view.removeMainTagContent();
+                view.changeTabColor(currentTabID, mobileNavButtons);
+                controller.changeCurrentTab(currentTabID);
+            });
+        });
+    };
+
+    //find a way to change this from a switch case to something else
+    function changeCurrentTab(currentTabID) {
+        switch (currentTabID) {
+            case 'overviewbutton':
+                view.renderHomePage();
+                break;
+        
+            case 'studybutton':
+                view.renderAddDeckPage();
+                break;
+        
+            case 'aboutbutton':
+                view.renderAboutPage();
+                break;
+        }
     }
-}
 
-export const addDeckFunction = addDeck;
+    const addDeckFunction = model.addDeck;
+
+    return {
+        changeCurrentTab,
+        startApplication,
+        addDeckFunction,
+        addMobileNavEventListeners,
+        controllerOverviewCards,
+        controllerTemporaryDecks,
+        mobileNavButtons,
+    }
+
+})();

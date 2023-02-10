@@ -1,3 +1,2 @@
-import {view} from './view';
-
-view.renderDefaultView();
+import { controller } from './controller';
+controller.startApplication();
