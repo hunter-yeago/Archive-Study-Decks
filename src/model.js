@@ -70,7 +70,6 @@ export const model = (function(){
     const temporaryDecks = ['deck1', 'deck2', 'deck3'];
 
     function addDeck() {
-    
         const myFormData = new FormData(document.querySelector('.modal-form'));
         const formDataObj = Object.fromEntries(myFormData.entries());
     
@@ -89,26 +88,15 @@ export const model = (function(){
         addDeck,
         temporaryDecks,
         overviewCards,
-        cardPrototype,
+        Card,
     };
-
 })();
-
-
-
-
-
 
 
 // Question Object
 // const frenchQuestionOne = {
 //     question: 'How do you say \'a cat\' in French?',
 //     answer: 'Un chat'
-// };
-
-// Card Object
-// const Card = (question, answer) => {
-//     return { question, answer};
 // };
 
 
@@ -123,7 +111,3 @@ export const model = (function(){
 // function pushDeckToLists(deck) {
 //     categoryLanguages.push(deck);
 // }
-
-//Local Storage
-
-//This updates the page

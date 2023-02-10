@@ -250,6 +250,16 @@ export const view = (function() {
             'name': 'deckcategory',
             'class': 'deckcategory',
         });
+
+        categorySelect.oninput = () => {
+            const length = categorySelect.value.trim().length;
+            if (length < 1) {
+                categorySelect.className = 'invalid';
+            }
+            else {
+                categorySelect.className = 'valid';
+            }
+        };
         
         const defaultOption = document.createElement('option');
         defaultOption.value = '';
@@ -273,9 +283,48 @@ export const view = (function() {
 
         formSubmitButton.addEventListener('click', () => {
 
-            // checkInputs();
+            const deckObject = {
+                isValid: false,
 
-            if (!validateNameInput()) {
+                printValidity: function (){
+                    console.log(`the validity of this object is ${this.isValid}`);
+                }
+            };
+
+            const deckNameObject = Object.assign(Object.create(deckObject), {
+                nameLength: document.getElementById('deckname').value.trim().length,
+
+                checkValidity: function() {
+                    this.isValid = this.nameLength > 0 ? true : false;
+                },
+                
+            });
+
+            const deckCategoryObject = {
+                isValid: false,
+                inputValue: document.getElementById('deckcategory').value,
+
+                checkValidity: function() {
+                    this.isValid = this.inputValue === '' ? false : true;
+                },
+
+                setValidityClass: function() {
+                    if (this.isValid) {
+                        document.getElementById('deckcategory').classList.remove('invalid');
+                        document.getElementById('deckcategory').classList.add('valid');
+                    }
+                    else {
+                        document.getElementById('deckcategory').classList.remove('valid');
+                        document.getElementById('deckcategory').classList.add('invalid');
+                    }
+                }
+            }
+
+            deckNameObject.checkValidity();
+            deckCategoryObject.checkValidity();
+
+            //flip it so that the if runs if it's valid (clearer)
+            if (!deckNameObject.isValid) {
                 nameInput.setCustomValidity('This field cannot be empty');
                 nameInput.reportValidity();
                 nameInput.classList.add('invalid');
@@ -299,12 +348,16 @@ export const view = (function() {
         return form;
     };
 
+    function checkNameInput(deckName) {
+        return deckName.nameLength < 1 ? false : true;
+    }
+
     function checkInputs(inputs) {
         
         let inputsAreValid = false;
 
         //Check name Input
-        if (!validateNameInput()) {
+        if (!checkNameInput()) {
             nameInput.setCustomValidity('This field cannot be empty');
             nameInput.reportValidity();
             nameInput.classList.add('invalid');
@@ -317,17 +370,17 @@ export const view = (function() {
             console.log(convertedDate);
         
             //check date input
-            const truth = validateUserDate(convertedDate);
+            const truth = checkDateInput(convertedDate);
             console.log(truth);
 
         //Check category input
-        const categoryInputValidity = validateCategoryInput();
+        const categoryInputValidity = checkCategoryInput();
 
         //use that ALL array function to return an array if its all true 
         //or something like that
     }
 
-    function validateCategoryInput() {
+    function checkCategoryInput() {
         const value = document.getElementById('deckcategory').value;
         console.log(value);
 
@@ -347,25 +400,9 @@ export const view = (function() {
         return new Date(`${year}/${month}/${day}`);
     }
 
-    function validateUserDate(userDate) {
+    function checkDateInput(userDate) {
         return isFuture(userDate);
     }
-
-    function validateNameInput() {
-        const nameInput = document.getElementById('deckname');
-        const length = nameInput.value.trim().length;
-
-        if (length < 1) {
-            return false;
-        }
-        else {return true;}
-    }
-
-    function validateDateInput() {
-        let x = document.getElementById('deckduedate');
-        inputDate = x.value;
-    }
-
 
     function resetInputValidity(inputs) {
         inputs.forEach(element => {
