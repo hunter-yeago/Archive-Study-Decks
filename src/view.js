@@ -283,56 +283,142 @@ export const view = (function() {
 
         formSubmitButton.addEventListener('click', () => {
 
-            const deckObject = {
+            const deckFormInputObject = {
                 isValid: false,
+                mustBeValid: true,
+                inputElement: null,
 
-                printValidity: function (){
-                    console.log(`the validity of this object is ${this.isValid}`);
-                }
+                setValidityClass: function() {
+                    if (this.isValid) {
+                        this.inputElement.classList.remove('invalid');
+                        this.inputElement.classList.add('valid');
+                    }
+                    else {
+                        this.inputElement.classList.remove('valid');
+                        this.inputElement.classList.add('invalid');
+                    }
+                },
+
+                displayValidityWarning: function() {
+                    this.inputElement.setCustomValidity('This field is invalid');
+                    this.inputElement.reportValidity();
+                },
+
+                resetObjectInputValidity: function() {
+                    this.this.inputElement.classList.remove('valid');
+                    this.this.inputElement.classList.remove('invalid');
+                },
             };
 
-            const deckNameObject = Object.assign(Object.create(deckObject), {
+            const deckNameObject = Object.assign(Object.create(deckFormInputObject), {
+                mustBeValid: true,
+                inputElement: document.getElementById('deckname'),
                 nameLength: document.getElementById('deckname').value.trim().length,
+                nameLengthIsValid: false,
+                nameIsUniqueInDatabase: true,
 
                 checkValidity: function() {
+                    this.checkLengthValidity();
+                    //temporarily doing this until I implement checkIfNameAlreadyExists function
+                    // if (this.nameLengthIsValid) {
+                    //     this.isValid;
+                    // }
+                    // checkIfNameAlreadyExists();
+                },
+
+                checkLengthValidity: function () {
                     this.isValid = this.nameLength > 0 ? true : false;
                 },
-                
+
+                checkIfNameAlreadyExists: function() {
+
+                },
+
+                displayValidityWarning: function() {
+                    console.log(`the result of nameLengthisValid is ${this.nameLengthIsValid}`);
+                    console.log(`the result of isValid is ${this.isValid}`);
+                    if (!this.nameLengthIsValid) {
+                        console.log(`firing from inside of the if statement in DVW`);
+                        this.inputElement.setCustomValidity('Name must be at least 1 character long');
+                        this.inputElement.reportValidity();
+                    }
+                    //temporarily setting nameIsUniqueInDatabase to true until I implement this function
+                    else if (!this.nameIsUniqueInDatabase) {
+                        this.inputElement.setCustomValidity('Deck name already exists');
+                        this.inputElement.reportValidity();
+                    }
+                }
             });
 
-            const deckCategoryObject = {
-                isValid: false,
+            const deckCategoryObject = Object.assign(Object.create(deckFormInputObject), {
+                mustBeValid: true,
+                inputElement: document.getElementById('deckcategory'),
                 inputValue: document.getElementById('deckcategory').value,
 
                 checkValidity: function() {
                     this.isValid = this.inputValue === '' ? false : true;
                 },
 
-                setValidityClass: function() {
-                    if (this.isValid) {
-                        document.getElementById('deckcategory').classList.remove('invalid');
-                        document.getElementById('deckcategory').classList.add('valid');
+                displayValidityWarning: function() {
+                    if(!this.isValid) {
+                        this.inputElement.setCustomValidity('Must choose a category');
+                        this.inputElement.reportValidity();
                     }
-                    else {
-                        document.getElementById('deckcategory').classList.remove('valid');
-                        document.getElementById('deckcategory').classList.add('invalid');
+                },
+            });
+
+            const deckDateObject = Object.assign(Object.create(deckFormInputObject), {
+                mustBeValid: true,
+                inputElement: document.getElementById('deckduedate'),
+                inputValue: document.getElementById('deckduedate').value,
+
+                convertDateData: function() {
+                    const array = this.inputValue.split('-');
+                    const year = array[0];
+                    const month = array[1];
+                    const day = array[2];
+                    return new Date(`${year}/${month}/${day}`);
+                },
+
+                checkValidity: function() {
+                    const userInput = this.convertDateData();
+                    this.isValid = isFuture(userInput);
+                },
+
+                displayValidityWarning: function() {
+                    if(!this.isValid) {
+                        this.inputElement.setCustomValidity('Date must be in the future');
+                        this.inputElement.reportValidity();
                     }
-                }
-            }
+                },
+            });
 
             deckNameObject.checkValidity();
             deckCategoryObject.checkValidity();
+            deckDateObject.checkValidity();
+            
+            const objectInputs = [deckNameObject, deckCategoryObject, deckDateObject];
 
+            //run if all inputs that needs to be validated are validated
             //flip it so that the if runs if it's valid (clearer)
-            if (!deckNameObject.isValid) {
-                nameInput.setCustomValidity('This field cannot be empty');
-                nameInput.reportValidity();
-                nameInput.classList.add('invalid');
+
+            //this is soooo uggllyyyyy
+            
+            if (!objectInputs[0].isValid || !objectInputs[1].isValid || !objectInputs[2].isValid) {
+                for (let i = 0; i < objectInputs.length; i++) {
+                    objectInputs[i].checkValidity();
+                    if (!objectInputs[i].isValid) {
+                        objectInputs[i].displayValidityWarning();
+                        objectInputs[i].setValidityClass();
+                        return;
+                    }
+                }
             }
             else {
                 controller.addDeckFunction();
                 modal.style.display = 'none';
                 form.reset();
+                //replace the followiong with object function?
                 resetInputValidity(inputs);
             }
         });
@@ -348,65 +434,10 @@ export const view = (function() {
         return form;
     };
 
-    function checkNameInput(deckName) {
-        return deckName.nameLength < 1 ? false : true;
-    }
-
-    function checkInputs(inputs) {
-        
-        let inputsAreValid = false;
-
-        //Check name Input
-        if (!checkNameInput()) {
-            nameInput.setCustomValidity('This field cannot be empty');
-            nameInput.reportValidity();
-            nameInput.classList.add('invalid');
-        }
-
-        //check description input - only X words long?
-        
-        //get converted Date
-            const convertedDate = convertDateData(dueDateInput.value);
-            console.log(convertedDate);
-        
-            //check date input
-            const truth = checkDateInput(convertedDate);
-            console.log(truth);
-
-        //Check category input
-        const categoryInputValidity = checkCategoryInput();
-
-        //use that ALL array function to return an array if its all true 
-        //or something like that
-    }
-
-    function checkCategoryInput() {
-        const value = document.getElementById('deckcategory').value;
-        console.log(value);
-
-        if (value === '' || null) {
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
-
-    function convertDateData(userInputDate) {
-        const array = userInputDate.split('-');
-        const year = array[0];
-        const month = array[1];
-        const day = array[2];
-        return new Date(`${year}/${month}/${day}`);
-    }
-
-    function checkDateInput(userDate) {
-        return isFuture(userDate);
-    }
-
     function resetInputValidity(inputs) {
         inputs.forEach(element => {
             element.classList.remove('valid');
+            element.classList.remove('invalid');
         });
     }
 
@@ -487,8 +518,6 @@ export const view = (function() {
         main.appendChild(aboutPageTitle);
     }
     
-
-
     function removeMainTagContent() {
     
         const mainChildren = Array.from(main.children);
