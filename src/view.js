@@ -1,6 +1,7 @@
 import { setAttributes } from "./helpers";
 import { controller } from "./controller";
 import { Observable } from "./pubsub";
+import { add } from "date-fns";
 
 const main = document.querySelector('main');
 
@@ -328,12 +329,32 @@ export const view = (function() {
             document.getElementById(row.id).remove();
         };
     
-        const dataCells = renderTableCells(deck.name, deck.dueDate, deck.category);
-        for (let i = 0; i < dataCells.length; i++) {
-            row.appendChild(dataCells[i]);
-        }
-    
+        //Logic to append name, duedate, and category
+        // const dataCells = renderTableCells(deck.name, deck.dueDate, deck.category);
+        // for (let i = 0; i < dataCells.length; i++) {
+        //     row.appendChild(dataCells[i]);
+        // }
+
+        const nameDataCell = document.createElement('td');
+        nameDataCell.innerText = deck.name;
+
+        const studyButton = document.createElement('button');
+        studyButton.className = 'studybutton';
+        studyButton.id = 'studybutton';
+        studyButton.style.backgroundColor = 'green';
+        studyButton.innerText = 'Study';
+
+        const addCardsButton = document.createElement('button');
+        addCardsButton.className = 'addcardsbutton';
+        addCardsButton.id = 'addcardsbutton';
+        addCardsButton.style.backgroundColor = 'blue';
+        addCardsButton.innerText = 'Add Cards';
+
+        row.appendChild(nameDataCell);
+        row.appendChild(studyButton);
+        row.appendChild(addCardsButton);
         row.appendChild(deleteButton);
+
         table.appendChild(row);
     };
 
