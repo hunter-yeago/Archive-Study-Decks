@@ -1,7 +1,6 @@
 import { setAttributes } from "./helpers";
-import { cards, controller } from "./controller";
+import { controller } from "./controller";
 import { Observable } from "./pubsub";
-import {isFuture} from 'date-fns';
 
 const main = document.querySelector('main');
 
@@ -13,13 +12,13 @@ export const view = (function() {
         // openNavButton.addEventListener('click', toggleNav);
         //This is for the slide in menu nav bar
     
-        const overviewSection = createHomePageOverviewSection();
-        const topDecksSection = createHomePageTopDecksSection();
+        const overviewSection = renderHomePageOverviewSection();
+        const topDecksSection = renderHomePageTopDecksSection();
         
         main.append(overviewSection, topDecksSection);
     };
 
-    function createHomePageOverviewSection() {
+    function renderHomePageOverviewSection() {
         const section = document.createElement('section');
         section.className = 'overview'
 
@@ -27,27 +26,27 @@ export const view = (function() {
         title.innerText = 'Overview';
         title.id = 'overviewsectiontitle';
 
-        const rowOfCardsDiv = createOverviewCards(controller.controllerOverviewCards);
+        const rowOfCardsDiv = renderOverviewCards(controller.controllerOverviewCards);
         section.append(title, rowOfCardsDiv);
 
         return section;
     };
 
-    function createHomePageTopDecksSection() {
+    function renderHomePageTopDecksSection() {
         const section = document.createElement('section');
     
         const title = document.createElement('h1');
         title.innerText = 'Top Decks';
         title.id = 'topdeckstitle';
         
-        const deckDisplayDiv = createDeckDisplay(controller.controllerTemporaryDecks);
+        const deckDisplayDiv = renderDeckDisplay(controller.controllerTemporaryDecks);
         
         section.append(title, deckDisplayDiv);
         
         return section;
     };
 
-    function createDeckDisplay(deckArray) {
+    function renderDeckDisplay(deckArray) {
 
         const rows = [];
         deckArray.forEach((element) => {
@@ -89,7 +88,7 @@ export const view = (function() {
         return deckDisplayDiv;
     };
 
-    function createOverviewCards(cards) {
+    function renderOverviewCards(cards) {
 
         const rowOfCardsDiv = document.createElement('div');
         rowOfCardsDiv.className = 'rowofcards';
@@ -122,7 +121,7 @@ export const view = (function() {
 
     function renderAddDeckPage() {
 
-        createModal();
+        renderModal();
 
         const title = document.createElement('h1');
         title.innerText = 'Decks';
@@ -135,7 +134,7 @@ export const view = (function() {
             document.getElementById('modal').style.display = 'block';
         }
 
-        const table = createDeckPageTable();
+        const table = renderDeckPageTable();
 
         const pageDiv = document.createElement('div');
         pageDiv.className = 'addeckpagediv';
@@ -147,15 +146,15 @@ export const view = (function() {
         Observable.subscribe('addDeckFunction', appendDeckToTable);
     };
 
-    function createModal() {
+    function renderModal() {
 
         const modal = document.createElement('div');
         modal.id = 'modal';
         modal.className = 'modal';
         main.appendChild(modal);
 
-        const modalHeader = createModalHeader(modal);
-        const modalForm = createModalForm(modal);
+        const modalHeader = renderModalHeader(modal);
+        const modalForm = renderModalForm(modal);
 
         const modalBody = document.createElement('div');
         modalBody.className = 'modal-body';
@@ -168,7 +167,7 @@ export const view = (function() {
         modal.appendChild(modalContent);
     };
 
-    function createModalHeader(modal) {
+    function renderModalHeader(modal) {
 
         const modalHeader = document.createElement('h5');
         modalHeader.innerText = 'New Deck'
@@ -190,7 +189,7 @@ export const view = (function() {
         return modalHeaderDiv;
     };
 
-    function createModalForm(modal) {
+    function renderModalForm() {
 
         const nameInputLabel = document.createElement('label');
         nameInputLabel.htmlFor = 'deckname';
@@ -203,14 +202,22 @@ export const view = (function() {
             'name': 'deckname',
             'type': 'text',
         });
+
         nameInput.oninput = () => {
-            const length = nameInput.value.trim().length;
-            if (length < 1) {
-                nameInput.className = 'invalid';
-            }
-            else {
-                nameInput.className = 'valid';
-            }
+
+            const object = controller.k;
+            object.setInputElementValues();
+            object.checkValidity();
+            object.setValidityClass();
+            
+
+            // const length = nameInput.value.trim().length;
+            // if (length < 1) {
+            //     nameInput.className = 'invalid';
+            // }
+            // else {
+            //     nameInput.className = 'valid';
+            // }
         };
 
         const descriptionLabel = document.createElement('label');
@@ -233,6 +240,7 @@ export const view = (function() {
         dueDateLabel.innerText = 'Due Date:';
 
         const dueDateInput = document.createElement('input');
+        dueDateInput.required = true;
         setAttributes(dueDateInput, {
             'id': 'deckduedate',
             'name': 'deckduedate',
@@ -245,6 +253,7 @@ export const view = (function() {
         categoryLabel.innerText = 'Category';
         
         const categorySelect = document.createElement('select');
+        categorySelect.required = true;
         setAttributes(categorySelect, {
             'id': 'deckcategory',
             'name': 'deckcategory',
@@ -281,150 +290,11 @@ export const view = (function() {
         formSubmitButton.type = 'button';
         formSubmitButton.className = 'submitbutton';
 
-        formSubmitButton.addEventListener('click', () => {
-
-            const deckFormInputObject = {
-                isValid: false,
-                mustBeValid: true,
-                inputElement: null,
-
-                setValidityClass: function() {
-                    if (this.isValid) {
-                        this.inputElement.classList.remove('invalid');
-                        this.inputElement.classList.add('valid');
-                    }
-                    else {
-                        this.inputElement.classList.remove('valid');
-                        this.inputElement.classList.add('invalid');
-                    }
-                },
-
-                displayValidityWarning: function() {
-                    this.inputElement.setCustomValidity('This field is invalid');
-                    this.inputElement.reportValidity();
-                },
-
-                resetObjectInputValidity: function() {
-                    this.this.inputElement.classList.remove('valid');
-                    this.this.inputElement.classList.remove('invalid');
-                },
-            };
-
-            const deckNameObject = Object.assign(Object.create(deckFormInputObject), {
-                mustBeValid: true,
-                inputElement: document.getElementById('deckname'),
-                nameLength: document.getElementById('deckname').value.trim().length,
-                nameLengthIsValid: false,
-                nameIsUniqueInDatabase: true,
-
-                checkValidity: function() {
-                    this.checkLengthValidity();
-                    //temporarily doing this until I implement checkIfNameAlreadyExists function
-                    // if (this.nameLengthIsValid) {
-                    //     this.isValid;
-                    // }
-                    // checkIfNameAlreadyExists();
-                },
-
-                checkLengthValidity: function () {
-                    this.isValid = this.nameLength > 0 ? true : false;
-                },
-
-                checkIfNameAlreadyExists: function() {
-
-                },
-
-                displayValidityWarning: function() {
-                    console.log(`the result of nameLengthisValid is ${this.nameLengthIsValid}`);
-                    console.log(`the result of isValid is ${this.isValid}`);
-                    if (!this.nameLengthIsValid) {
-                        console.log(`firing from inside of the if statement in DVW`);
-                        this.inputElement.setCustomValidity('Name must be at least 1 character long');
-                        this.inputElement.reportValidity();
-                    }
-                    //temporarily setting nameIsUniqueInDatabase to true until I implement this function
-                    else if (!this.nameIsUniqueInDatabase) {
-                        this.inputElement.setCustomValidity('Deck name already exists');
-                        this.inputElement.reportValidity();
-                    }
-                }
-            });
-
-            const deckCategoryObject = Object.assign(Object.create(deckFormInputObject), {
-                mustBeValid: true,
-                inputElement: document.getElementById('deckcategory'),
-                inputValue: document.getElementById('deckcategory').value,
-
-                checkValidity: function() {
-                    this.isValid = this.inputValue === '' ? false : true;
-                },
-
-                displayValidityWarning: function() {
-                    if(!this.isValid) {
-                        this.inputElement.setCustomValidity('Must choose a category');
-                        this.inputElement.reportValidity();
-                    }
-                },
-            });
-
-            const deckDateObject = Object.assign(Object.create(deckFormInputObject), {
-                mustBeValid: true,
-                inputElement: document.getElementById('deckduedate'),
-                inputValue: document.getElementById('deckduedate').value,
-
-                convertDateData: function() {
-                    const array = this.inputValue.split('-');
-                    const year = array[0];
-                    const month = array[1];
-                    const day = array[2];
-                    return new Date(`${year}/${month}/${day}`);
-                },
-
-                checkValidity: function() {
-                    const userInput = this.convertDateData();
-                    this.isValid = isFuture(userInput);
-                },
-
-                displayValidityWarning: function() {
-                    if(!this.isValid) {
-                        this.inputElement.setCustomValidity('Date must be in the future');
-                        this.inputElement.reportValidity();
-                    }
-                },
-            });
-
-            deckNameObject.checkValidity();
-            deckCategoryObject.checkValidity();
-            deckDateObject.checkValidity();
-            
-            const objectInputs = [deckNameObject, deckCategoryObject, deckDateObject];
-
-            //run if all inputs that needs to be validated are validated
-            //flip it so that the if runs if it's valid (clearer)
-
-            //this is soooo uggllyyyyy
-            
-            if (!objectInputs[0].isValid || !objectInputs[1].isValid || !objectInputs[2].isValid) {
-                for (let i = 0; i < objectInputs.length; i++) {
-                    objectInputs[i].checkValidity();
-                    if (!objectInputs[i].isValid) {
-                        objectInputs[i].displayValidityWarning();
-                        objectInputs[i].setValidityClass();
-                        return;
-                    }
-                }
-            }
-            else {
-                controller.addDeckFunction();
-                modal.style.display = 'none';
-                form.reset();
-                //replace the followiong with object function?
-                resetInputValidity(inputs);
-            }
-        });
+        formSubmitButton.addEventListener('click', controller.handleFormInput);
 
         const form = document.createElement('form');
         form.className = 'modal-form';
+        form.id = 'modal-form';
         form.append(
             nameInputLabel, nameInput, 
             categoryLabel, categorySelect,
@@ -434,11 +304,8 @@ export const view = (function() {
         return form;
     };
 
-    function resetInputValidity(inputs) {
-        inputs.forEach(element => {
-            element.classList.remove('valid');
-            element.classList.remove('invalid');
-        });
+    function hideModal() {
+        document.getElementById('modal').style.display = 'none';
     }
 
     function appendStoredDecksToTable() {
@@ -461,7 +328,7 @@ export const view = (function() {
             document.getElementById(row.id).remove();
         };
     
-        const dataCells = createTableCells(deck.name, deck.dueDate, deck.category);
+        const dataCells = renderTableCells(deck.name, deck.dueDate, deck.category);
         for (let i = 0; i < dataCells.length; i++) {
             row.appendChild(dataCells[i]);
         }
@@ -470,7 +337,7 @@ export const view = (function() {
         table.appendChild(row);
     };
 
-    function createTableCells() {
+    function renderTableCells() {
         let dataCells = [];
 
         for (let i = 0; i < arguments.length; i++) {
@@ -482,7 +349,7 @@ export const view = (function() {
         return dataCells;
     };
 
-    function createDeckPageTable() {
+    function renderDeckPageTable() {
         const table = document.createElement('table');
         table.className = 'decktable';
         table.id = 'decktable';
@@ -532,6 +399,7 @@ export const view = (function() {
         renderAboutPage,
         changeTabColor,
         removeMainTagContent,
+        hideModal,
         };
 })();
 
