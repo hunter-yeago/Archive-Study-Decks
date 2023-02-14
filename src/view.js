@@ -12,10 +12,10 @@ export const view = (function() {
         // openNavButton.addEventListener('click', toggleNav);
         //This is for the slide in menu nav bar
     
-        const overviewSection = renderHomePageOverviewSection();
         const topDecksSection = renderHomePageTopDecksSection();
+        const overviewSection = renderHomePageOverviewSection();
         
-        main.append(overviewSection, topDecksSection);
+        main.append(topDecksSection, overviewSection);
     };
 
     function renderHomePageOverviewSection() {
@@ -64,8 +64,26 @@ export const view = (function() {
     
             const name = document.createElement('h3');
             name.id = element;
+            name.innerText = 'Deck Name';
     
-            imageAndNameDiv.append(image, name);
+            //temporarily taking off the image as I am 
+            //redesigning the user interface
+
+            const dueDateParagraphElement = document.createElement('p');
+            dueDateParagraphElement.innerText = 'Due in X days';
+
+            imageAndNameDiv.append(name, dueDateParagraphElement);
+
+            const extraInfoBox = document.createElement('div');
+            extraInfoBox.style.display = 'none';
+            extraInfoBox.id = 'extraInfoBox';
+
+            const extraInfoBoxParagraphElement = document.createElement('p');
+            extraInfoBoxParagraphElement.innerText = 'tesssstt';
+            extraInfoBox.appendChild(extraInfoBoxParagraphElement);
+
+            const thebiggestBox = document.createElement('div');
+            thebiggestBox.className = 'thebiggestbox';
     
             const infoButton = document.createElement('img');
             setAttributes(infoButton, {
@@ -73,9 +91,18 @@ export const view = (function() {
                 'alt': 'click here to see this decks info',
                 'class': 'deckinfomenubuttonimage',
             });
+            infoButton.onclick = function() {
+                if (extraInfoBox.style.display === 'none')  {
+                    extraInfoBox.style.display = 'block';
+                }
+                else {
+                    extraInfoBox.style.display = 'none';
+                }
+            };
     
             deckDiv.append(imageAndNameDiv, infoButton);
-            rows.push(deckDiv);
+            thebiggestBox.append(deckDiv, extraInfoBox);
+            rows.push(thebiggestBox);
         });
     
         const deckDisplayDiv = document.createElement('div');
