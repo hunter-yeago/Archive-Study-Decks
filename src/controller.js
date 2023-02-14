@@ -2,6 +2,8 @@ import { model } from "./model";
 import { view } from "./view";
 import {isFuture} from 'date-fns';
 
+//instead of asking how many cards they want to make, just keep showing the add card function until they steop.
+
 export const controller = (function(){
 
     const controllerOverviewCards = model.overviewCards;

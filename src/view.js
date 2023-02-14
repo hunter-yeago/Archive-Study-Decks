@@ -1,7 +1,6 @@
 import { setAttributes } from "./helpers";
 import { controller } from "./controller";
 import { Observable } from "./pubsub";
-import { add } from "date-fns";
 
 const main = document.querySelector('main');
 
@@ -198,6 +197,7 @@ export const view = (function() {
         
         const nameInput = document.createElement('input');
         nameInput.required = true;
+        nameInput.minLength = 1;
         setAttributes(nameInput, {
             'id': 'deckname',
             'name': 'deckname',
