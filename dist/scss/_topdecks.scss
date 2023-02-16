@@ -1,3 +1,5 @@
+@use 'config';
+
 
 .deckdisplay {
     display: flex;
@@ -18,11 +20,12 @@
 .deck {
     display: flex;
     justify-content: space-between;
+    min-height: 7rem;
 
     border-radius: .5em;
     padding: 0rem .5rem 0rem .5rem;
     
-    background-color: $quizlet-frontpage-deck-color;
+    background-color: config.$quizlet-frontpage-deck-color;
 
     h3 {
         font-size: 1rem;

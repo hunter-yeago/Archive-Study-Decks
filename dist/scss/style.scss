@@ -1,8 +1,8 @@
-@import 'reset';
-@import 'config';
-@import 'modal';
-@import 'topdecks';
-@import 'overview';
+@use 'config';
+@use 'reset';
+@use 'modal';
+@use 'topdecks';
+@use 'overview';
 
 * {
     box-sizing: border-box;
@@ -13,8 +13,8 @@
 //declaring global color for dark mode (default)
 html,
 body {
-    background-color: $quizlet-background-color;
-    font-family: $font-stack;
+    background-color: config.$quizlet-background-color;
+    font-family: config.$font-stack;
     line-height: 1.6;
     color: white;
 }

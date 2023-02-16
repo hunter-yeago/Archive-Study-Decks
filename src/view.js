@@ -74,34 +74,11 @@ export const view = (function() {
 
             imageAndNameDiv.append(name, dueDateParagraphElement);
 
-            const extraInfoBox = document.createElement('div');
-            extraInfoBox.style.display = 'none';
-            extraInfoBox.id = 'extraInfoBox';
-
-            const extraInfoBoxParagraphElement = document.createElement('p');
-            extraInfoBoxParagraphElement.innerText = 'tesssstt';
-            extraInfoBox.appendChild(extraInfoBoxParagraphElement);
-
             const thebiggestBox = document.createElement('div');
             thebiggestBox.className = 'thebiggestbox';
     
-            const infoButton = document.createElement('img');
-            setAttributes(infoButton, {
-                'src': 'chevron-down.svg',
-                'alt': 'click here to see this decks info',
-                'class': 'deckinfomenubuttonimage',
-            });
-            infoButton.onclick = function() {
-                if (extraInfoBox.style.display === 'none')  {
-                    extraInfoBox.style.display = 'block';
-                }
-                else {
-                    extraInfoBox.style.display = 'none';
-                }
-            };
-    
-            deckDiv.append(imageAndNameDiv, infoButton);
-            thebiggestBox.append(deckDiv, extraInfoBox);
+            deckDiv.append(imageAndNameDiv);
+            thebiggestBox.append(deckDiv);
             rows.push(thebiggestBox);
         });
     
@@ -146,7 +123,7 @@ export const view = (function() {
         return rowOfCardsDiv;
     };
 
-    function renderAddDeckPage() {
+    function renderEditPage() {
 
         renderModal();
 
@@ -427,10 +404,10 @@ export const view = (function() {
         })
     };
 
-    function renderAboutPage() {
-        const aboutPageTitle = document.createElement('h1');
-        aboutPageTitle.innerText = 'About Page';
-        main.appendChild(aboutPageTitle);
+    function renderAddDeckPage() {
+        const editPageTitle = document.createElement('h1');
+        editPageTitle.innerText = 'Edit Page';
+        main.appendChild(editPageTitle);
     }
     
     function removeMainTagContent() {
@@ -444,7 +421,7 @@ export const view = (function() {
     return {
         renderHomePage,
         renderAddDeckPage,
-        renderAboutPage,
+        renderEditPage,
         changeTabColor,
         removeMainTagContent,
         hideModal,

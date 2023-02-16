@@ -1,3 +1,5 @@
+@use 'config';
+
 .rowofcards {
     display: grid;
     justify-content: center;
@@ -47,17 +49,17 @@
 }
 
 .greencardunderline {
-    text-decoration-color: $light-green-color;
+    text-decoration-color: config.$light-green-color;
 }
 
 .bluecardunderline{
-    text-decoration-color: $dark-blue-color;
+    text-decoration-color: config.$dark-blue-color;
 }
 
 .brickcardunderline {
-    text-decoration-color: $brick-color;
+    text-decoration-color: config.$brick-color;
 }
 
 .sunshinecardunderline {
-    text-decoration-color: $sunshine-color;
+    text-decoration-color: config.$sunshine-color;
 }

@@ -13,7 +13,7 @@ export const controller = (function(){
     const mobileNavButtons = Array.from([
         document.getElementById('overviewbutton'),
         document.getElementById('studybutton'),
-        document.getElementById('aboutbutton')
+        document.getElementById('editbutton')
         ]);
     
     function startApplication() {
@@ -269,8 +269,8 @@ export const controller = (function(){
                 view.renderAddDeckPage();
                 break;
         
-            case 'aboutbutton':
-                view.renderAboutPage();
+            case 'editbutton':
+                view.renderEditPage();
                 break;
         }
     }
