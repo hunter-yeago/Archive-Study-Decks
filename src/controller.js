@@ -17,9 +17,9 @@ export const controller = (function(){
         ]);
     
     function startApplication() {
-            view.renderStudyPage();
-            addMobileNavEventListeners();
-            view.changeTabColor(defaultTabID);
+        view.renderDefaultPage();
+        addMobileNavEventListeners();
+        view.changeTabColor(defaultTabID);
     };
 
     //this is a copy
@@ -142,7 +142,6 @@ export const controller = (function(){
             },
     
             checkValidity: function() {
-                console.log('firing deckname checkValirit');
                 this.checkLength();
                 this.checkIfNameIsAvailable(this.inputValue);
                 if (this.nameLengthIsValid && this.nameIsAvailable) {
@@ -221,10 +220,8 @@ export const controller = (function(){
         });
 
         if (!objectInputs[0].isValid || !objectInputs[1].isValid || !objectInputs[2].isValid) {
-            console.log('firing if');
             for (let i = 0; i < objectInputs.length; i++) {
                 if (!objectInputs[i].isValid) {
-                    console.log('firing inner if');
                     objectInputs[i].displayValidityWarning();
                     objectInputs[i].setValidityClass();
                     return;
@@ -232,8 +229,9 @@ export const controller = (function(){
             }
         }
         else {
-            controller.addDeckFunction();
-            view.hideModal();
+            model.addDeckToLocalStorage();
+            view.editPage.renderLocalStorageDecks();
+            view.editPage.hideModal();
             document.getElementById('modal-form').reset();
             //replace the followiong with object function?
             resetInputValidity(objectInputs);
@@ -253,34 +251,16 @@ export const controller = (function(){
                 const currentTabID = event.target.id;
                 view.removeMainTagContent();
                 view.changeTabColor(currentTabID, mobileNavButtons);
-                controller.changeCurrentTab(currentTabID);
+                view.changePage(currentTabID);
             });
         });
     };
 
     //find a way to change this from a switch case to something else
-    function changeCurrentTab(currentTabID) {
-        switch (currentTabID) {
-            case 'studybutton':
-                view.renderStudyPage();
-                break;
-        
-            case 'editbutton':
-                view.renderEditPage();
-                break;
 
-            case 'overviewbutton':
-                view.renderOverviewPage();
-                break;
-        }
-    }
-
-    const addDeckFunction = model.addDeck;
 
     return {
-        changeCurrentTab,
         startApplication,
-        addDeckFunction,
         handleFormInput,
         addMobileNavEventListeners,
         controllerOverviewCards,
