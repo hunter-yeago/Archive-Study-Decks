@@ -8,18 +8,18 @@ export const controller = (function(){
 
     const controllerOverviewCards = model.overviewCards;
     const controllerTemporaryDecks = model.temporaryDecks;
-    const defaultTabID = 'overviewbutton';
+    const defaultTabID = 'studybutton';
 
     const mobileNavButtons = Array.from([
-        document.getElementById('overviewbutton'),
         document.getElementById('studybutton'),
-        document.getElementById('editbutton')
+        document.getElementById('editbutton'),
+        document.getElementById('overviewbutton'),
         ]);
     
     function startApplication() {
-        view.renderHomePage();
-        addMobileNavEventListeners();
-        view.changeTabColor(defaultTabID);
+            view.renderStudyPage();
+            addMobileNavEventListeners();
+            view.changeTabColor(defaultTabID);
     };
 
     //this is a copy
@@ -261,16 +261,16 @@ export const controller = (function(){
     //find a way to change this from a switch case to something else
     function changeCurrentTab(currentTabID) {
         switch (currentTabID) {
-            case 'overviewbutton':
-                view.renderHomePage();
-                break;
-        
             case 'studybutton':
-                view.renderAddDeckPage();
+                view.renderStudyPage();
                 break;
         
             case 'editbutton':
                 view.renderEditPage();
+                break;
+
+            case 'overviewbutton':
+                view.renderOverviewPage();
                 break;
         }
     }

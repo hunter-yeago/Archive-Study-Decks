@@ -83,6 +83,7 @@ select {
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  color: black;
 }
 
 .modal-content {
@@ -172,41 +173,48 @@ select {
   align-items: center;
 }
 
-.thebiggestbox {
-  display: flex;
-  flex-direction: column;
-  width: 95vw;
-  margin-top: 2%;
-  margin-bottom: 2%;
-}
-
 .deck {
   display: flex;
   justify-content: space-between;
   min-height: 7rem;
+  width: 95vw;
+  margin-top: 2%;
+  margin-bottom: 2%;
   border-radius: 0.5em;
   padding: 0rem 0.5rem 0rem 0.5rem;
   background-color: #2e3856;
-}
-.deck h3 {
-  font-size: 1rem;
-}
-.deck p {
-  color: rgba(253, 253, 253, 0.681);
-  font-size: 0.9rem;
 }
 
 .deckimageandname {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  margin: 0.7em 0 0.7em 0;
   gap: 0.5rem;
-  margin-top: 3%;
-  margin-bottom: 3%;
-  border: 1px solid green;
+  min-width: 6rem;
+}
+.deckimageandname h3 {
+  font-size: 1rem;
+}
+.deckimageandname p {
+  color: rgba(253, 253, 253, 0.681);
+  font-size: 0.9rem;
 }
 
-.deckinfomenubuttonimage {
-  width: 2rem;
+.deckdescriptiondiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.deckdescriptiondiv p {
+  padding: 1em 1em 1em 3em;
+  text-align: center;
+}
+
+.itsemptymessage {
+  text-align: center;
+  padding: 1em;
 }
 
 .rowofcards {
@@ -282,20 +290,26 @@ body {
   color: white;
 }
 
-.thefooter {
+main {
+  border-top: 1px solid black;
+  min-height: fit-content;
+}
+
+.mobilenav {
   position: fixed;
   bottom: 0;
   width: 100%;
   background: white;
   border: 1px solid grey;
+  min-height: 4rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
-.thefooter img {
+.mobilenav img {
   width: 1.5rem;
   pointer-events: none;
 }
-.thefooter button {
+.mobilenav button {
   background: none;
   color: inherit;
   border: none;
@@ -309,7 +323,7 @@ body {
   padding: 0.2rem;
   gap: 0.5rem;
 }
-.thefooter h3 {
+.mobilenav h3 {
   font-size: 0.9rem;
   color: grey;
   pointer-events: none;
@@ -347,7 +361,7 @@ body {
 }
 
 .sidenav.active {
-  width: 250px;
+  width: 15rem;
 }
 
 .sidenavinnerdiv {
@@ -370,10 +384,6 @@ body {
 }
 .sidenavinnerdiv li:hover {
   background-color: white;
-}
-
-.main {
-  border-top: 1px solid black;
 }
 
 .addeckpagediv {

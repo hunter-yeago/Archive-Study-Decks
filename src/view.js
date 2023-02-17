@@ -4,21 +4,74 @@ import { Observable } from "./pubsub";
 
 const main = document.querySelector('main');
 
+//TODO show remaining characters for each input
+//TODO Forget green for VALID, only red for INVALID
+//Generate Top Decks based off of model pre-constructed decks
+// as a default, and then update it when decks are added?
+
+// or have it so it says 'it's looking a little empty in here!
+// and then have them immediately add a deck
+
+// the edit tab can be where you can also add a deck
+// but also edit them, the cards inside, etc
+
+// also have it so you can edit the cards while you're
+// studying them
+
 export const view = (function() {
 
-    function renderHomePage() {
+    function renderStudyPage() {
         //This is for the slide in menu nav bar
         // const openNavButton = document.getElementById('opennavbtn');
         // openNavButton.addEventListener('click', toggleNav);
         //This is for the slide in menu nav bar
-    
-        const topDecksSection = renderHomePageTopDecksSection();
-        const overviewSection = renderHomePageOverviewSection();
+
+        const topDecksSection = renderTopDecksSection();
+        const prebuiltDecksSection = renderPreBuiltDecksSection();
+        const emptySpaceWithMobileNavHeight = getEmptySpaceForBottomOfPage();
         
-        main.append(topDecksSection, overviewSection);
+        main.append(topDecksSection, prebuiltDecksSection, emptySpaceWithMobileNavHeight);
     };
 
-    function renderHomePageOverviewSection() {
+    function renderTopDecksSection() {
+        const section = document.createElement('section');
+    
+        const title = document.createElement('h1');
+        title.innerText = 'Top Decks';
+        title.id = 'topdeckstitle';
+        
+        const deckDisplayDiv = renderDeckDisplay();
+        
+        section.append(title, deckDisplayDiv);
+        
+        return section;
+    };
+
+    function renderPreBuiltDecksSection() {
+
+        const section = document.createElement('section');
+    
+        const title = document.createElement('h1');
+        title.innerText = 'Prebuilt Decks';
+
+        const prebuiltDecksDiv = document.createElement('div');
+        prebuiltDecksDiv.className = 'deckdisplay';
+
+        const deck1 = renderDeck();
+        const deck2 = renderDeck();
+        const deck3 = renderDeck();
+
+        const prebuiltDecks = [deck1, deck2, deck3];
+        prebuiltDecks.forEach((deck) => {
+            prebuiltDecksDiv.appendChild(deck);
+        });
+
+        section.append(title, prebuiltDecksDiv);
+
+        return section;
+    }
+
+    function renderOverviewSection() {
         const section = document.createElement('section');
         section.className = 'overview'
 
@@ -32,72 +85,72 @@ export const view = (function() {
         return section;
     };
 
-    function renderHomePageTopDecksSection() {
-        const section = document.createElement('section');
-    
-        const title = document.createElement('h1');
-        title.innerText = 'Top Decks';
-        title.id = 'topdeckstitle';
-        
-        const deckDisplayDiv = renderDeckDisplay(controller.controllerTemporaryDecks);
-        
-        section.append(title, deckDisplayDiv);
-        
-        return section;
-    };
+    function renderDeckDisplay() {
 
-    function renderDeckDisplay(deckArray) {
+        //TODO temporarily removing deckArray since it's not functional yet
+        // will manuall create default decks
+        // and then come back to this and add
+        //an array as an argument when the functionality is there
+        // deckArray.forEach((element) => {        });
 
-        const rows = [];
-        deckArray.forEach((element) => {
-            const deckDiv = document.createElement('div');
-            deckDiv.className = 'deck';
-    
-            const imageAndNameDiv = document.createElement('div');
-            imageAndNameDiv.className = 'deckimageandname';
-    
-            const image = document.createElement('img');
-            setAttributes(image, {
-                'src': 'gridcheckmark.svg',
-                'alt': 'click here to see this decks info',
-            });
-    
-            const name = document.createElement('h3');
-            name.id = element;
-            name.innerText = 'Deck Name';
-    
-            //temporarily taking off the image as I am 
-            //redesigning the user interface
-
-            const dueDateParagraphElement = document.createElement('p');
-            dueDateParagraphElement.innerText = 'Due in X days';
-
-            imageAndNameDiv.append(name, dueDateParagraphElement);
-
-            const thebiggestBox = document.createElement('div');
-            thebiggestBox.className = 'thebiggestbox';
-    
-            deckDiv.append(imageAndNameDiv);
-            thebiggestBox.append(deckDiv);
-            rows.push(thebiggestBox);
-        });
-    
         const deckDisplayDiv = document.createElement('div');
         deckDisplayDiv.className = 'deckdisplay';
-    
-        rows.forEach((deckRow) => {
-            deckDisplayDiv.appendChild(deckRow);
-        });
-    
+
+        // manuall creating these until I can dynamically createa a list
+        //and pass it in as an argument
+        const deck1 = renderDeck();
+        const deck2 = renderDeck();
+        const deck3 = renderDeck();
+
+        const decks = [];
+        // const decks = [deck1, deck2, deck3];
+
+        if (decks.length > 0) {
+            decks.forEach((deck) => {
+                deckDisplayDiv.appendChild(deck);
+            });
+        } else {
+            const itsEmptyMessage = document.createElement('p');
+            itsEmptyMessage.className = 'itsemptymessage';
+            itsEmptyMessage.innerText = `It's empty in here! Go to the Edit Page to create a new deck.`;
+            deckDisplayDiv.appendChild(itsEmptyMessage);
+        }
+
         return deckDisplayDiv;
     };
+
+    function renderDeck() {
+
+        const name = document.createElement('h3');
+        name.innerText = 'The Russian Element';
+
+        const dueDateParagraphElement = document.createElement('p');
+        dueDateParagraphElement.innerText = 'Due in X days';
+
+        const imageAndNameDiv = document.createElement('div');
+        imageAndNameDiv.className = 'deckimageandname';
+        imageAndNameDiv.append(name, dueDateParagraphElement);
+
+        const deckDescriptionParagraph = document.createElement('p');
+        deckDescriptionParagraph.innerText = 'A pre-constructed deck for learning French.'
+
+        const deckDescriptionDiv = document.createElement('div');
+        deckDescriptionDiv.className = 'deckdescriptiondiv';
+        deckDescriptionDiv.appendChild(deckDescriptionParagraph);
+
+        const deckDiv = document.createElement('div');
+        deckDiv.className = 'deck';
+        deckDiv.append(imageAndNameDiv, deckDescriptionDiv);
+        return deckDiv;
+        
+    }
 
     function renderOverviewCards(cards) {
 
         const rowOfCardsDiv = document.createElement('div');
         rowOfCardsDiv.className = 'rowofcards';
         rowOfCardsDiv.id = 'rowofcards';
-    
+
         cards.forEach((card) => {
             
             const cardOuterDiv = document.createElement('div');
@@ -120,6 +173,7 @@ export const view = (function() {
     
             rowOfCardsDiv.appendChild(cardOuterDiv);
         });
+
         return rowOfCardsDiv;
     };
 
@@ -143,8 +197,10 @@ export const view = (function() {
         const pageDiv = document.createElement('div');
         pageDiv.className = 'addeckpagediv';
         pageDiv.append(title, addDeckButton, table);
+
+        const emptySpaceWithMobileNavHeight = getEmptySpaceForBottomOfPage();
         
-        main.appendChild(pageDiv);
+        main.append(pageDiv, emptySpaceWithMobileNavHeight);
         appendStoredDecksToTable();
 
         Observable.subscribe('addDeckFunction', appendDeckToTable);
@@ -206,6 +262,7 @@ export const view = (function() {
             'id': 'deckname',
             'name': 'deckname',
             'type': 'text',
+            'maxLength': '20',
         });
 
         nameInput.oninput = () => {
@@ -237,7 +294,7 @@ export const view = (function() {
                 'name': 'deckdescription',
                 'rows': '4',
                 'cols': '20',
-                'maxLength': '50',
+                'maxLength': '60',
             });
 
         const dueDateLabel = document.createElement('label');
@@ -404,23 +461,32 @@ export const view = (function() {
         })
     };
 
-    function renderAddDeckPage() {
-        const editPageTitle = document.createElement('h1');
-        editPageTitle.innerText = 'Edit Page';
-        main.appendChild(editPageTitle);
+    function renderOverviewPage() {
+        const overviewPageTitle = document.createElement('h1');
+        overviewPageTitle.innerText = 'Overview Page';
+        const overviewSection = renderOverviewSection();
+        const emptySpaceWithMobileNavHeight = getEmptySpaceForBottomOfPage();
+
+        main.append(overviewPageTitle, overviewSection, emptySpaceWithMobileNavHeight);
     }
     
     function removeMainTagContent() {
-    
         const mainChildren = Array.from(main.children);
         mainChildren.forEach(element => {
             element.remove();
         });
 };
 
+    function getEmptySpaceForBottomOfPage() {
+        const mobileNavHeight = document.getElementById('mobilenav').offsetHeight.toString();
+        const emptySpaceDiv = document.createElement('div');
+        emptySpaceDiv.style.height = `${mobileNavHeight}px`;
+        return emptySpaceDiv;
+    }
+
     return {
-        renderHomePage,
-        renderAddDeckPage,
+        renderStudyPage,
+        renderOverviewPage,
         renderEditPage,
         changeTabColor,
         removeMainTagContent,
@@ -435,14 +501,14 @@ export const view = (function() {
 
 // document.getElementById('overviewoption').addEventListener('click', () => {    
 //     removeMainTagContent();
-//     renderHomePage()
+//     renderStudyPage()
 //     toggleNav();
 // });
 
 
 // document.getElementById('adddeckoption').addEventListener('click', () => {
 //     removeMainTagContent();
-//     renderAddDeckPage();
+//     renderOverviewPage();
 //     toggleNav();
 // });
 

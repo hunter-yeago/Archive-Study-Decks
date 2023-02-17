@@ -19,22 +19,24 @@ body {
     color: white;
 }
 
-// Left Sidebar Section Starts
+main {
+    border-top: 1px solid black;
+    min-height: fit-content;
+}
 
-.thefooter {
+.mobilenav {
     position: fixed;
     bottom: 0;
     width: 100%;
     background: white;
     border: 1px solid grey;
+    min-height: 4rem;
 
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 
     img {
         width: 1.5rem;
-        //Ignores the button when hovering over
-        //Had to add this so that the tabs switched
         pointer-events: none;
     }
 
@@ -96,7 +98,7 @@ body {
 }
 
 .sidenav.active {
-    width: 250px;
+    width: 15rem;
 }
 
 .sidenavinnerdiv {
@@ -127,9 +129,7 @@ body {
     }
 }
 
-.main {
-    border-top: 1px solid black;
-}
+
 
 //Add Deck Page Start
 
