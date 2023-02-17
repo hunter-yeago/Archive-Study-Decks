@@ -3,21 +3,21 @@ import { view } from "./view";
 import {isFuture} from 'date-fns';
 
 //instead of asking how many cards they want to make, just keep showing the add card function until they steop.
-
+//TODO fix the k!!!
 export const controller = (function(){
 
     const controllerOverviewCards = model.overviewCards;
     const controllerTemporaryDecks = model.temporaryDecks;
-    const defaultTabID = 'overviewbutton';
+    const defaultTabID = 'studybutton';
 
     const mobileNavButtons = Array.from([
-        document.getElementById('overviewbutton'),
         document.getElementById('studybutton'),
-        document.getElementById('aboutbutton')
+        document.getElementById('editbutton'),
+        document.getElementById('overviewbutton'),
         ]);
     
     function startApplication() {
-        view.renderHomePage();
+        view.renderDefaultPage();
         addMobileNavEventListeners();
         view.changeTabColor(defaultTabID);
     };
@@ -142,7 +142,6 @@ export const controller = (function(){
             },
     
             checkValidity: function() {
-                console.log('firing deckname checkValirit');
                 this.checkLength();
                 this.checkIfNameIsAvailable(this.inputValue);
                 if (this.nameLengthIsValid && this.nameIsAvailable) {
@@ -211,20 +210,14 @@ export const controller = (function(){
         });
     
         const objectInputs = [deckNameObject, deckCategoryObject, deckDateObject];
-
-        objectInputs.forEach((input) => {
-            input.checkValidity();
-        });
         
         objectInputs.forEach((input) => {
             input.checkValidity();
         });
 
         if (!objectInputs[0].isValid || !objectInputs[1].isValid || !objectInputs[2].isValid) {
-            console.log('firing if');
             for (let i = 0; i < objectInputs.length; i++) {
                 if (!objectInputs[i].isValid) {
-                    console.log('firing inner if');
                     objectInputs[i].displayValidityWarning();
                     objectInputs[i].setValidityClass();
                     return;
@@ -232,8 +225,9 @@ export const controller = (function(){
             }
         }
         else {
-            controller.addDeckFunction();
-            view.hideModal();
+            model.addDeckToLocalStorage();
+            view.editPage.renderLocalStorageDecks();
+            view.editPage.hideModal();
             document.getElementById('modal-form').reset();
             //replace the followiong with object function?
             resetInputValidity(objectInputs);
@@ -253,34 +247,16 @@ export const controller = (function(){
                 const currentTabID = event.target.id;
                 view.removeMainTagContent();
                 view.changeTabColor(currentTabID, mobileNavButtons);
-                controller.changeCurrentTab(currentTabID);
+                view.changePage(currentTabID);
             });
         });
     };
 
     //find a way to change this from a switch case to something else
-    function changeCurrentTab(currentTabID) {
-        switch (currentTabID) {
-            case 'overviewbutton':
-                view.renderHomePage();
-                break;
-        
-            case 'studybutton':
-                view.renderAddDeckPage();
-                break;
-        
-            case 'aboutbutton':
-                view.renderAboutPage();
-                break;
-        }
-    }
 
-    const addDeckFunction = model.addDeck;
 
     return {
-        changeCurrentTab,
         startApplication,
-        addDeckFunction,
         handleFormInput,
         addMobileNavEventListeners,
         controllerOverviewCards,

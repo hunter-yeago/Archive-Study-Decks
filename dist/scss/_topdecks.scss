@@ -1,0 +1,63 @@
+@use 'config';
+
+
+.deckdisplay {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.deck {
+    display: flex;
+    justify-content: space-between;
+    min-height: 7rem;
+
+    width: 95vw;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    border-radius: .5em;
+    padding: 0rem .5rem 0rem .5rem;
+    
+    background-color: config.$quizlet-frontpage-deck-color;
+
+}
+
+.deckimageandname { 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+
+    border-right: 1px solid config.$quizlet-gold-color;
+    
+    margin: .7em 0 .7em 0;
+    padding-right: 1em;
+    gap: .5rem;
+    min-width: 7rem;
+
+    h3 {
+        font-size: 1rem;
+    }
+
+    p {
+        color: rgba(253, 253, 253, 0.681);
+        font-size: .9rem;
+    }
+}
+
+.deckdescriptiondiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    p {
+        padding: 1em;
+        text-align: center;
+    }
+}
+
+.itsemptymessage {
+    text-align: center;
+    padding: 1em;
+}

@@ -69,7 +69,7 @@ export const model = (function(){
 
     const temporaryDecks = ['deck1', 'deck2', 'deck3'];
 
-    function addDeck() {
+    function addDeckToLocalStorage() {
         const myFormData = new FormData(document.querySelector('.modal-form'));
         const formDataObj = Object.fromEntries(myFormData.entries());
     
@@ -83,6 +83,7 @@ export const model = (function(){
         populateStorage(newDeck);
         //the view is subscribing to this... so it's coupled. Not good.
         Observable.publish('addDeckFunction', newDeck);
+        console.log('firing from the addDeck function in model');
     };
 
     function validateForm(formData) {
@@ -204,7 +205,7 @@ export const model = (function(){
     // const objectInputs = [deckNameObject, deckCategoryObject, deckDateObject];
 
     return {
-        addDeck,
+        addDeckToLocalStorage,
         temporaryDecks,
         overviewCards,
         Card,
@@ -217,8 +218,6 @@ export const model = (function(){
 //     question: 'How do you say \'a cat\' in French?',
 //     answer: 'Un chat'
 // };
-
-
 
 //Now that I have the new deck object, I need to:
 //Add it to the cateogory and the complete deck list
