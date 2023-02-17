@@ -190,9 +190,11 @@ select {
   flex-direction: column;
   justify-content: center;
   text-align: center;
+  border-right: 1px solid #ffcd1e;
   margin: 0.7em 0 0.7em 0;
+  padding-right: 1em;
   gap: 0.5rem;
-  min-width: 6rem;
+  min-width: 7rem;
 }
 .deckimageandname h3 {
   font-size: 1rem;
@@ -208,7 +210,7 @@ select {
   justify-content: center;
 }
 .deckdescriptiondiv p {
-  padding: 1em 1em 1em 3em;
+  padding: 1em;
   text-align: center;
 }
 
@@ -331,11 +333,15 @@ main {
 
 .innerheaderdiv {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 0.3rem;
+  padding: 0.8rem;
   border-bottom: 1px solid #282e3e;
+}
+.innerheaderdiv h3 {
+  text-align: center;
+  font-size: 1.6rem;
+  border-bottom: 1px solid #ffcd1e;
 }
 
 .nav-right {
@@ -497,7 +503,7 @@ main {
 section h1 {
   text-align: left;
   padding: 1rem;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
 }
 
 /*# sourceMappingURL=style.css.map */

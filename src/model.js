@@ -219,8 +219,6 @@ export const model = (function(){
 //     answer: 'Un chat'
 // };
 
-
-
 //Now that I have the new deck object, I need to:
 //Add it to the cateogory and the complete deck list
 //Update the DOM (Do this through the Controller)

@@ -65,13 +65,20 @@ main {
 }
 
 .innerheaderdiv {
-
+    
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding: .3rem;
-    border-bottom: 1px solid #282e3e;
+    padding: .8rem;
+    border-bottom: 1px solid config.$quizlet-border-color;
+
+    h3 {
+        text-align: center;
+        font-size: 1.6rem;
+        // color: config.$quizlet-gold-color;
+        border-bottom: 1px solid config.$quizlet-gold-color;
+        
+    }
 }
 
 .nav-right {
@@ -265,7 +272,7 @@ section {
     h1 {
         text-align: left;
         padding: 1rem;
-        font-size: 1.4rem;
+        font-size: 1.3rem;
     }
 }
 

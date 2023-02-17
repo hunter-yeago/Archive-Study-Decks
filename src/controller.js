@@ -3,7 +3,7 @@ import { view } from "./view";
 import {isFuture} from 'date-fns';
 
 //instead of asking how many cards they want to make, just keep showing the add card function until they steop.
-
+//TODO fix the k!!!
 export const controller = (function(){
 
     const controllerOverviewCards = model.overviewCards;
@@ -210,10 +210,6 @@ export const controller = (function(){
         });
     
         const objectInputs = [deckNameObject, deckCategoryObject, deckDateObject];
-
-        objectInputs.forEach((input) => {
-            input.checkValidity();
-        });
         
         objectInputs.forEach((input) => {
             input.checkValidity();

@@ -16,7 +16,6 @@
     width: 95vw;
     margin-top: 2%;
     margin-bottom: 2%;
-
     border-radius: .5em;
     padding: 0rem .5rem 0rem .5rem;
     
@@ -29,10 +28,13 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
+
+    border-right: 1px solid config.$quizlet-gold-color;
     
     margin: .7em 0 .7em 0;
+    padding-right: 1em;
     gap: .5rem;
-    min-width: 6rem;
+    min-width: 7rem;
 
     h3 {
         font-size: 1rem;
@@ -50,7 +52,7 @@
     justify-content: center;
 
     p {
-        padding: 1em 1em 1em 3em;
+        padding: 1em;
         text-align: center;
     }
 }

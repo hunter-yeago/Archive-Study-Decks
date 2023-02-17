@@ -9,6 +9,8 @@ const main = document.querySelector('main');
 // as a default, and then update it when decks are added?
 
 // TODO: you can edit the cards while you're studying them
+// TODO: follow how Quizlet does adding cards
+// During the Deck construction itself.
 
 export const view = (function() {
 
@@ -98,7 +100,7 @@ export const view = (function() {
         function renderDeck() {
 
             const name = document.createElement('h3');
-            name.innerText = 'The Russian Element';
+            name.innerText = 'French';
     
             const dueDateParagraphElement = document.createElement('p');
             dueDateParagraphElement.innerText = 'Due in X days';
@@ -277,6 +279,7 @@ export const view = (function() {
     
             nameInput.oninput = () => {
     
+                //TODO Obviously this whole 'k' thing needs to be fixed...
                 const object = controller.k;
                 object.setInputElementValues();
                 object.checkValidity();
@@ -494,6 +497,7 @@ export const view = (function() {
         return emptySpaceDiv;
     }
 
+    //Should editPage really be exposed here?
     return {
         renderDefaultPage,
         editPage,
