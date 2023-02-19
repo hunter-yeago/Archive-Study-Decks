@@ -10,7 +10,7 @@
 
 .deck {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     min-height: 7rem;
 
     width: 95vw;
@@ -26,15 +26,18 @@
 .deckimageandname { 
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
-    text-align: center;
 
     border-right: 1px solid config.$quizlet-gold-color;
     
     margin: .7em 0 .7em 0;
     padding-right: 1em;
-    gap: .5rem;
-    min-width: 7rem;
+    //This is what was making it slightly off
+    //however I may still end up using the duedate functionality
+    //so will likely bring it back
+    // gap: .5rem;
+    min-width: 30%;
 
     h3 {
         font-size: 1rem;
@@ -50,9 +53,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    min-width: 70%;
+    margin: .7em 0 .7em 0;
 
     p {
         padding: 1em;
+        min-width: 100%;
         text-align: center;
     }
 }

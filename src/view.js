@@ -39,7 +39,7 @@ export const view = (function() {
             title.innerText = 'Top Decks';
             title.id = 'topdeckstitle';
             
-            const deckDisplayDiv = renderDeckDisplay();
+            const deckDisplayDiv = renderDeckDisplay(controller.locallyStoredDecks);
             
             section.append(title, deckDisplayDiv);
             
@@ -56,21 +56,23 @@ export const view = (function() {
             const prebuiltDecksDiv = document.createElement('div');
             prebuiltDecksDiv.className = 'deckdisplay';
     
-            const deck1 = renderDeck();
-            const deck2 = renderDeck();
-            const deck3 = renderDeck();
+            //TODO Reimplement pre-built decks
+
+            // const deck1 = renderDeck();
+            // const deck2 = renderDeck();
+            // const deck3 = renderDeck();
     
-            const prebuiltDecks = [deck1, deck2, deck3];
-            prebuiltDecks.forEach((deck) => {
-                prebuiltDecksDiv.appendChild(deck);
-            });
+            // const prebuiltDecks = [deck1, deck2, deck3];
+            // prebuiltDecks.forEach((deck) => {
+            //     prebuiltDecksDiv.appendChild(deck);
+            // });
     
             section.append(title, prebuiltDecksDiv);
     
             return section;
         };
 
-        function renderDeckDisplay() {
+        function renderDeckDisplay(localDecks) {
 
             //TODO temporarily removing deckArray since it's not functional yet
             // will manuall create default decks
@@ -81,11 +83,16 @@ export const view = (function() {
             const deckDisplayDiv = document.createElement('div');
             deckDisplayDiv.className = 'deckdisplay';
     
-            const decks = [];
+            // const decks = [];
+            console.log('firing from view');
+            console.log(localDecks);
     
-            if (decks.length > 0) {
-                decks.forEach((deck) => {
-                    deckDisplayDiv.appendChild(deck);
+            //TODO problem: it's trying to append localStorage
+            //data to the deckdisplay as if its a DOM element
+            if (localDecks.length > 0) {
+                localDecks.forEach((deck) => {
+                    const element = renderDeck(deck);
+                    deckDisplayDiv.appendChild(element);
                 });
             } else {
                 const itsEmptyMessage = document.createElement('p');
@@ -97,20 +104,24 @@ export const view = (function() {
             return deckDisplayDiv;
         };
 
-        function renderDeck() {
+        function renderDeck(deck) {
 
             const name = document.createElement('h3');
-            name.innerText = 'French';
+            name.innerText = deck.name;
     
+            //TODO Calculate days until its due
+            //TODO Show on form that it needs to be within the next month
+            //or something like that
+            //...might just get rid of the duedate thing altogether.
             const dueDateParagraphElement = document.createElement('p');
-            dueDateParagraphElement.innerText = 'Due in X days';
+            dueDateParagraphElement.innerText = deck.dueDate;
     
             const imageAndNameDiv = document.createElement('div');
             imageAndNameDiv.className = 'deckimageandname';
             imageAndNameDiv.append(name, dueDateParagraphElement);
     
             const deckDescriptionParagraph = document.createElement('p');
-            deckDescriptionParagraph.innerText = 'A pre-constructed deck for learning French.'
+            deckDescriptionParagraph.innerText = deck.description;
     
             const deckDescriptionDiv = document.createElement('div');
             deckDescriptionDiv.className = 'deckdescriptiondiv';
@@ -121,6 +132,31 @@ export const view = (function() {
             deckDiv.append(imageAndNameDiv, deckDescriptionDiv);
             return deckDiv;
         };
+
+        // function renderDeckFunctionCopy() {
+
+        //     const name = document.createElement('h3');
+        //     name.innerText = 'French';
+    
+        //     const dueDateParagraphElement = document.createElement('p');
+        //     dueDateParagraphElement.innerText = 'Due in X days';
+    
+        //     const imageAndNameDiv = document.createElement('div');
+        //     imageAndNameDiv.className = 'deckimageandname';
+        //     imageAndNameDiv.append(name, dueDateParagraphElement);
+    
+        //     const deckDescriptionParagraph = document.createElement('p');
+        //     deckDescriptionParagraph.innerText = 'A pre-constructed deck for learning French.'
+    
+        //     const deckDescriptionDiv = document.createElement('div');
+        //     deckDescriptionDiv.className = 'deckdescriptiondiv';
+        //     deckDescriptionDiv.appendChild(deckDescriptionParagraph);
+    
+        //     const deckDiv = document.createElement('div');
+        //     deckDiv.className = 'deck';
+        //     deckDiv.append(imageAndNameDiv, deckDescriptionDiv);
+        //     return deckDiv;
+        // };
         
         return {
             renderPage,
@@ -148,7 +184,9 @@ export const view = (function() {
             const emptySpaceWithMobileNavHeight = getEmptyDivForExtraPageSpaceAtBottomWithMobileNavHeight();
             
             main.append(pageDiv, emptySpaceWithMobileNavHeight);
-            renderLocalStorageDecks();
+            // renderLocalStorageDecks();
+            console.l
+            appendDeckToTable('decktable', controller.locallyStoredDecks);
     
             //this added a listener every time I clicked it
             // so if you clicked the edit page tab 10 times before creating a deck
@@ -172,50 +210,56 @@ export const view = (function() {
     
             return table;
         };
+    
+        //TODO It adds the entire localstorage onto the decklist  on
+        //the edit page whenever I add a new deck
+        //fit
+        function clearTable(DOMElementID) {
 
-        function renderLocalStorageDecks() {
-            for (let i = 0; i < localStorage.length; i++) {
-                const deck = JSON.parse(localStorage.getItem(localStorage.key(i)));
-                appendDeckToTable(deck);
-            }
-        };
+        }
+
+        function appendDeckToTable(DOMElementID, deckArray) {
+
+            console.log({deckArray});
     
-        function appendDeckToTable(deck) {
-    
-            const table = document.getElementById('decktable');
-            const row = document.createElement('tr');
-            row.id = `RowID:${Math.random().toString(16).slice(2)}`;
+            const table = document.getElementById(DOMElementID);
+
+            deckArray.forEach((item) => {
+
+                const row = document.createElement('tr');
+                row.id = `RowID:${Math.random().toString(16).slice(2)}`;
+            
+                const deleteButton = document.createElement('button');
+                deleteButton.innerText = 'Delete';
+                deleteButton.onclick = () => {
+                    localStorage.removeItem(item.name);
+                    document.getElementById(row.id).remove();
+                };
+            
+                //Logic to append name, duedate, and category
+                // const dataCells = renderTableCells(deck.name, deck.dueDate, deck.category);
+                // for (let i = 0; i < dataCells.length; i++) {
+                //     row.appendChild(dataCells[i]);
+                // }
         
-            const deleteButton = document.createElement('button');
-            deleteButton.innerText = 'Delete';
-            deleteButton.onclick = () => {
-                localStorage.removeItem(deck.name);
-                document.getElementById(row.id).remove();
-            };
+                const nameDataCell = document.createElement('td');
+                nameDataCell.innerText = item.name;
         
-            //Logic to append name, duedate, and category
-            // const dataCells = renderTableCells(deck.name, deck.dueDate, deck.category);
-            // for (let i = 0; i < dataCells.length; i++) {
-            //     row.appendChild(dataCells[i]);
-            // }
-    
-            const nameDataCell = document.createElement('td');
-            nameDataCell.innerText = deck.name;
-    
-            const studyButton = document.createElement('button');
-            studyButton.className = 'studybutton';
-            studyButton.id = 'studybutton';
-            studyButton.style.backgroundColor = 'green';
-            studyButton.innerText = 'Study';
-    
-            const addCardsButton = document.createElement('button');
-            addCardsButton.className = 'addcardsbutton';
-            addCardsButton.id = 'addcardsbutton';
-            addCardsButton.style.backgroundColor = 'blue';
-            addCardsButton.innerText = 'Add Cards';
-    
-            row.append(nameDataCell, studyButton, addCardsButton, deleteButton);
-            table.appendChild(row);
+                const studyButton = document.createElement('button');
+                studyButton.className = 'studybutton';
+                studyButton.id = 'studybutton';
+                studyButton.style.backgroundColor = 'green';
+                studyButton.innerText = 'Study';
+        
+                const addCardsButton = document.createElement('button');
+                addCardsButton.className = 'addcardsbutton';
+                addCardsButton.id = 'addcardsbutton';
+                addCardsButton.style.backgroundColor = 'blue';
+                addCardsButton.innerText = 'Add Cards';
+        
+                row.append(nameDataCell, studyButton, addCardsButton, deleteButton);
+                table.appendChild(row);
+            });
         };
 
         function renderModal() {
@@ -385,8 +429,9 @@ export const view = (function() {
 
         return {
             hideModal,
-            renderLocalStorageDecks,
+            // renderLocalStorageDecks,
             renderPage,
+            appendDeckToTable
         }
     })();
 

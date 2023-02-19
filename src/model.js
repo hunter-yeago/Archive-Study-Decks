@@ -86,6 +86,16 @@ export const model = (function(){
         console.log('firing from the addDeck function in model');
     };
 
+    function getLocalStorage() {
+        const deckArray = [];
+
+          for (let i = 0; i < localStorage.length; i++) {
+                const deck = JSON.parse(localStorage.getItem(localStorage.key(i)));
+                deckArray.push(deck);
+            }
+            return deckArray;
+    }
+
     function validateForm(formData) {
     }
 
@@ -206,6 +216,7 @@ export const model = (function(){
 
     return {
         addDeckToLocalStorage,
+        getLocalStorage,
         temporaryDecks,
         overviewCards,
         Card,

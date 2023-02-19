@@ -9,6 +9,9 @@ export const controller = (function(){
     const controllerOverviewCards = model.overviewCards;
     const controllerTemporaryDecks = model.temporaryDecks;
     const defaultTabID = 'studybutton';
+    const locallyStoredDecks = Array.from(model.getLocalStorage());
+    console.log(`firing from controller ${locallyStoredDecks}`);
+    console.log(locallyStoredDecks);
 
     const mobileNavButtons = Array.from([
         document.getElementById('studybutton'),
@@ -226,7 +229,9 @@ export const controller = (function(){
         }
         else {
             model.addDeckToLocalStorage();
-            view.editPage.renderLocalStorageDecks();
+            const localDecks = model.getLocalStorage();
+            console.log(localDecks);
+            view.editPage.appendDeckToTable('decktable', localDecks);
             view.editPage.hideModal();
             document.getElementById('modal-form').reset();
             //replace the followiong with object function?
@@ -263,6 +268,7 @@ export const controller = (function(){
         controllerTemporaryDecks,
         mobileNavButtons,
         k,
+        locallyStoredDecks,
     }
 
 })();
