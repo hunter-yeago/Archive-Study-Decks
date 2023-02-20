@@ -338,13 +338,51 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 1rem;
   padding: 0.8rem;
   border-bottom: 1px solid #282e3e;
 }
 .innerheaderdiv h3 {
-  text-align: center;
   font-size: 1.6rem;
   border-bottom: 1px solid #ffcd1e;
+}
+
+.bannerbutton {
+  background: none;
+  color: inherit;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  height: 2.4rem;
+  width: 2.4rem;
+  border-radius: 50%;
+  background-color: #4255ff;
+}
+
+.bannerbutton:hover {
+  background-color: #423ed9;
+}
+
+.menu {
+  position: absolute;
+  right: 1rem;
+  border-radius: 0.5rem;
+  color: black;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  display: none;
+}
+.menu button {
+  min-width: 8rem;
+  padding: 0.7em;
+  background-color: #0a082d;
+  color: white;
+  border: 1px solid #282e3e;
+  border-radius: 0.3rem;
+  font-size: 1.1rem;
+  cursor: pointer;
 }
 
 .nav-right {

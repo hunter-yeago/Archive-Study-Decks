@@ -3,6 +3,7 @@
 @use 'modal';
 @use 'topdecks';
 @use 'overview';
+@use 'mixins';
 
 * {
     box-sizing: border-box;
@@ -41,14 +42,7 @@ main {
     }
 
     button {
-        //Code block to get rid of button decorations
-        background: none;
-        color: inherit;
-        border: none;
-        font: inherit;
-        cursor: pointer;
-        outline: inherit;
-
+        @include mixins.button-reset;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -69,17 +63,50 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 1rem;
+
     padding: .8rem;
     border-bottom: 1px solid config.$quizlet-border-color;
 
     h3 {
-        text-align: center;
         font-size: 1.6rem;
-        // color: config.$quizlet-gold-color;
         border-bottom: 1px solid config.$quizlet-gold-color;
-        
     }
 }
+
+.bannerbutton {
+    @include mixins.button-reset;
+    height: 2.4rem;
+    width: 2.4rem;
+    border-radius: 50%;
+    background-color: config.$quizlet-button-color;
+}
+
+.bannerbutton:hover {
+    background-color: config.$quizlet-button-hover-color;
+}
+
+.menu {
+    position: absolute;
+    right: 1rem;
+    border-radius: .5rem;
+    color: black;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    display: none;
+
+    button {
+        min-width: 8rem;
+        padding: .7em;
+        background-color: config.$quizlet-background-color;
+        color: white;
+        border: 1px solid config.$quizlet-border-color;
+        border-radius: .3rem;
+        font-size: 1.1rem;
+        cursor: pointer;
+    }
+  }
 
 .nav-right {
     display: flex;
@@ -136,8 +163,6 @@ main {
     }
 }
 
-
-
 //Add Deck Page Start
 
 .addeckpagediv {
@@ -184,8 +209,6 @@ main {
     border-radius: .25rem;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .2);
     opacity: 0;
-    //Don't allow interaction at all with the mouse (pointer-events: none)
-    //Makes it so that when it's invisible, the mouse can't interact with it
     pointer-events: none;
     transform: translateY(-10px);
     transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
@@ -275,12 +298,3 @@ section {
         font-size: 1.3rem;
     }
 }
-
-
-// Your Decks Section Starts
-
-
-// Your Deck Section Ends
-//I've chosen to add classes to these images as they are both imgs
-//within the same div
-//however, if no special styling is needed then I may be able to delete them
