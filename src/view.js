@@ -4,18 +4,14 @@ import { Observable } from "./pubsub";
 
 const main = document.querySelector('main');
 
-//TODO show remaining characters for each input
-//TODO Forget green for VALID, only red for INVALID
-// as a default, and then update it when decks are added?
-
+// TODO show remaining characters for each input
 // TODO: you can edit the cards while you're studying them
-// TODO: follow how Quizlet does adding cards
-// During the Deck construction itself.
+// TODO: follow how Quizlet does adding cards During the Deck construction itself.
+// TODO View: Seems kind of backwards to call RenderDeckDisplay from renderTopDecks //Shouldn't it be the other way around?
+// TODO Calculate days until its due
+// TODO Show on form that it needs to be within the next month //or something like that //...might just get rid of the duedate thing altogether.
 
 export const view = (function() {
-
-    //TODO View: Seems kind of backwards to call RenderDeckDisplay from renderTopDecks
-    //Shouldn't it be the other way around?
 
     const studyPage = (function(){
 
@@ -25,6 +21,8 @@ export const view = (function() {
             // openNavButton.addEventListener('click', toggleNav);
             //This is for the slide in menu nav bar
     
+            renderModal();
+
             const topDecksSection = renderTopDecks();
             const prebuiltDecksSection = renderPreBuiltDecks();
             const emptySpace = getEmptyDivForExtraPageSpaceAtBottomWithMobileNavHeight();
@@ -73,22 +71,11 @@ export const view = (function() {
         };
 
         function renderDeckDisplay(localDecks) {
-
-            //TODO temporarily removing deckArray since it's not functional yet
-            // will manuall create default decks
-            // and then come back to this and add
-            //an array as an argument when the functionality is there
-            // deckArray.forEach((element) => {        });
     
             const deckDisplayDiv = document.createElement('div');
             deckDisplayDiv.className = 'deckdisplay';
-    
-            // const decks = [];
-            console.log('firing from view');
-            console.log(localDecks);
-    
-            //TODO problem: it's trying to append localStorage
-            //data to the deckdisplay as if its a DOM element
+            deckDisplayDiv.id = 'deckdisplay';
+
             if (localDecks.length > 0) {
                 localDecks.forEach((deck) => {
                     const element = renderDeck(deck);
@@ -104,15 +91,30 @@ export const view = (function() {
             return deckDisplayDiv;
         };
 
+        function removeDecksFromPage() {
+            const deckDisplayDiv = document.getElementById('deckdisplay');
+            const children = Array.from(deckDisplayDiv.children);
+            children.forEach((child) => {
+                child.remove();
+            });
+        }
+
+        //TODO lots of repeating myself between the function above and this one, but, yeah
+        function updateDeckDisplay(localDecks) {
+            const deckDisplayDiv = document.getElementById('deckdisplay');
+            removeDecksFromPage();
+
+            localDecks.forEach((deck) => {
+                const element = renderDeck(deck);
+                deckDisplayDiv.appendChild(element);
+            });
+        }
+
         function renderDeck(deck) {
 
             const name = document.createElement('h3');
             name.innerText = deck.name;
     
-            //TODO Calculate days until its due
-            //TODO Show on form that it needs to be within the next month
-            //or something like that
-            //...might just get rid of the duedate thing altogether.
             const dueDateParagraphElement = document.createElement('p');
             dueDateParagraphElement.innerText = deck.dueDate;
     
@@ -126,14 +128,22 @@ export const view = (function() {
             const deckDescriptionDiv = document.createElement('div');
             deckDescriptionDiv.className = 'deckdescriptiondiv';
             deckDescriptionDiv.appendChild(deckDescriptionParagraph);
+
+            const randomID = `RowID:${Math.random().toString(16).slice(2)}`;
+        
+            const deleteButton = document.createElement('button');
+            deleteButton.innerText = 'Delete';
+            deleteButton.onclick = () => {
+                localStorage.removeItem(deck.name);
+                document.getElementById(randomID).remove();
+            };
     
             const deckDiv = document.createElement('div');
             deckDiv.className = 'deck';
-            deckDiv.append(imageAndNameDiv, deckDescriptionDiv);
+            deckDiv.id = randomID;
+            deckDiv.append(imageAndNameDiv, deckDescriptionDiv, deleteButton);
             return deckDiv;
         };
-
-        // function renderDeckFunctionCopy() {
 
         //     const name = document.createElement('h3');
         //     name.innerText = 'French';
@@ -160,280 +170,110 @@ export const view = (function() {
         
         return {
             renderPage,
+            updateDeckDisplay,
         }
     })();
 
-    const editPage = (function(){
-        function renderPage() {
+    // const editPage = (function(){
+    //     function renderPage() {
 
-            renderModal();
+    //         renderModal();
     
-            const addDeckButton = document.createElement('button');
-            addDeckButton.className = 'adddeckbutton';
-            addDeckButton.innerText = 'Add a Deck';  
-            addDeckButton.onclick = function() {
-                document.getElementById('modal').style.display = 'block';
-            }
+    //         const addDeckButton = document.createElement('button');
+    //         addDeckButton.className = 'adddeckbutton';
+    //         addDeckButton.innerText = 'Add a Deck';  
+    //         addDeckButton.onclick = function() {
+    //             document.getElementById('modal').style.display = 'block';
+    //         }
     
-            const table = renderDeckPageTable();
+    //         const table = renderDeckPageTable();
     
-            const pageDiv = document.createElement('div');
-            pageDiv.className = 'addeckpagediv';
-            pageDiv.append(addDeckButton, table);
+    //         const pageDiv = document.createElement('div');
+    //         pageDiv.className = 'addeckpagediv';
+    //         pageDiv.append(addDeckButton, table);
     
-            const emptySpaceWithMobileNavHeight = getEmptyDivForExtraPageSpaceAtBottomWithMobileNavHeight();
+    //         const emptySpaceWithMobileNavHeight = getEmptyDivForExtraPageSpaceAtBottomWithMobileNavHeight();
             
-            main.append(pageDiv, emptySpaceWithMobileNavHeight);
-            // renderLocalStorageDecks();
-            console.l
-            appendDeckToTable('decktable', controller.locallyStoredDecks);
+    //         main.append(pageDiv, emptySpaceWithMobileNavHeight);
+    //         // renderLocalStorageDecks();
+    //         appendDeckToTable('decktable', controller.locallyStoredDecks);
     
-            //this added a listener every time I clicked it
-            // so if you clicked the edit page tab 10 times before creating a deck
-            //it would run the appendDeckToTable function 10 times!
-            // Observable.subscribe('addDeckFunction', appendDeckToTable);
-        };
+    //         //this added a listener every time I clicked it
+    //         // so if you clicked the edit page tab 10 times before creating a deck
+    //         //it would run the appendDeckToTable function 10 times!
+    //         // Observable.subscribe('addDeckFunction', appendDeckToTable);
+    //     };
 
-        function renderDeckPageTable() {
-            const table = document.createElement('table');
-            table.className = 'decktable';
-            table.id = 'decktable';
+    //     function renderDeckPageTable() {
+    //         const table = document.createElement('table');
+    //         table.className = 'decktable';
+    //         table.id = 'decktable';
             
-            const tableHeaderRow = document.createElement('tr');
-            table.appendChild(tableHeaderRow);
+    //         const tableHeaderRow = document.createElement('tr');
+    //         table.appendChild(tableHeaderRow);
     
-            for (let i = 0; i <= 3; i++) {
-                const tableHeader = document.createElement('th');
-                tableHeaderRow.appendChild(tableHeader);
-                tableHeader.innerText = 'Header';
-            }
+    //         for (let i = 0; i <= 3; i++) {
+    //             const tableHeader = document.createElement('th');
+    //             tableHeaderRow.appendChild(tableHeader);
+    //             tableHeader.innerText = 'Header';
+    //         }
     
-            return table;
-        };
+    //         return table;
+    //     };
     
-        //TODO It adds the entire localstorage onto the decklist  on
-        //the edit page whenever I add a new deck
-        //fit
-        function clearTable(DOMElementID) {
+    //     //fit
+    //     function clearTable(DOMElementID) {
 
-        }
+    //     }
 
-        function appendDeckToTable(DOMElementID, deckArray) {
-
-            console.log({deckArray});
+    //     function appendDeckToTable(DOMElementID, deckArray) {
     
-            const table = document.getElementById(DOMElementID);
+    //         const table = document.getElementById(DOMElementID);
 
-            deckArray.forEach((item) => {
+    //         deckArray.forEach((item) => {
 
-                const row = document.createElement('tr');
-                row.id = `RowID:${Math.random().toString(16).slice(2)}`;
+    //             const row = document.createElement('tr');
+    //             row.id = `RowID:${Math.random().toString(16).slice(2)}`;
             
-                const deleteButton = document.createElement('button');
-                deleteButton.innerText = 'Delete';
-                deleteButton.onclick = () => {
-                    localStorage.removeItem(item.name);
-                    document.getElementById(row.id).remove();
-                };
+    //             const deleteButton = document.createElement('button');
+    //             deleteButton.innerText = 'Delete';
+    //             deleteButton.onclick = () => {
+    //                 localStorage.removeItem(item.name);
+    //                 document.getElementById(row.id).remove();
+    //             };
             
-                //Logic to append name, duedate, and category
-                // const dataCells = renderTableCells(deck.name, deck.dueDate, deck.category);
-                // for (let i = 0; i < dataCells.length; i++) {
-                //     row.appendChild(dataCells[i]);
-                // }
+    //             //Logic to append name, duedate, and category
+    //             // const dataCells = renderTableCells(deck.name, deck.dueDate, deck.category);
+    //             // for (let i = 0; i < dataCells.length; i++) {
+    //             //     row.appendChild(dataCells[i]);
+    //             // }
         
-                const nameDataCell = document.createElement('td');
-                nameDataCell.innerText = item.name;
+    //             const nameDataCell = document.createElement('td');
+    //             nameDataCell.innerText = item.name;
         
-                const studyButton = document.createElement('button');
-                studyButton.className = 'studybutton';
-                studyButton.id = 'studybutton';
-                studyButton.style.backgroundColor = 'green';
-                studyButton.innerText = 'Study';
+    //             const studyButton = document.createElement('button');
+    //             studyButton.className = 'studybutton';
+    //             studyButton.id = 'studybutton';
+    //             studyButton.style.backgroundColor = 'green';
+    //             studyButton.innerText = 'Study';
         
-                const addCardsButton = document.createElement('button');
-                addCardsButton.className = 'addcardsbutton';
-                addCardsButton.id = 'addcardsbutton';
-                addCardsButton.style.backgroundColor = 'blue';
-                addCardsButton.innerText = 'Add Cards';
+    //             const addCardsButton = document.createElement('button');
+    //             addCardsButton.className = 'addcardsbutton';
+    //             addCardsButton.id = 'addcardsbutton';
+    //             addCardsButton.style.backgroundColor = 'blue';
+    //             addCardsButton.innerText = 'Add Cards';
         
-                row.append(nameDataCell, studyButton, addCardsButton, deleteButton);
-                table.appendChild(row);
-            });
-        };
+    //             row.append(nameDataCell, studyButton, addCardsButton, deleteButton);
+    //             table.appendChild(row);
+    //         });
+    //     };
 
-        function renderModal() {
-
-            const modal = document.createElement('div');
-            modal.id = 'modal';
-            modal.className = 'modal';
-            main.appendChild(modal);
     
-            const modalHeader = renderModalHeader(modal);
-            const modalForm = renderModalForm(modal);
-    
-            const modalBody = document.createElement('div');
-            modalBody.className = 'modal-body';
-            modalBody.appendChild(modalForm);
-            
-            const modalContent = document.createElement('div');
-            modalContent.className = 'modal-content';
-            modalContent.append(modalHeader, modalBody);
-    
-            modal.appendChild(modalContent);
-        };
-    
-        function renderModalHeader(modal) {
-    
-            const modalHeader = document.createElement('h5');
-            modalHeader.innerText = 'New Deck'
-    
-            const exitSpan = document.createElement('span');
-            exitSpan.innerHTML = '&times;';
-            exitSpan.onclick = function() {
-                modal.style.display = 'none';
-            }
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = 'none';
-                }
-            }
-    
-            const modalHeaderDiv = document.createElement('div');
-            modalHeaderDiv.className = 'modal-header';
-            modalHeaderDiv.append(modalHeader, exitSpan);
-            return modalHeaderDiv;
-        };
-    
-        function renderModalForm() {
-    
-            const nameInputLabel = document.createElement('label');
-            nameInputLabel.htmlFor = 'deckname';
-            nameInputLabel.innerText = 'Deck Name:'
-            
-            const nameInput = document.createElement('input');
-            nameInput.required = true;
-            nameInput.minLength = 1;
-            setAttributes(nameInput, {
-                'id': 'deckname',
-                'name': 'deckname',
-                'type': 'text',
-                'maxLength': '20',
-            });
-    
-            nameInput.oninput = () => {
-    
-                //TODO Obviously this whole 'k' thing needs to be fixed...
-                const object = controller.k;
-                object.setInputElementValues();
-                object.checkValidity();
-                object.setValidityClass();
-                
-    
-                // const length = nameInput.value.trim().length;
-                // if (length < 1) {
-                //     nameInput.className = 'invalid';
-                // }
-                // else {
-                //     nameInput.className = 'valid';
-                // }
-            };
-    
-            const descriptionLabel = document.createElement('label');
-            descriptionLabel.htmlFor = 'deckdescription';
-            descriptionLabel.innerText = 'Description (Max 50 charachters):';
-    
-            const descriptionInput = document.createElement('textarea');
-            setAttributes(descriptionInput,
-                {
-                    'id': 'deckdescription',
-                    'class': 'deckdescription',
-                    'name': 'deckdescription',
-                    'rows': '4',
-                    'cols': '20',
-                    'maxLength': '60',
-                });
-    
-            const dueDateLabel = document.createElement('label');
-            dueDateLabel.htmlFor = 'deckduedate';
-            dueDateLabel.innerText = 'Due Date:';
-    
-            const dueDateInput = document.createElement('input');
-            dueDateInput.required = true;
-            setAttributes(dueDateInput, {
-                'id': 'deckduedate',
-                'name': 'deckduedate',
-                'class': 'deckduedate',
-                'type': 'date',
-            });
-    
-            const categoryLabel = document.createElement('label');
-            categoryLabel.htmlFor = 'deckcategory';
-            categoryLabel.innerText = 'Category';
-            
-            const categorySelect = document.createElement('select');
-            categorySelect.required = true;
-            setAttributes(categorySelect, {
-                'id': 'deckcategory',
-                'name': 'deckcategory',
-                'class': 'deckcategory',
-            });
-    
-            categorySelect.oninput = () => {
-                const length = categorySelect.value.trim().length;
-                if (length < 1) {
-                    categorySelect.className = 'invalid';
-                }
-                else {
-                    categorySelect.className = 'valid';
-                }
-            };
-            
-            const defaultOption = document.createElement('option');
-            defaultOption.value = '';
-            defaultOption.innerText = 'Please choose a Category';
-            
-            const languageOption = document.createElement('option');
-            languageOption.value = 'Language';
-            languageOption.innerText = 'Language';
-            
-            const mathOption = document.createElement('option');
-            mathOption.value = 'Math';
-            mathOption.innerText = 'Math';
-    
-            categorySelect.append(defaultOption, languageOption, mathOption);
-    
-            const inputs = [nameInput, descriptionInput, dueDateInput, categorySelect];
-            const formSubmitButton = document.createElement('button');
-            formSubmitButton.innerText = 'Add Deck';
-            formSubmitButton.type = 'button';
-            formSubmitButton.className = 'submitbutton';
-    
-            formSubmitButton.addEventListener('click', controller.handleFormInput);
-    
-            const form = document.createElement('form');
-            form.className = 'modal-form';
-            form.id = 'modal-form';
-            form.append(
-                nameInputLabel, nameInput, 
-                categoryLabel, categorySelect,
-                descriptionLabel, descriptionInput,
-                dueDateLabel, dueDateInput,
-                formSubmitButton);
-            return form;
-        };
-    
-        function hideModal() {
-            document.getElementById('modal').style.display = 'none';
-        };
-
-        return {
-            hideModal,
-            // renderLocalStorageDecks,
-            renderPage,
-            appendDeckToTable
-        }
-    })();
+    //     return {
+    //         renderPage,
+    //         appendDeckToTable
+    //     }
+    // })();
 
     const overviewPage = (function(){
 
@@ -495,6 +335,163 @@ export const view = (function() {
         }
     })();
 
+    function renderModal() {
+
+        const modal = document.createElement('div');
+        modal.id = 'modal';
+        modal.className = 'modal';
+        main.appendChild(modal);
+
+        const modalHeader = renderModalHeader(modal);
+        const modalForm = renderModalForm(modal);
+
+        const modalBody = document.createElement('div');
+        modalBody.className = 'modal-body';
+        modalBody.appendChild(modalForm);
+        
+        const modalContent = document.createElement('div');
+        modalContent.className = 'modal-content';
+        modalContent.append(modalHeader, modalBody);
+
+        modal.appendChild(modalContent);
+    };
+
+    function renderModalHeader(modal) {
+
+        const modalHeader = document.createElement('h5');
+        modalHeader.innerText = 'New Deck'
+
+        const exitSpan = document.createElement('span');
+        exitSpan.innerHTML = '&times;';
+        exitSpan.onclick = function() {
+            modal.style.display = 'none';
+        }
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        const modalHeaderDiv = document.createElement('div');
+        modalHeaderDiv.className = 'modal-header';
+        modalHeaderDiv.append(modalHeader, exitSpan);
+        return modalHeaderDiv;
+    };
+
+    function renderModalForm() {
+
+        const nameInputLabel = document.createElement('label');
+        nameInputLabel.htmlFor = 'deckname';
+        nameInputLabel.innerText = 'Deck Name:'
+        
+        const nameInput = document.createElement('input');
+        nameInput.required = true;
+        nameInput.minLength = 1;
+        setAttributes(nameInput, {
+            'id': 'deckname',
+            'name': 'deckname',
+            'type': 'text',
+            'maxLength': '20',
+        });
+
+        nameInput.oninput = () => {
+
+            //TODO Obviously this whole 'k' thing needs to be fixed...
+            const object = controller.k;
+            object.setInputElementValues();
+            object.checkValidity();
+            object.setValidityClass();
+        };
+
+        const descriptionLabel = document.createElement('label');
+        descriptionLabel.htmlFor = 'deckdescription';
+        descriptionLabel.innerText = 'Description (Max 50 charachters):';
+
+        const descriptionInput = document.createElement('textarea');
+        setAttributes(descriptionInput,
+            {
+                'id': 'deckdescription',
+                'class': 'deckdescription',
+                'name': 'deckdescription',
+                'rows': '4',
+                'cols': '20',
+                'maxLength': '60',
+            });
+
+        const dueDateLabel = document.createElement('label');
+        dueDateLabel.htmlFor = 'deckduedate';
+        dueDateLabel.innerText = 'Due Date:';
+
+        const dueDateInput = document.createElement('input');
+        dueDateInput.required = true;
+        setAttributes(dueDateInput, {
+            'id': 'deckduedate',
+            'name': 'deckduedate',
+            'class': 'deckduedate',
+            'type': 'date',
+        });
+
+        const categoryLabel = document.createElement('label');
+        categoryLabel.htmlFor = 'deckcategory';
+        categoryLabel.innerText = 'Category';
+        
+        const categorySelect = document.createElement('select');
+        categorySelect.required = true;
+        setAttributes(categorySelect, {
+            'id': 'deckcategory',
+            'name': 'deckcategory',
+            'class': 'deckcategory',
+        });
+
+        categorySelect.oninput = () => {
+            const length = categorySelect.value.trim().length;
+            if (length < 1) {
+                categorySelect.className = 'invalid';
+            }
+            else {
+                categorySelect.className = 'valid';
+            }
+        };
+        
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.innerText = 'Please choose a Category';
+        
+        const languageOption = document.createElement('option');
+        languageOption.value = 'Language';
+        languageOption.innerText = 'Language';
+        
+        const mathOption = document.createElement('option');
+        mathOption.value = 'Math';
+        mathOption.innerText = 'Math';
+
+        categorySelect.append(defaultOption, languageOption, mathOption);
+
+        const inputs = [nameInput, descriptionInput, dueDateInput, categorySelect];
+        const formSubmitButton = document.createElement('button');
+        formSubmitButton.innerText = 'Add Deck';
+        formSubmitButton.type = 'button';
+        formSubmitButton.className = 'submitbutton';
+
+        formSubmitButton.addEventListener('click', controller.handleFormInput);
+
+        const form = document.createElement('form');
+        form.className = 'modal-form';
+        form.id = 'modal-form';
+        form.append(
+            nameInputLabel, nameInput, 
+            categoryLabel, categorySelect,
+            descriptionLabel, descriptionInput,
+            dueDateLabel, dueDateInput,
+            formSubmitButton);
+        return form;
+    };
+
+    function hideModal() {
+        document.getElementById('modal').style.display = 'none';
+    };
+
+
     function renderDefaultPage() {
         studyPage.renderPage();
     }
@@ -505,9 +502,9 @@ export const view = (function() {
                 studyPage.renderPage();
                 break;
         
-            case 'editbutton':
-                editPage.renderPage();
-                break;
+            // case 'editbutton':
+            //     editPage.renderPage();
+            //     break;
 
             case 'overviewbutton':
                 overviewPage.renderPage();
@@ -527,6 +524,66 @@ export const view = (function() {
             }
         })
     };
+
+    function renderBanner() {
+
+        const path = document.createElement('path');
+        path.setAttribute('d', 'M12 6V18M6 12H18');
+        path.setAttribute('stroke', 'currentColor');
+        path.setAttribute('stroke-width', '2');
+        path.setAttribute('stroke-linecap', 'round');
+        path.setAttribute('stroke-linejoin', 'round');
+
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('height', '40px');
+        svg.setAttribute('width', '40px');
+        svg.setAttribute('viewBox', '0 0 24 24');
+        svg.appendChild(path);
+
+        const addDeckButton = document.createElement('button');
+        addDeckButton.id = 'bannerbutton';
+        addDeckButton.appendChild(svg);
+
+        const title = document.createElement('h3');
+        title.innerText = 'Study Decks';
+
+        const innerHeaderDiv = document.createElement('div');
+        innerHeaderDiv.className = 'innerheaderdiv';
+        innerHeaderDiv.append(title, addDeckButton);
+
+        const mainHeader = document.getElementById('mainheader');
+        mainHeader.appendChild(innerHeaderDiv);
+
+    }
+
+    //TODO - problem - menu does not hide when user taps 
+    //elsewhere on the page
+    function addBannerButtonFunctionality() {
+        const bannerButton = document.getElementById('bannerbutton');
+        const menu = document.getElementById('menu');
+        menu.onclick = function() {
+            if (menu.style.display === 'block') {
+                menu.style.display = 'none'
+            } else {
+                menu.style.display = 'block';
+            }
+        };
+
+        bannerButton.onclick = function() {
+            if (menu.style.display === 'block') {
+                menu.style.display = 'none'
+            } else {
+                menu.style.display = 'block';
+            }
+        };
+    }
+
+    function makeNewAddDeckButtonWork() {
+        const buttttton = document.getElementById('thebutttton');
+        buttttton.onclick = function() {
+            document.getElementById('modal').style.display = 'block';
+        }
+    }
     
     function removeMainTagContent() {
         const mainChildren = Array.from(main.children);
@@ -542,13 +599,15 @@ export const view = (function() {
         return emptySpaceDiv;
     }
 
-    //Should editPage really be exposed here?
     return {
+        makeNewAddDeckButtonWork,
+        addBannerButtonFunctionality,
         renderDefaultPage,
-        editPage,
+        studyPage,
         changeTabColor,
         removeMainTagContent,
         changePage,
+        hideModal,
         };
 })();
 

@@ -4,22 +4,24 @@ import {isFuture} from 'date-fns';
 
 //instead of asking how many cards they want to make, just keep showing the add card function until they steop.
 //TODO fix the k!!!
+//TODO add Reset functionality to Overview Page (delete localStorage and update stats)
 export const controller = (function(){
 
     const controllerOverviewCards = model.overviewCards;
     const controllerTemporaryDecks = model.temporaryDecks;
     const defaultTabID = 'studybutton';
     const locallyStoredDecks = Array.from(model.getLocalStorage());
-    console.log(`firing from controller ${locallyStoredDecks}`);
-    console.log(locallyStoredDecks);
 
     const mobileNavButtons = Array.from([
         document.getElementById('studybutton'),
-        document.getElementById('editbutton'),
+        // document.getElementById('editbutton'),
         document.getElementById('overviewbutton'),
         ]);
     
     function startApplication() {
+        // view.renderBanner();
+        view.addBannerButtonFunctionality();
+        view.makeNewAddDeckButtonWork();
         view.renderDefaultPage();
         addMobileNavEventListeners();
         view.changeTabColor(defaultTabID);
@@ -33,10 +35,8 @@ export const controller = (function(){
         setValidityClass: function() {
             if (this.isValid) {
                 this.inputElement.classList.remove('invalid');
-                this.inputElement.classList.add('valid');
             }
             else {
-                this.inputElement.classList.remove('valid');
                 this.inputElement.classList.add('invalid');
             }
         },
@@ -47,7 +47,6 @@ export const controller = (function(){
         },
 
         resetObjectInputValidity: function() {
-            this.inputElement.classList.remove('valid');
             this.inputElement.classList.remove('invalid');
         },
     };
@@ -112,10 +111,8 @@ export const controller = (function(){
             setValidityClass: function() {
                 if (this.isValid) {
                     this.inputElement.classList.remove('invalid');
-                    this.inputElement.classList.add('valid');
                 }
                 else {
-                    this.inputElement.classList.remove('valid');
                     this.inputElement.classList.add('invalid');
                 }
             },
@@ -126,7 +123,6 @@ export const controller = (function(){
             },
     
             resetObjectInputValidity: function() {
-                this.inputElement.classList.remove('valid');
                 this.inputElement.classList.remove('invalid');
             },
         };
@@ -230,9 +226,10 @@ export const controller = (function(){
         else {
             model.addDeckToLocalStorage();
             const localDecks = model.getLocalStorage();
-            console.log(localDecks);
-            view.editPage.appendDeckToTable('decktable', localDecks);
-            view.editPage.hideModal();
+            //TODO since this needs to find the displayDeck div, it will throw an error
+            //if I try to add a new deck on the Overview Page
+            view.studyPage.updateDeckDisplay(localDecks);
+            view.hideModal();
             document.getElementById('modal-form').reset();
             //replace the followiong with object function?
             resetInputValidity(objectInputs);
@@ -258,7 +255,6 @@ export const controller = (function(){
     };
 
     //find a way to change this from a switch case to something else
-
 
     return {
         startApplication,
