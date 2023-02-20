@@ -1,0 +1,87 @@
+.dropdown {
+    position: relative;
+    @include mixins.centered-flexbox;
+}
+
+.dropdown-menu {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    padding: .75rem;
+    border-radius: .25rem;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .2);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+        list-style-type: none;
+    }
+    
+    li {
+        gap: .5rem;
+        text-decoration: none;
+        padding: .3rem;
+    }
+    
+    a, a:hover, a:focus, a:active  {
+        color: inherit;
+        text-decoration: none;
+    }
+}
+
+.dropdown-menu.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.mobilemenubuttonimage {
+    width: 2rem;
+    margin: .5rem .5rem .5rem .2rem;
+    position: relative;
+    right: 1.75rem;
+    pointer-events: none;
+}
+.mobilemenubutton:hover {
+    background-color: rgba(254, 254, 255, 0.9);
+    opacity: .3;
+    border-radius: .1rem;
+}
+
+.mobilemenubutton {
+
+    position: relative;
+    background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+
+    width: 2rem;
+    height: 2rem;
+
+    @include mixins.centered-flexbox;
+}
+
+.logoandname {
+
+    padding: .4rem .5rem 0 .5rem;
+    @include mixins.centered-flexbox;
+    gap: .5rem;
+
+    img {
+        width: 10%;
+        padding-top: .2rem;
+    }
+    h1 {
+        font-size: 1rem;
+    }
+}
