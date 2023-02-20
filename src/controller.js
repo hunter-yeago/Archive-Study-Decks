@@ -3,14 +3,20 @@ import { view } from "./view";
 import {isFuture} from 'date-fns';
 
 //instead of asking how many cards they want to make, just keep showing the add card function until they steop.
-//TODO fix the k!!!
 //TODO add Reset functionality to Overview Page (delete localStorage and update stats)
 export const controller = (function(){
 
     const controllerOverviewCards = model.overviewCards;
     const controllerTemporaryDecks = model.temporaryDecks;
     const defaultTabID = 'studybutton';
-    const locallyStoredDecks = Array.from(model.getLocalStorage());
+
+    const data = {
+        localDecks: Array.from(model.getLocalStorage()),
+
+        updateData: function() {
+            this.localDecks = Array.from(model.getLocalStorage());
+        },
+    }
 
     const mobileNavButtons = Array.from([
         document.getElementById('studybutton'),
@@ -50,52 +56,6 @@ export const controller = (function(){
             this.inputElement.classList.remove('invalid');
         },
     };
-
-    //this is a copy to try to make the thing happen
-    const k = Object.assign(Object.create(deckFormInputObject), {
-        inputElement: null,
-        inputValue: null,
-        nameLength: null,
-        nameLengthIsValid: false,
-        nameIsAvailable: false,
-
-        setInputElementValues: function() {
-            this.inputElement = document.getElementById('deckname');
-            this.inputValue = document.getElementById('deckname').value.trim();
-            this.nameLength = document.getElementById('deckname').value.trim().length;
-        },
-
-        checkValidity: function() {
-            this.checkLength();
-            this.checkIfNameIsAvailable(this.inputValue);
-            if (this.nameLengthIsValid && this.nameIsAvailable) {
-                this.isValid = true;
-            }
-            else {this.isValid = false};
-        },
-
-        checkLength: function () {
-            this.nameLengthIsValid = this.nameLength > 0 ? true : false;
-        },
-
-        checkIfNameIsAvailable: function(attemptedDeckName) {
-                const existingDeckName = Object.keys(localStorage).find(item => item === attemptedDeckName);
-                this.nameIsAvailable = existingDeckName !== attemptedDeckName ? true: false;
-        },
-
-        displayValidityWarning: function() {
-            if (!this.nameLengthIsValid) {
-                this.inputElement.setCustomValidity('Name must be at least 1 character long');
-                this.inputElement.reportValidity();
-                return;
-            }
-            else if (!this.nameIsAvailable) {
-                this.inputElement.setCustomValidity('Deck already exists, choose a different name');
-                this.inputElement.reportValidity();
-            }
-        }
-    });
-
 
     function handleFormInput() {
 
@@ -225,10 +185,11 @@ export const controller = (function(){
         }
         else {
             model.addDeckToLocalStorage();
-            const localDecks = model.getLocalStorage();
+            data.updateData();
             //TODO since this needs to find the displayDeck div, it will throw an error
             //if I try to add a new deck on the Overview Page
-            view.studyPage.updateDeckDisplay(localDecks);
+            console.log('firing from else statement');
+            view.studyPage.updateDeckDisplay(data.localDecks);
             view.hideModal();
             document.getElementById('modal-form').reset();
             //replace the followiong with object function?
@@ -241,6 +202,8 @@ export const controller = (function(){
             element.resetObjectInputValidity();
         });
     }
+
+
 
     function addMobileNavEventListeners() {
         mobileNavButtons.forEach((button) => {
@@ -263,8 +226,6 @@ export const controller = (function(){
         controllerOverviewCards,
         controllerTemporaryDecks,
         mobileNavButtons,
-        k,
-        locallyStoredDecks,
+        data
     }
-
 })();

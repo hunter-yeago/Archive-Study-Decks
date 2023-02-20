@@ -6,7 +6,7 @@ const main = document.querySelector('main');
 
 // TODO show remaining characters for each input
 // TODO: you can edit the cards while you're studying them
-// TODO: follow how Quizlet does adding cards During the Deck construction itself.
+// TODO: Add cards during deck construction
 // TODO View: Seems kind of backwards to call RenderDeckDisplay from renderTopDecks //Shouldn't it be the other way around?
 // TODO Calculate days until its due
 // TODO Show on form that it needs to be within the next month //or something like that //...might just get rid of the duedate thing altogether.
@@ -37,7 +37,7 @@ export const view = (function() {
             title.innerText = 'Top Decks';
             title.id = 'topdeckstitle';
             
-            const deckDisplayDiv = renderDeckDisplay(controller.locallyStoredDecks);
+            const deckDisplayDiv = renderDeckDisplay(controller.data.localDecks);
             
             section.append(title, deckDisplayDiv);
             
@@ -75,6 +75,8 @@ export const view = (function() {
             const deckDisplayDiv = document.createElement('div');
             deckDisplayDiv.className = 'deckdisplay';
             deckDisplayDiv.id = 'deckdisplay';
+            console.log('firing from renderDeckDisplay');
+            console.log(localDecks);
 
             if (localDecks.length > 0) {
                 localDecks.forEach((deck) => {
@@ -103,6 +105,8 @@ export const view = (function() {
         function updateDeckDisplay(localDecks) {
             const deckDisplayDiv = document.getElementById('deckdisplay');
             removeDecksFromPage();
+
+            console.log(localDecks);
 
             localDecks.forEach((deck) => {
                 const element = renderDeck(deck);
@@ -394,15 +398,6 @@ export const view = (function() {
             'maxLength': '20',
         });
 
-        nameInput.oninput = () => {
-
-            //TODO Obviously this whole 'k' thing needs to be fixed...
-            const object = controller.k;
-            object.setInputElementValues();
-            object.checkValidity();
-            object.setValidityClass();
-        };
-
         const descriptionLabel = document.createElement('label');
         descriptionLabel.htmlFor = 'deckdescription';
         descriptionLabel.innerText = 'Description (Max 50 charachters):';
@@ -443,15 +438,15 @@ export const view = (function() {
             'class': 'deckcategory',
         });
 
-        categorySelect.oninput = () => {
-            const length = categorySelect.value.trim().length;
-            if (length < 1) {
-                categorySelect.className = 'invalid';
-            }
-            else {
-                categorySelect.className = 'valid';
-            }
-        };
+        // categorySelect.oninput = () => {
+        //     const length = categorySelect.value.trim().length;
+        //     if (length < 1) {
+        //         categorySelect.className = 'invalid';
+        //     }
+        //     else {
+        //         categorySelect.className = 'valid';
+        //     }
+        // };
         
         const defaultOption = document.createElement('option');
         defaultOption.value = '';
