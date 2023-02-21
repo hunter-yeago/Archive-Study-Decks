@@ -1,4 +1,4 @@
-import { Observable } from "./pubsub";
+import {isFuture} from 'date-fns';
 
 export const model = (function(){
 
@@ -57,6 +57,16 @@ export const model = (function(){
         category: 'Languages',
         questionsList: [],
     });
+    
+    let currentPage = '';
+
+    function setCurrentPage(page) {
+        currentPage = page;
+    }
+
+    function getCurrentPage() {
+        return currentPage;
+    }
 
     function setStyles() {
         const deck = localStorage.getItem('newdeck');
@@ -67,23 +77,18 @@ export const model = (function(){
         setStyles();
     };
 
-    const temporaryDecks = ['deck1', 'deck2', 'deck3'];
-
     function addDeckToLocalStorage() {
         const myFormData = new FormData(document.querySelector('.modal-form'));
         const formDataObj = Object.fromEntries(myFormData.entries());
     
         const newDeck = Object.assign(Object.create(Deck), {
             name: formDataObj.deckname,
+            category: formDataObj.deckcategory,
             description: formDataObj.deckdescription,
             dueDate: formDataObj.deckduedate,
-            category: formDataObj.deckcategory,
         });
     
         populateStorage(newDeck);
-        //the view is subscribing to this... so it's coupled. Not good.
-        Observable.publish('addDeckFunction', newDeck);
-        console.log('firing from the addDeck function in model');
     };
 
     function getLocalStorage() {
@@ -96,130 +101,108 @@ export const model = (function(){
             return deckArray;
     }
 
-    function validateForm(formData) {
-    }
+    const Validator = {
+        data: null,
+        element: null,
+        isValid: false,
 
-    function createInputObject() {
-        let inputObject = Object.create(deckFormInputObject);
-        
-        return 
-    }
+        setData: function(element, data) {
+            this.element = element;
+            this.data = data;
+        },
 
+        setValidityClass: function() {
+                if (this.isValid) {
+                    this.element.classList.remove('invalid');
+                }
+                else {
+                    this.element.classList.add('invalid');
+                }
+        },
 
-    // const deckFormInputObject = {
-    //     isValid: false,
-    //     inputElement: null,
+        displayWarning: function() {
+            this.element.setCustomValidity('This field is invalid');
+            this.element.reportValidity();
+        },
+    };
 
-    //     setValidityClass: function() {
-    //         if (this.isValid) {
-    //             this.inputElement.classList.remove('invalid');
-    //             this.inputElement.classList.add('valid');
-    //         }
-    //         else {
-    //             this.inputElement.classList.remove('valid');
-    //             this.inputElement.classList.add('invalid');
-    //         }
-    //     },
+    const nameValidator = Object.assign(Object.create(Validator), {
+        nameLengthIsValid: false,
+        nameIsAvailable: false,
 
-    //     displayValidityWarning: function() {
-    //         this.inputElement.setCustomValidity('This field is invalid');
-    //         this.inputElement.reportValidity();
-    //     },
+        checkValidity: function() {
+            this.checkLength();
+            this.checkNameAvailability(this.inputValue);
+            if (this.nameLengthIsValid && this.nameIsAvailable) {
+                this.isValid = true;
+            }
+            else {this.isValid = false};
+        },
 
-    //     resetObjectInputValidity: function() {
-    //         this.inputElement.classList.remove('valid');
-    //         this.inputElement.classList.remove('invalid');
-    //     },
-    // };
+        checkLength: function () {
+            this.nameLengthIsValid = this.data.length > 0 ? true : false;
+        },
 
-    // const deckNameObject = Object.assign(Object.create(deckFormInputObject), {
-    //     inputElement: document.getElementById('deckname'),
-    //     nameLength: document.getElementById('deckname').value.trim().length,
-    //     nameLengthIsValid: false,
-    //     nameIsAvailable: false,
+        checkNameAvailability: function() {
+                const existingDeckName = Object.keys(localStorage).find(item => item === this.data);
+                this.nameIsAvailable = existingDeckName !== this.data ? true: false;
+        },
 
-    //     checkValidity: function() {
-    //         this.checkLength();
-    //         this.checkIfNameIsAvailable();
-    //         if (this.nameLengthIsValid && this.nameAlreadyTaken) {
-    //             this.isValid = true;
-    //         }
-    //         else {this.isValid = false};
-    //     },
+        displayWarning: function() {
+            if (!this.nameLengthIsValid) {
+                this.element.setCustomValidity('Name must be at least 1 character long');
+                this.element.reportValidity();
+                return;
+            }
+            else if (!this.nameIsAvailable) {
+                this.element.setCustomValidity('Deck already exists, choose a different name');
+                this.element.reportValidity();
+            }
+        }
+    });
 
-    //     checkLength: function () {
-    //         this.isValid = this.nameLength > 0 ? true : false;
-    //     },
+    const categoryValidator = Object.assign(Object.create(Validator), {
 
-    //     checkIfNameIsAvailable: function(name) {
-    //         const foundName = localStorage.getItem(name);
-    //         if (foundName != null) {
-    //             this.nameIsAvailable = true;
-    //         }
-    //         else {this.nameIsAvailable = false};
-    //     },
+        checkValidity: function() {
+            this.isValid = this.data !== '' ? true : false;
+        },
 
-    //     displayValidityWarning: function() {
-    //         if (!this.nameLengthIsValid) {
-    //             this.inputElement.setCustomValidity('Name must be at least 1 character long');
-    //             this.inputElement.reportValidity();
-    //         }
-    //         else if (!this.nameIsAvailable) {
-    //             this.inputElement.setCustomValidity('Deck name already exists');
-    //             this.inputElement.reportValidity();
-    //         }
-    //     }
-    // });
+        displayWarning: function() {
+                this.element.setCustomValidity('Please choose a category');
+                this.element.reportValidity();
+        },
+    });
 
-    // const deckCategoryObject = Object.assign(Object.create(deckFormInputObject), {
-    //     inputElement: document.getElementById('deckcategory'),
-    //     inputValue: document.getElementById('deckcategory').value,
+    const dateValidator = Object.assign(Object.create(Validator), {
 
-    //     checkValidity: function() {
-    //         this.isValid = this.inputValue === '' ? false : true;
-    //     },
+        checkValidity: function() {
+            const userInput = this.convertDateData(this.data);
+            this.isValid = isFuture(userInput);
+        },
 
-    //     displayValidityWarning: function() {
-    //         if(!this.isValid) {
-    //             this.inputElement.setCustomValidity('Must choose a category');
-    //             this.inputElement.reportValidity();
-    //         }
-    //     },
-    // });
+        convertDateData: function(dateData) {
+            const array = dateData.split('-');
+            const year = array[0];
+            const month = array[1];
+            const day = array[2];
+            return new Date(`${year}/${month}/${day}`);
+        },
 
-    // const deckDateObject = Object.assign(Object.create(deckFormInputObject), {
-    //     inputElement: document.getElementById('deckduedate'),
-    //     inputValue: document.getElementById('deckduedate').value,
-
-    //     checkValidity: function() {
-    //         const userInput = this.convertDateData(inputValue);
-    //         this.isValid = isFuture(userInput);
-    //     },
-
-    //     convertDateData: function(dateData) {
-    //         const array = this.dateData.split('-');
-    //         const year = array[0];
-    //         const month = array[1];
-    //         const day = array[2];
-    //         return new Date(`${year}/${month}/${day}`);
-    //     },
-
-    //     displayValidityWarning: function() {
-    //         if(!this.isValid) {
-    //             this.inputElement.setCustomValidity('Date must be in the future');
-    //             this.inputElement.reportValidity();
-    //         }
-    //     },
-    // });
-
-    // const objectInputs = [deckNameObject, deckCategoryObject, deckDateObject];
+        displayWarning: function() {
+                this.element.setCustomValidity('Date must be in the future');
+                this.element.reportValidity();
+        },
+    });
 
     return {
         addDeckToLocalStorage,
         getLocalStorage,
-        temporaryDecks,
         overviewCards,
-        Card,
+        nameValidator,
+        categoryValidator,
+        dateValidator,
+        getCurrentPage,
+        setCurrentPage,
     };
 })();
 

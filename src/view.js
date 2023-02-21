@@ -1,15 +1,7 @@
 import { setAttributes } from "./helpers";
 import { controller } from "./controller";
-import { Observable } from "./pubsub";
 
 const main = document.querySelector('main');
-
-// TODO show remaining characters for each input
-// TODO: you can edit the cards while you're studying them
-// TODO: Add cards during deck construction
-// TODO View: Seems kind of backwards to call RenderDeckDisplay from renderTopDecks //Shouldn't it be the other way around?
-// TODO Calculate days until its due
-// TODO Show on form that it needs to be within the next month //or something like that //...might just get rid of the duedate thing altogether.
 
 export const view = (function() {
 
@@ -20,7 +12,7 @@ export const view = (function() {
             // const openNavButton = document.getElementById('opennavbtn');
             // openNavButton.addEventListener('click', toggleNav);
             //This is for the slide in menu nav bar
-    
+
             renderModal();
 
             const topDecksSection = renderTopDecks();
@@ -75,8 +67,6 @@ export const view = (function() {
             const deckDisplayDiv = document.createElement('div');
             deckDisplayDiv.className = 'deckdisplay';
             deckDisplayDiv.id = 'deckdisplay';
-            console.log('firing from renderDeckDisplay');
-            console.log(localDecks);
 
             if (localDecks.length > 0) {
                 localDecks.forEach((deck) => {
@@ -106,8 +96,6 @@ export const view = (function() {
             const deckDisplayDiv = document.getElementById('deckdisplay');
             removeDecksFromPage();
 
-            console.log(localDecks);
-
             localDecks.forEach((deck) => {
                 const element = renderDeck(deck);
                 deckDisplayDiv.appendChild(element);
@@ -133,44 +121,23 @@ export const view = (function() {
             deckDescriptionDiv.className = 'deckdescriptiondiv';
             deckDescriptionDiv.appendChild(deckDescriptionParagraph);
 
-            const randomID = `RowID:${Math.random().toString(16).slice(2)}`;
+            const deckID = `RowID:${Math.random().toString(16).slice(2)}`;
         
             const deleteButton = document.createElement('button');
             deleteButton.innerText = 'Delete';
             deleteButton.onclick = () => {
                 localStorage.removeItem(deck.name);
-                document.getElementById(randomID).remove();
+                document.getElementById(deckID).remove();
             };
+
+            deckDescriptionDiv.appendChild(deleteButton);
     
             const deckDiv = document.createElement('div');
             deckDiv.className = 'deck';
-            deckDiv.id = randomID;
-            deckDiv.append(imageAndNameDiv, deckDescriptionDiv, deleteButton);
+            deckDiv.id = deckID;
+            deckDiv.append(imageAndNameDiv, deckDescriptionDiv);
             return deckDiv;
         };
-
-        //     const name = document.createElement('h3');
-        //     name.innerText = 'French';
-    
-        //     const dueDateParagraphElement = document.createElement('p');
-        //     dueDateParagraphElement.innerText = 'Due in X days';
-    
-        //     const imageAndNameDiv = document.createElement('div');
-        //     imageAndNameDiv.className = 'deckimageandname';
-        //     imageAndNameDiv.append(name, dueDateParagraphElement);
-    
-        //     const deckDescriptionParagraph = document.createElement('p');
-        //     deckDescriptionParagraph.innerText = 'A pre-constructed deck for learning French.'
-    
-        //     const deckDescriptionDiv = document.createElement('div');
-        //     deckDescriptionDiv.className = 'deckdescriptiondiv';
-        //     deckDescriptionDiv.appendChild(deckDescriptionParagraph);
-    
-        //     const deckDiv = document.createElement('div');
-        //     deckDiv.className = 'deck';
-        //     deckDiv.append(imageAndNameDiv, deckDescriptionDiv);
-        //     return deckDiv;
-        // };
         
         return {
             renderPage,
@@ -178,112 +145,13 @@ export const view = (function() {
         }
     })();
 
-    // const editPage = (function(){
-    //     function renderPage() {
-
-    //         renderModal();
-    
-    //         const addDeckButton = document.createElement('button');
-    //         addDeckButton.className = 'adddeckbutton';
-    //         addDeckButton.innerText = 'Add a Deck';  
-    //         addDeckButton.onclick = function() {
-    //             document.getElementById('modal').style.display = 'block';
-    //         }
-    
-    //         const table = renderDeckPageTable();
-    
-    //         const pageDiv = document.createElement('div');
-    //         pageDiv.className = 'addeckpagediv';
-    //         pageDiv.append(addDeckButton, table);
-    
-    //         const emptySpaceWithMobileNavHeight = getEmptyDivForExtraPageSpaceAtBottomWithMobileNavHeight();
-            
-    //         main.append(pageDiv, emptySpaceWithMobileNavHeight);
-    //         // renderLocalStorageDecks();
-    //         appendDeckToTable('decktable', controller.locallyStoredDecks);
-    
-    //         //this added a listener every time I clicked it
-    //         // so if you clicked the edit page tab 10 times before creating a deck
-    //         //it would run the appendDeckToTable function 10 times!
-    //         // Observable.subscribe('addDeckFunction', appendDeckToTable);
-    //     };
-
-    //     function renderDeckPageTable() {
-    //         const table = document.createElement('table');
-    //         table.className = 'decktable';
-    //         table.id = 'decktable';
-            
-    //         const tableHeaderRow = document.createElement('tr');
-    //         table.appendChild(tableHeaderRow);
-    
-    //         for (let i = 0; i <= 3; i++) {
-    //             const tableHeader = document.createElement('th');
-    //             tableHeaderRow.appendChild(tableHeader);
-    //             tableHeader.innerText = 'Header';
-    //         }
-    
-    //         return table;
-    //     };
-    
-    //     //fit
-    //     function clearTable(DOMElementID) {
-
-    //     }
-
-    //     function appendDeckToTable(DOMElementID, deckArray) {
-    
-    //         const table = document.getElementById(DOMElementID);
-
-    //         deckArray.forEach((item) => {
-
-    //             const row = document.createElement('tr');
-    //             row.id = `RowID:${Math.random().toString(16).slice(2)}`;
-            
-    //             const deleteButton = document.createElement('button');
-    //             deleteButton.innerText = 'Delete';
-    //             deleteButton.onclick = () => {
-    //                 localStorage.removeItem(item.name);
-    //                 document.getElementById(row.id).remove();
-    //             };
-            
-    //             //Logic to append name, duedate, and category
-    //             // const dataCells = renderTableCells(deck.name, deck.dueDate, deck.category);
-    //             // for (let i = 0; i < dataCells.length; i++) {
-    //             //     row.appendChild(dataCells[i]);
-    //             // }
-        
-    //             const nameDataCell = document.createElement('td');
-    //             nameDataCell.innerText = item.name;
-        
-    //             const studyButton = document.createElement('button');
-    //             studyButton.className = 'studybutton';
-    //             studyButton.id = 'studybutton';
-    //             studyButton.style.backgroundColor = 'green';
-    //             studyButton.innerText = 'Study';
-        
-    //             const addCardsButton = document.createElement('button');
-    //             addCardsButton.className = 'addcardsbutton';
-    //             addCardsButton.id = 'addcardsbutton';
-    //             addCardsButton.style.backgroundColor = 'blue';
-    //             addCardsButton.innerText = 'Add Cards';
-        
-    //             row.append(nameDataCell, studyButton, addCardsButton, deleteButton);
-    //             table.appendChild(row);
-    //         });
-    //     };
-
-    
-    //     return {
-    //         renderPage,
-    //         appendDeckToTable
-    //     }
-    // })();
-
     const overviewPage = (function(){
 
         function renderPage() {
             const overviewSection = renderOverviewSection();
             const emptySpaceWithMobileNavHeight = getEmptyDivForExtraPageSpaceAtBottomWithMobileNavHeight();
+
+            renderModal();
     
             main.append(overviewSection, emptySpaceWithMobileNavHeight);
         };
@@ -396,6 +264,7 @@ export const view = (function() {
             'name': 'deckname',
             'type': 'text',
             'maxLength': '20',
+            'minLength': '1',
         });
 
         const descriptionLabel = document.createElement('label');
@@ -485,6 +354,10 @@ export const view = (function() {
     function hideModal() {
         document.getElementById('modal').style.display = 'none';
     };
+
+    function resetForm() {
+        document.getElementById('modal-form').reset();
+    }
 
 
     function renderDefaultPage() {
@@ -603,6 +476,8 @@ export const view = (function() {
         removeMainTagContent,
         changePage,
         hideModal,
+        resetForm,
+        renderModal,
         };
 })();
 
