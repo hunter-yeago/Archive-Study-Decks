@@ -1,10 +1,10 @@
 @use 'config';
+@use 'mixins';
 
 .rowofcards {
     display: grid;
     justify-content: center;
     align-items: center;
-    //Change to repeat(4, 1fr) at Media Query
     grid-template-columns: 1fr 1fr;
     gap: .5rem;
     padding: .5rem;
@@ -19,9 +19,7 @@
     background-color: white;
 
     div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        @include mixins.centered-flexbox;
         gap: .2rem;
         padding-top: .5rem;
     }
@@ -33,8 +31,6 @@
     }
 }
 
-// using p{} nested in .overviewcard was overriding my
-//colors with these classes, so I just put everything here
 .greencardunderline,
 .brickcardunderline,
 .bluecardunderline,

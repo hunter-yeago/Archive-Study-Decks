@@ -3,10 +3,8 @@
 
 
 .deckdisplay {
-    display: flex;
+    @include mixins.centered-flexbox;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 .deck {
@@ -25,10 +23,8 @@
 }
 
 .deckimageandname { 
-    display: flex;
+    @include mixins.centered-flexbox;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
 
     border-right: 1px solid config.$quizlet-gold-color;
     

@@ -3,6 +3,8 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 /* Remove default margin */
@@ -71,18 +73,14 @@ select {
     scroll-behavior: auto !important;
   }
 }
-/* The Modal (background) */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 3rem; /* Location of the box */
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 3rem;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  width: 100%;
   color: black;
 }
 
@@ -143,14 +141,12 @@ select {
 }
 
 .invalid {
-  border: 2px solid red;
+  border: 0.125rem solid red;
 }
 
 .submitbutton {
   width: 40%;
   margin-left: auto;
-  height: 1.5rem;
-  text-align: center;
 }
 
 @keyframes animatetop {
@@ -165,9 +161,9 @@ select {
 }
 .deckdisplay {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .deck {
@@ -184,9 +180,9 @@ select {
 
 .deckimageandname {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
   border-right: 1px solid #ffcd1e;
   margin: 0.7em 0 0.7em 0;
   padding-right: 1em;
@@ -276,12 +272,6 @@ select {
 
 .sunshinecardunderline {
   text-decoration-color: #FFBA17;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 html,
@@ -384,6 +374,10 @@ main {
   border-radius: 0.3rem;
   font-size: 1.1rem;
   cursor: pointer;
+}
+.menu button:hover {
+  background-color: #0a082d;
+  opacity: 0.9;
 }
 
 .nav-right {

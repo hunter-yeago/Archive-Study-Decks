@@ -5,12 +5,6 @@
 @use 'overview';
 @use 'mixins';
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
 //declaring global color for dark mode (default)
 html,
 body {
@@ -108,6 +102,11 @@ main {
         font-size: 1.1rem;
         cursor: pointer;
     }
+
+    button:hover {
+        background-color: config.$quizlet-background-color;
+        opacity: .9;
+    }
   }
 
 .nav-right {
@@ -163,40 +162,6 @@ main {
         background-color: white;
     }
 }
-
-//Add Deck Page Start
-
-// .addeckpagediv {
-
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: center;
-// }
-
-// .adddeckbutton {
-//     width: 50%;
-//     align-self: center;
-// }
-
-// .deckpagetitle {
-//     text-align: center;
-// }
-
-//Deck Table
-
-// .decktable {
-//     border: 1px solid black;
-
-//     td {
-//         border: 1px solid blue;
-//     }
-// }
-
-//Add Deck Page Finish
-
-
-
-// Header Section Ends
 
 section {
     h1 {
