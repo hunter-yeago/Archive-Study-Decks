@@ -455,10 +455,19 @@ export const view = (function() {
         return form;
     };
 
+    function setModalAutofocus() {
+        setTimeout(function() {
+            const modalbody = document.getElementById('modal-body');
+            const firstText = modalbody.getElementsByTagName('input')[0] || modalbody.getElementsByTagName('textarea')[0];
+            firstText.focus();
+          }, 1);
+    }
+
     function renderAddCardModalBody() {
         removeModalContent();
         renderModalAddCardInput();
         renderModalAddCardInputHeader();
+        setModalAutofocus();
     }
 
     function renderModalAddCardInput() {
@@ -627,6 +636,7 @@ export const view = (function() {
     function makeNewAddDeckButtonWork() {
         const buttttton = document.getElementById('thebutttton');
         buttttton.onclick = function() {
+            setModalAutofocus();
             document.getElementById('modal').style.display = 'block';
         }
     }
