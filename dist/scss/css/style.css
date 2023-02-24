@@ -303,7 +303,7 @@ select {
 }
 
 .settingssection button {
-  padding: 0.1em;
+  padding: 0.2em;
 }
 .settingssection select {
   padding: 0.3em;
@@ -328,6 +328,8 @@ select {
 .resetbutton {
   display: block;
   margin: 1rem auto auto auto;
+  color: red;
+  border: 1px solid red;
 }
 
 .innerheaderdiv {

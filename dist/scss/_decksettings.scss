@@ -1,7 +1,7 @@
 @use 'mixins';
 
 .settingssection {
-    button { padding: .1em; }
+    button { padding: .2em; }
     select { padding: .3em; }
 }
 
@@ -20,4 +20,6 @@
 .resetbutton {
     display: block;
     margin: 1rem auto auto auto;
+    color: red;
+    border: 1px solid red;
 }
