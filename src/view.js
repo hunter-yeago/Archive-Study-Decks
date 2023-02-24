@@ -144,7 +144,7 @@ export const view = (function() {
 
         function renderOverviewSection() {
             const title = renderSectionTitle('Overview');
-            const rowOfCardsDiv = renderOverviewCards(controller.controllerOverviewCards);
+            const rowOfCardsDiv = renderOverviewCards(controller.data.controllerOverviewCards);
             
             const section = document.createElement('section');
             section.append(title, rowOfCardsDiv);
@@ -440,36 +440,41 @@ export const view = (function() {
         })
     };
 
+    // function renderBanner() {
+
+    //     const path = document.createElement('path');
+    //     path.setAttribute('d', 'M12 6V18M6 12H18');
+    //     path.setAttribute('stroke', 'currentColor');
+    //     path.setAttribute('stroke-width', '2');
+    //     path.setAttribute('stroke-linecap', 'round');
+    //     path.setAttribute('stroke-linejoin', 'round');
+
+    //     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    //     svg.setAttribute('height', '40px');
+    //     svg.setAttribute('width', '40px');
+    //     svg.setAttribute('viewBox', '0 0 24 24');
+    //     svg.appendChild(path);
+
+    //     const addDeckButton = document.createElement('button');
+    //     addDeckButton.id = 'bannerbutton';
+    //     addDeckButton.appendChild(svg);
+
+    //     const title = document.createElement('h3');
+    //     title.innerText = 'Study Decks';
+
+    //     const innerHeaderDiv = document.createElement('div');
+    //     innerHeaderDiv.className = 'innerheaderdiv';
+    //     innerHeaderDiv.append(title, addDeckButton);
+
+    //     const mainHeader = document.getElementById('mainheader');
+    //     mainHeader.appendChild(innerHeaderDiv);
+
+    // }
+
     function renderBanner() {
-
-        const path = document.createElement('path');
-        path.setAttribute('d', 'M12 6V18M6 12H18');
-        path.setAttribute('stroke', 'currentColor');
-        path.setAttribute('stroke-width', '2');
-        path.setAttribute('stroke-linecap', 'round');
-        path.setAttribute('stroke-linejoin', 'round');
-
-        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.setAttribute('height', '40px');
-        svg.setAttribute('width', '40px');
-        svg.setAttribute('viewBox', '0 0 24 24');
-        svg.appendChild(path);
-
-        const addDeckButton = document.createElement('button');
-        addDeckButton.id = 'bannerbutton';
-        addDeckButton.appendChild(svg);
-
-        const title = document.createElement('h3');
-        title.innerText = 'Study Decks';
-
-        const innerHeaderDiv = document.createElement('div');
-        innerHeaderDiv.className = 'innerheaderdiv';
-        innerHeaderDiv.append(title, addDeckButton);
-
-        const mainHeader = document.getElementById('mainheader');
-        mainHeader.appendChild(innerHeaderDiv);
-
-    }
+        addBannerButtonFunctionality();
+        makeNewAddDeckButtonWork();
+    };
 
     function renderSectionTitle(titleName) {
         const h1 = document.createElement('h1');
@@ -524,8 +529,6 @@ export const view = (function() {
     }
 
     return {
-        makeNewAddDeckButtonWork,
-        addBannerButtonFunctionality,
         renderDefaultPage,
         studyPage,
         changeTabColor,
@@ -534,6 +537,7 @@ export const view = (function() {
         hideModal,
         resetForm,
         renderModal,
+        renderBanner,
         };
 })();
 

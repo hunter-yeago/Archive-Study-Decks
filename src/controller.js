@@ -14,7 +14,6 @@ import { view } from "./view";
 
 export const controller = (function(){
 
-    const controllerOverviewCards = model.overviewCards;
     const defaultTabID = 'studybutton';
     const mobileNavButtons = Array.from([
         document.getElementById('studybutton'),
@@ -23,6 +22,7 @@ export const controller = (function(){
 
     const data = {
         localDecks: Array.from(model.getLocalStorage()),
+        controllerOverviewCards: model.overviewCards,
 
         updateData: function() {
             this.localDecks = Array.from(model.getLocalStorage());
@@ -30,14 +30,11 @@ export const controller = (function(){
     }
     
     function startApplication() {
-        //TODO - instea of renderDefaultPage, just renderPage and pass in the ID
-        // view.renderBanner();
-        view.addBannerButtonFunctionality();
-        view.makeNewAddDeckButtonWork();
-        view.renderDefaultPage();
-        addMobileNavEventListeners();
-        model.setCurrentPage(defaultTabID);
+        view.renderBanner();
+        view.changePage(defaultTabID);
         view.changeTabColor(defaultTabID);
+        model.setCurrentPage(defaultTabID);
+        addMobileNavEventListeners();
     };
 
     function handleFormInput() {
@@ -103,7 +100,6 @@ export const controller = (function(){
         startApplication,
         handleFormInput,
         addMobileNavEventListeners,
-        controllerOverviewCards,
         mobileNavButtons,
         data
     }
