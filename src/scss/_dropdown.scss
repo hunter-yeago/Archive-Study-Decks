@@ -1,3 +1,5 @@
+@use './mixins';
+
 .dropdown {
     position: relative;
     @include mixins.centered-flexbox;

@@ -17,15 +17,13 @@ module.exports = {
     module: {
         rules: [
             {
-              test: /\.(s(a|c)ss)$/,
-                use: [
-                    //Creates  `style` nodes from JS strings
-                    'style-loader', 
-                    //Translates CSS into CommonJS
-                    'css-loader', 
-                    //Comples SASS to CSS
-                    'sass-loader'],
+                test: /\.css$/i,
+                use: ["style-loader", "css-loader"],
             },
+            {
+                test: /\.scss$/i,
+                use: ['sass-loader'],
+            }, 
         ],
     },
 };
