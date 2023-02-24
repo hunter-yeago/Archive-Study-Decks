@@ -121,7 +121,7 @@ export const view = (function() {
             studyButton.id = 'studybutton';
             studyButton.className = 'studybutton';
             studyButton.onclick = function() {
-                Observable.publish('Study', deck.name);
+                // Observable.publish('Study', deck.name);
             };
     
             const deckDescriptionDiv = document.createElement('div');
@@ -145,7 +145,6 @@ export const view = (function() {
         Observable.subscribe('UpdateOverviewData', updateDeleteDeckOptions);
 
         function renderPage() {
-            console.log('firing renderingpage');
             renderModal();
             const overviewSection = renderOverviewSection();
             const settingsSection = renderSettingsSection();
@@ -313,10 +312,12 @@ export const view = (function() {
 
         const modalBody = document.createElement('div');
         modalBody.className = 'modal-body';
+        modalBody.id = 'modal-body';
         modalBody.appendChild(modalForm);
         
         const modalContent = document.createElement('div');
         modalContent.className = 'modal-content';
+        modalContent.id = 'modal-content';
         modalContent.append(modalHeader, modalBody);
 
         modal.appendChild(modalContent);
@@ -326,6 +327,7 @@ export const view = (function() {
 
         const modalHeader = document.createElement('h5');
         modalHeader.innerText = 'Step 1: Create Deck'
+        modalHeader.id = 'modalheaderh5';
 
         const exitSpan = document.createElement('span');
         exitSpan.innerHTML = '&times;';
@@ -427,9 +429,17 @@ export const view = (function() {
 
         const inputs = [nameInput, descriptionInput, dueDateInput, categorySelect];
         const formSubmitButton = document.createElement('button');
-        formSubmitButton.innerText = 'Add Deck';
+        formSubmitButton.innerText = 'Create Deck';
         formSubmitButton.type = 'button';
         formSubmitButton.className = 'submitbutton';
+
+        const addCardsButton = document.createElement('button');
+        addCardsButton.innerText = 'Add Cards';
+        addCardsButton.type = 'button';
+        addCardsButton.onclick = function(event) {
+            event.preventDefault();
+            Observable.publish('AddCards', 'testdata');
+        };
 
         formSubmitButton.addEventListener('click', controller.handleFormInput);
 
@@ -441,9 +451,73 @@ export const view = (function() {
             categoryLabel, categorySelect,
             descriptionLabel, descriptionInput,
             dueDateLabel, dueDateInput,
-            formSubmitButton);
+            addCardsButton, formSubmitButton);
         return form;
     };
+
+    function renderAddCardModalBody() {
+        removeModalContent();
+        renderModalAddCardInput();
+        renderModalAddCardInputHeader();
+    }
+
+    function renderModalAddCardInput() {
+
+        const modalBody = document.getElementById('modal-body');
+
+        const cardCountH3 = document.createElement('h3');
+        cardCountH3.innerText = 'Card 1';
+        cardCountH3.className = 'cardcounth3';
+
+        const questionLabel = document.createElement('label');
+        questionLabel.htmlFor = 'questioninput';
+        questionLabel.innerText = 'Question:';
+        const questionInput = document.createElement('textarea');
+        questionInput.name = 'questioninput';
+        questionInput.minLength = 1;
+        questionInput.maxLength = 50;
+
+        const questionDiv = document.createElement('div');
+        questionDiv.className = 'questiondiv';
+        questionDiv.append(questionLabel, questionInput);
+
+        const answerLabel = document.createElement('label');
+        answerLabel.htmlFor = 'answerinput';
+        answerLabel.innerText = 'Answer:'
+        const answerInput = document.createElement('textarea');
+        answerInput.name = 'answerinput';
+        answerInput.minLength = 1;
+        answerInput.maxLength = 50;
+
+        const answerDiv = document.createElement('div');
+        answerDiv.className = 'answerdiv';
+        answerDiv.append(answerLabel, answerInput);
+
+        const userOptionsDiv = document.createElement('div');
+        userOptionsDiv.className = 'useroptionsdiv';
+
+        const addNextCardButton = document.createElement('button');
+        addNextCardButton.innerText = 'Add Next Card';
+        const finishAddingCardsButton = document.createElement('button');
+        finishAddingCardsButton.innerText = 'Done Adding Cards';
+
+        userOptionsDiv.append(addNextCardButton, finishAddingCardsButton);
+
+        modalBody.append(cardCountH3, questionDiv, answerDiv, userOptionsDiv);
+    }
+
+    function renderModalAddCardInputHeader() {
+        const title = document.getElementById('modalheaderh5');
+        title.innerText = 'Step 2: Add Cards';
+    }
+
+    function removeModalContent() {
+        const modalBody = document.getElementById('modal-body');
+        const children = Array.from(modalBody.children);
+        children.forEach((child) => {
+            child.remove();
+        });
+    }
 
     function hideModal() {
         document.getElementById('modal').style.display = 'none';
@@ -581,6 +655,7 @@ export const view = (function() {
         resetForm,
         renderModal,
         renderBanner,
+        renderAddCardModalBody,
         };
 })();
 
