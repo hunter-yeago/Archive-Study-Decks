@@ -1,6 +1,8 @@
 import { setAttributes } from "./helpers";
 import { controller } from "./controller";
 import {Observable} from './pubsub';
+import StudyIcon from '../images/studying.png';
+import OverviewIcon from '../images/edit.png';
 
 const main = document.querySelector('main');
 
@@ -27,7 +29,8 @@ export const view = (function() {
             const section = document.createElement('section');
             const title = renderSectionTitle('Your Decks');
 
-            controller.data.updateData();
+            //shouldn't have this here probably, but it's working for the immediate moment.
+            controller.data.updateLocalDecks();
             
             const deckDisplayDiv = renderDeckDisplay(controller.data.localDecks);
             
@@ -118,8 +121,12 @@ export const view = (function() {
 
             const studyButton = document.createElement('button');
             studyButton.innerText = 'Study';
-            studyButton.id = 'studybutton';
-            studyButton.className = 'studybutton';
+            //TODO going to have to dynamically render my mobile nav buttons now in order to make them
+            //work with the webpack stuff
+
+            //this is colliding with the name for my mobile nav button
+            // studyButton.id = 'studybutton';
+            // studyButton.className = 'studybutton';
             studyButton.onclick = function() {
                 // Observable.publish('Study', deck.name);
             };
@@ -655,7 +662,47 @@ export const view = (function() {
         return emptySpaceDiv;
     }
 
+    function renderMobileNavigation () {
+        const footer = document.createElement('footer');
+        footer.id = 'footer';
+
+        const nav = document.createElement('nav');
+        nav.className = 'mobilenav';
+        nav.id = 'mobilenav';
+        
+        const studyImage = document.createElement('img');
+        studyImage.src = StudyIcon;
+        studyImage.alt = 'Click here to access the study section';
+
+        const studyH3 = document.createElement('h3');
+        studyH3.id = 'studybuttonh3'
+        studyH3.innerText = 'Study';
+
+        const studyButton = document.createElement('button');
+        studyButton.id = 'studybutton';
+        studyButton.append(studyImage, studyH3)
+        
+        const overviewImage = document.createElement('img');
+        overviewImage.src = OverviewIcon;
+        overviewImage.alt = 'Click here to access the study section';
+
+        const overviewH3 = document.createElement('h3');
+        overviewH3.id = 'overviewbuttonh3'
+        overviewH3.innerText = 'Overview';
+
+        const overviewButton = document.createElement('button');
+        overviewButton.id = 'overviewbutton';
+        overviewButton.append(overviewImage, overviewH3)
+
+        nav.append(studyButton, overviewButton);
+        footer.appendChild(nav);
+
+        const body = document.getElementsByTagName('body')[0];
+        body.appendChild(footer);
+    }
+
     return {
+        renderMobileNavigation,
         renderDefaultPage,
         studyPage,
         changeTabColor,

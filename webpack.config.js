@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
     mode: 'development',
-    entry: './src/index.js',
+    entry: './src/scripts/index.js',
     devtool: 'inline-source-map',
     devServer: {
         static: {
@@ -23,7 +23,13 @@ module.exports = {
             {
                 test: /\.scss$/i,
                 use: ['sass-loader'],
-            }, 
+            },
+            {
+
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: 'asset/resource',
+        
+            },
         ],
     },
 };

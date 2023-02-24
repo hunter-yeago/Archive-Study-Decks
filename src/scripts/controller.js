@@ -26,23 +26,32 @@ export const controller = (function(){
         localDecks: Array.from(model.getLocalStorage()),
         controllerOverviewCards: model.overviewCards,
 
-        updateData: function() {
+        updateLocalDecks: function() {
             this.localDecks = Array.from(model.getLocalStorage());
         },
     }
 
+    function updateMobileNavButtons() {
+        controller.mobileNavButtons = Array.from([
+            document.getElementById('studybutton'),
+            document.getElementById('overviewbutton'),
+            ]);
+    }
+
     function resetDataAndView() {
         model.clearLocalStorage();
-        data.updateData();
+        data.updateLocalDecks();
         Observable.publish('UpdateOverviewData', data.localDecks);
     };
     
     function startApplication() {
-        view.renderBanner();
-        view.changePage(defaultTabID);
-        view.changeTabColor(defaultTabID);
-        model.setCurrentPage(defaultTabID);
-        addMobileNavEventListeners();
+        view.renderMobileNavigation();
+        updateMobileNavButtons();
+            view.renderBanner();
+            view.changePage(defaultTabID);
+            view.changeTabColor(defaultTabID);
+            model.setCurrentPage(defaultTabID);
+            addMobileNavEventListeners();
     };
 
     function handleFormInput() {
@@ -69,7 +78,7 @@ export const controller = (function(){
             });
         } else {
             model.addDeckToLocalStorage();
-            data.updateData();
+            data.updateLocalDecks();
 
             let currentPage = model.getCurrentPage();
             if (currentPage === 'studybutton') {
@@ -88,7 +97,7 @@ export const controller = (function(){
     }
 
     function addMobileNavEventListeners() {
-        mobileNavButtons.forEach((button) => {
+        controller.mobileNavButtons.forEach((button) => {
             button.addEventListener('click', (event) => {
                 
                 const currentTabID = event.target.id;
