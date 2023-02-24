@@ -115,10 +115,18 @@ export const view = (function() {
     
             const deckDescriptionParagraph = document.createElement('p');
             deckDescriptionParagraph.innerText = deck.description;
+
+            const studyButton = document.createElement('button');
+            studyButton.innerText = 'Study';
+            studyButton.id = 'studybutton';
+            studyButton.className = 'studybutton';
+            studyButton.onclick = function() {
+                Observable.publish('Study', deck.name);
+            };
     
             const deckDescriptionDiv = document.createElement('div');
             deckDescriptionDiv.className = 'deckdescriptiondiv';
-            deckDescriptionDiv.append(deckDescriptionParagraph, dueDateParagraphElement);
+            deckDescriptionDiv.append(deckDescriptionParagraph, dueDateParagraphElement, studyButton);
     
             const deckDiv = document.createElement('div');
             deckDiv.className = 'deck';

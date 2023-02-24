@@ -14,6 +14,9 @@ import { Observable } from "./pubsub";
 export const controller = (function(){
 
     Observable.subscribe('DataReset', resetDataAndView);
+    Observable.subscribe('Study', (deck) => {
+        studyDeck(deck);
+    });
 
     const defaultTabID = 'studybutton';
     const mobileNavButtons = Array.from([
@@ -101,6 +104,11 @@ export const controller = (function(){
     function changePage(page) {
         view.changePage(page);
         model.setCurrentPage(page);
+    }
+
+    function studyDeck(deck) {
+        view.removeMainTagContent();
+        console.log(`name of deck is ${deck}`);
     }
 
     return {
