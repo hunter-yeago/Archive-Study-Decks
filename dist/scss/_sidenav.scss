@@ -1,0 +1,55 @@
+@use 'mixins';
+
+.nav-right {
+    @include mixins.centered-flexbox;
+    width: 8rem;
+
+    p {
+        width: 100%;
+    }
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(246, 246, 246);
+    overflow-x: hidden;
+    margin-top: 42.3px;
+    transition: .3s;
+}
+
+.sidenav.active {
+    width: 15rem;
+}
+
+.sidenavinnerdiv {
+    display: flex;
+    flex-direction: column;
+    
+    padding: 2rem 0 0 2rem;
+
+    //The navigation menu links
+    a {
+        padding: .3rem .5rem .4rem 1rem;
+        margin-right: 1.5rem;
+        text-decoration: none;
+        font-size: 1.1rem;
+        color: black;
+        display: block;
+        transition: .2.5s;
+    }
+
+    li {
+        list-style: none;
+        //Prevents text from wrapping when Nav comes in and out
+        white-space: nowrap;
+    }
+
+    li:hover {
+        background-color: white;
+    }
+}

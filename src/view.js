@@ -1,5 +1,6 @@
 import { setAttributes } from "./helpers";
 import { controller } from "./controller";
+import {Observable} from './pubsub';
 
 const main = document.querySelector('main');
 
@@ -74,7 +75,7 @@ export const view = (function() {
             } else {
                 const itsEmptyMessage = document.createElement('p');
                 itsEmptyMessage.className = 'itsemptymessage';
-                itsEmptyMessage.innerText = `It's empty in here! Go to the Edit Page to create a new deck.`;
+                itsEmptyMessage.innerText = `It's empty in here! Click the blue button above to create a new deck.`;
                 deckDisplayDiv.appendChild(itsEmptyMessage);
             }
     
@@ -133,7 +134,10 @@ export const view = (function() {
 
     const overviewPage = (function(){
 
+        Observable.subscribe('UpdateOverviewData', updateDeleteDeckOptions);
+
         function renderPage() {
+            console.log('firing renderingpage');
             renderModal();
             const overviewSection = renderOverviewSection();
             const settingsSection = renderSettingsSection();
@@ -183,6 +187,10 @@ export const view = (function() {
             return rowOfCardsDiv;
         };
 
+        function updateOverviewCards() {
+            
+        }
+
         function renderSettingsSection() {
             const section = document.createElement('section');
             section.className = 'settingssection';
@@ -206,7 +214,7 @@ export const view = (function() {
 
             const dropdownSelect = document.createElement('select');
             dropdownSelect.name = 'decks';
-            dropdownSelect
+            dropdownSelect.id = 'dropdownselect';
 
             const defaultOption = document.createElement('option');
             defaultOption.value = '';
@@ -242,15 +250,42 @@ export const view = (function() {
             return div;
         }
 
+        function updateDeleteDeckOptions() {
+            const dropdownSelect = document.getElementById('dropdownselect');
+            const decks = Array.from(dropdownSelect.children);
+            const data = controller.data.localDecks;
+
+            decks.forEach((item) => {
+                if (item.value != '') { item.remove(); }
+            });
+            
+            data.forEach((item) => {
+                const option = document.createElement('option');
+                option.id = item.name + 'id';
+                option.value = item.name;
+                option.innerText = item.name;
+                dropdownSelect.appendChild(option);
+            });
+        }
+
         function renderResetButton() {
             const button = document.createElement('button');
             button.innerText = 'Delete all saved data';
             button.className = 'resetbutton';
             button.ariaLabel = 'Click here to delete all saved data';
             button.onclick = function() {
-                localStorage.clear();
+                // localStorage.clear();
+                showResetDataConfirmationWindow();
             };
             return button;
+        }
+
+        function showResetDataConfirmationWindow() {
+            if (confirm('Are you sure you want to reset your data? You cannot undo this action!')) {
+                // localStorage.clear();
+                Observable.publish('DataReset');
+                
+            } else { return; }
         }
 
         return {

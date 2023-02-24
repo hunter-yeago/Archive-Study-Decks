@@ -5,6 +5,8 @@
 @use 'overview';
 @use 'mixins';
 @use 'decksettings';
+@use 'banner';
+@use 'sidenav';
 
 //declaring global color for dark mode (default)
 html,
@@ -50,117 +52,6 @@ main {
         font-size: .9rem;
         color: grey;
         pointer-events: none;
-    }
-}
-
-.innerheaderdiv {
-    @include mixins.centered-flexbox;
-    gap: 1rem;
-    padding: .8rem;
-    border-bottom: 1px solid config.$quizlet-border-color;
-
-    h3 {
-        font-size: 1.6rem;
-        border-bottom: 1px solid config.$quizlet-gold-color;
-    }
-}
-
-.containerdiv {
-    //TODO assigning specific height here because I can't figure out how to get rid of that litttle bit of extra space right now when the 
-    //height is done automatically
-    height: 38.4px;
-}
-
-.bannerbutton {
-    @include mixins.button-reset;
-    height: 2.4rem;
-    width: 2.4rem;
-    border-radius: 50%;
-    background-color: config.$quizlet-button-color;
-}
-
-.bannerbutton:hover {
-    background-color: config.$quizlet-button-hover-color;
-}
-
-.menu {
-    position: absolute;
-    right: 1rem;
-    border-radius: .5rem;
-    color: black;
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    z-index: 1;
-    display: none;
-
-    button {
-        min-width: 8rem;
-        padding: .7em;
-        background-color: config.$quizlet-background-color;
-        color: white;
-        border: 1px solid config.$quizlet-border-color;
-        border-radius: .3rem;
-        font-size: 1.1rem;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: config.$quizlet-background-color;
-        opacity: .9;
-    }
-  }
-
-.nav-right {
-    @include mixins.centered-flexbox;
-    width: 8rem;
-
-    p {
-        width: 100%;
-    }
-}
-
-.sidenav {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: rgb(246, 246, 246);
-    overflow-x: hidden;
-    margin-top: 42.3px;
-    transition: .3s;
-}
-
-.sidenav.active {
-    width: 15rem;
-}
-
-.sidenavinnerdiv {
-    display: flex;
-    flex-direction: column;
-    
-    padding: 2rem 0 0 2rem;
-
-    //The navigation menu links
-    a {
-        padding: .3rem .5rem .4rem 1rem;
-        margin-right: 1.5rem;
-        text-decoration: none;
-        font-size: 1.1rem;
-        color: black;
-        display: block;
-        transition: .2.5s;
-    }
-
-    li {
-        list-style: none;
-        //Prevents text from wrapping when Nav comes in and out
-        white-space: nowrap;
-    }
-
-    li:hover {
-        background-color: white;
     }
 }
 

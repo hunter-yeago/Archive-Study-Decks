@@ -149,6 +149,10 @@ export const model = (function(){
             return deckArray;
     }
 
+    function clearLocalStorage() {
+        localStorage.clear();
+    }
+
     const Validator = {
         data: null,
         element: null,
@@ -296,6 +300,7 @@ export const model = (function(){
         dateValidator,
         getCurrentPage,
         setCurrentPage,
+        clearLocalStorage,
     };
 })();
 

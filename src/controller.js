@@ -1,18 +1,19 @@
 import { model } from "./model";
 import { view } from "./view";
+import { Observable } from "./pubsub";
 
 //Add functionality
 // TODO show remaining characters for each input
 // TODO: you can edit the cards while you're studying them
 // TODO: Add cards during deck construction
-// TODO Calculate days until its due
 //TODO add Reset functionality to Overview Page (delete localStorage and update stats)
 
 //Clean Code/Fix Bugs
 // TODO View: Seems kind of backwards to call RenderDeckDisplay from renderTopDecks //Shouldn't it be the other way around?
-// TODO Show on form that it needs to be within the next month //or something like that //...might just get rid of the duedate thing altogether.
 
 export const controller = (function(){
+
+    Observable.subscribe('DataReset', resetDataAndView);
 
     const defaultTabID = 'studybutton';
     const mobileNavButtons = Array.from([
@@ -28,6 +29,12 @@ export const controller = (function(){
             this.localDecks = Array.from(model.getLocalStorage());
         },
     }
+
+    function resetDataAndView() {
+        model.clearLocalStorage();
+        data.updateData();
+        Observable.publish('UpdateOverviewData', data.localDecks);
+    };
     
     function startApplication() {
         view.renderBanner();

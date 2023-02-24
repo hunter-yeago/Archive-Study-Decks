@@ -1,0 +1,60 @@
+@use 'mixins';
+@use 'config';
+
+.innerheaderdiv {
+    @include mixins.centered-flexbox;
+    gap: 1rem;
+    padding: .8rem;
+    border-bottom: 1px solid config.$quizlet-border-color;
+
+    h3 {
+        font-size: 1.6rem;
+        border-bottom: 1px solid config.$quizlet-gold-color;
+    }
+}
+
+.containerdiv {
+    //TODO assigning specific height here because I can't figure 
+    //out how to get rid of that litttle bit of extra space right now when the 
+    //height is done automatically
+    height: 38.4px;
+}
+
+.bannerbutton {
+    @include mixins.button-reset;
+    height: 2.4rem;
+    width: 2.4rem;
+    border-radius: 50%;
+    background-color: config.$quizlet-button-color;
+}
+
+.bannerbutton:hover {
+    background-color: config.$quizlet-button-hover-color;
+}
+
+.menu {
+    position: absolute;
+    right: 1rem;
+    border-radius: .5rem;
+    color: black;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    display: none;
+
+    button {
+        min-width: 8rem;
+        padding: .7em;
+        background-color: config.$quizlet-background-color;
+        color: white;
+        border: 1px solid config.$quizlet-border-color;
+        border-radius: .3rem;
+        font-size: 1.1rem;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: config.$quizlet-background-color;
+        opacity: .9;
+    }
+  }
