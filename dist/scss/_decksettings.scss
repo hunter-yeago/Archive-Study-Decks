@@ -1,0 +1,23 @@
+@use 'mixins';
+
+.settingssection {
+    button { padding: .1em; }
+    select { padding: .3em; }
+}
+
+.deckdeleteoptions {
+    @include mixins.centered-flexbox;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.horizontaldiv {
+    @include mixins.centered-flexbox;
+    gap: 1rem;
+    margin-bottom: 1em;
+}
+
+.resetbutton {
+    display: block;
+    margin: 1rem auto auto auto;
+}

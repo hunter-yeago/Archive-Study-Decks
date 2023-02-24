@@ -28,9 +28,9 @@ export const controller = (function(){
             this.localDecks = Array.from(model.getLocalStorage());
         },
     }
-
     
     function startApplication() {
+        //TODO - instea of renderDefaultPage, just renderPage and pass in the ID
         // view.renderBanner();
         view.addBannerButtonFunctionality();
         view.makeNewAddDeckButtonWork();

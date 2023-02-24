@@ -24,10 +24,9 @@ export const view = (function() {
         
         function renderTopDecks() {
             const section = document.createElement('section');
-        
-            const title = document.createElement('h1');
-            title.innerText = 'Top Decks';
-            title.id = 'topdeckstitle';
+            const title = renderSectionTitle('Top Decks');
+
+            controller.data.updateData();
             
             const deckDisplayDiv = renderDeckDisplay(controller.data.localDecks);
             
@@ -40,8 +39,7 @@ export const view = (function() {
 
             const section = document.createElement('section');
         
-            const title = document.createElement('h1');
-            title.innerText = 'Prebuilt Decks';
+            const title = renderSectionTitle('Prebuilt Decks');
     
             const prebuiltDecksDiv = document.createElement('div');
             prebuiltDecksDiv.className = 'deckdisplay';
@@ -148,25 +146,20 @@ export const view = (function() {
     const overviewPage = (function(){
 
         function renderPage() {
-            const overviewSection = renderOverviewSection();
-            const emptySpaceWithMobileNavHeight = getEmptyDivForExtraPageSpaceAtBottomWithMobileNavHeight();
-
             renderModal();
+            const overviewSection = renderOverviewSection();
+            const settingsSection = renderSettingsSection();
+            const emptySpaceWithMobileNavHeight = getEmptyDivForExtraPageSpaceAtBottomWithMobileNavHeight();
     
-            main.append(overviewSection, emptySpaceWithMobileNavHeight);
+            main.append(overviewSection, settingsSection, emptySpaceWithMobileNavHeight);
         };
 
         function renderOverviewSection() {
-            const section = document.createElement('section');
-            section.className = 'overview'
-    
-            const title = document.createElement('h1');
-            title.innerText = 'Overview';
-            title.id = 'overviewsectiontitle';
-    
+            const title = renderSectionTitle('Overview');
             const rowOfCardsDiv = renderOverviewCards(controller.controllerOverviewCards);
+            
+            const section = document.createElement('section');
             section.append(title, rowOfCardsDiv);
-    
             return section;
         };
         
@@ -201,6 +194,76 @@ export const view = (function() {
     
             return rowOfCardsDiv;
         };
+
+        function renderSettingsSection() {
+            const section = document.createElement('section');
+            section.className = 'settingssection';
+    
+            const title = renderSectionTitle('Settings');
+            
+            const deleteDeckSection = renderDeleteDeckOptions();
+            const resetButton = renderResetButton();
+
+            section.append(title, deleteDeckSection, resetButton);
+            return section;
+        }
+
+        function renderDeleteDeckOptions() {
+
+            const decks = Array.from(controller.data.localDecks);
+            
+            const dropdownLabel = document.createElement('label');
+            dropdownLabel.htmlFor = 'decks';
+            dropdownLabel.innerText = 'Choose a deck you would like to delete';
+
+            const dropdownSelect = document.createElement('select');
+            dropdownSelect.name = 'decks';
+            dropdownSelect
+
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.innerText = 'Choose a Deck';
+            dropdownSelect.appendChild(defaultOption);
+
+            decks.forEach((item) => {
+                const option = document.createElement('option');
+                option.id = item.name + 'id';
+                option.value = item.name;
+                option.innerText = item.name;
+                dropdownSelect.appendChild(option);
+            });
+
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'deckdeletebutton';
+            deleteButton.innerHTML = 'Delete';
+            
+            deleteButton.onclick = () => {
+                const deck = dropdownSelect.value;
+                localStorage.removeItem(deck);
+                document.getElementById(deck + 'id').remove();
+            };
+            //update the page somehow?
+
+            const horizontalDiv = document.createElement('div');
+            horizontalDiv.className = 'horizontaldiv';
+            horizontalDiv.append(dropdownSelect, deleteButton);
+
+            const div = document.createElement('div');
+            div.className = 'deckdeleteoptions';
+            div.append(dropdownLabel, horizontalDiv);
+            return div;
+        }
+
+        function renderResetButton() {
+            const button = document.createElement('button');
+            button.innerText = 'Delete all saved data';
+            button.className = 'resetbutton';
+            button.ariaLabel = 'Click here to delete all saved data';
+            button.onclick = function() {
+                localStorage.clear();
+            };
+            return button;
+        }
 
         return {
             renderPage,
@@ -359,20 +422,16 @@ export const view = (function() {
         document.getElementById('modal-form').reset();
     }
 
-
     function renderDefaultPage() {
         studyPage.renderPage();
     }
 
     function changePage(newPageID) {
+        removeMainTagContent();
         switch (newPageID) {
             case 'studybutton':
                 studyPage.renderPage();
                 break;
-        
-            // case 'editbutton':
-            //     editPage.renderPage();
-            //     break;
 
             case 'overviewbutton':
                 overviewPage.renderPage();
@@ -421,6 +480,15 @@ export const view = (function() {
 
         const mainHeader = document.getElementById('mainheader');
         mainHeader.appendChild(innerHeaderDiv);
+
+    }
+
+    function renderSectionTitle(titleName) {
+        const h1 = document.createElement('h1');
+        h1.innerText = titleName;
+        h1.id = titleName.slice().toLowerCase() + 'title';
+        // title.id = 'topdeckstitle';
+        return h1;
 
     }
 
