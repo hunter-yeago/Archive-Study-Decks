@@ -15,16 +15,16 @@ export const view = (function() {
 
             renderModal();
 
-            const topDecksSection = renderTopDecks();
+            const topDecksSection = renderYourDecks();
             const prebuiltDecksSection = renderPreBuiltDecks();
             const emptySpace = getEmptyDivForExtraPageSpaceAtBottomWithMobileNavHeight();
             
             main.append(topDecksSection, prebuiltDecksSection, emptySpace);
         };
         
-        function renderTopDecks() {
+        function renderYourDecks() {
             const section = document.createElement('section');
-            const title = renderSectionTitle('Top Decks');
+            const title = renderSectionTitle('Your Decks');
 
             controller.data.updateData();
             
@@ -106,33 +106,21 @@ export const view = (function() {
             name.innerText = deck.name;
     
             const dueDateParagraphElement = document.createElement('p');
-            dueDateParagraphElement.innerText = deck.dueDate;
+            dueDateParagraphElement.innerText = `Due: ${deck.dueDate}`;
     
             const imageAndNameDiv = document.createElement('div');
             imageAndNameDiv.className = 'deckimageandname';
-            imageAndNameDiv.append(name, dueDateParagraphElement);
+            imageAndNameDiv.append(name);
     
             const deckDescriptionParagraph = document.createElement('p');
             deckDescriptionParagraph.innerText = deck.description;
     
             const deckDescriptionDiv = document.createElement('div');
             deckDescriptionDiv.className = 'deckdescriptiondiv';
-            deckDescriptionDiv.appendChild(deckDescriptionParagraph);
-
-            const deckID = `RowID:${Math.random().toString(16).slice(2)}`;
-        
-            const deleteButton = document.createElement('button');
-            deleteButton.innerText = 'Delete';
-            deleteButton.onclick = () => {
-                localStorage.removeItem(deck.name);
-                document.getElementById(deckID).remove();
-            };
-
-            deckDescriptionDiv.appendChild(deleteButton);
+            deckDescriptionDiv.append(deckDescriptionParagraph, dueDateParagraphElement);
     
             const deckDiv = document.createElement('div');
             deckDiv.className = 'deck';
-            deckDiv.id = deckID;
             deckDiv.append(imageAndNameDiv, deckDescriptionDiv);
             return deckDiv;
         };
@@ -222,7 +210,7 @@ export const view = (function() {
 
             const defaultOption = document.createElement('option');
             defaultOption.value = '';
-            defaultOption.innerText = 'Choose a Deck';
+            defaultOption.innerText = '___________';
             dropdownSelect.appendChild(defaultOption);
 
             decks.forEach((item) => {
@@ -294,7 +282,7 @@ export const view = (function() {
     function renderModalHeader(modal) {
 
         const modalHeader = document.createElement('h5');
-        modalHeader.innerText = 'New Deck'
+        modalHeader.innerText = 'Step 1: Create Deck'
 
         const exitSpan = document.createElement('span');
         exitSpan.innerHTML = '&times;';

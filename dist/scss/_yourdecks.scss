@@ -52,9 +52,14 @@
     margin: .7em 0 .7em 0;
 
     p {
-        padding: 1em;
+        padding: .5em;
         min-width: 100%;
         text-align: center;
+    }
+
+    :nth-child(2) {
+        color: rgba(253, 253, 253, 0.681);
+        font-size: .9rem;
     }
 }
 

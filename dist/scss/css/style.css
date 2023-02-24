@@ -205,9 +205,13 @@ select {
   margin: 0.7em 0 0.7em 0;
 }
 .deckdescriptiondiv p {
-  padding: 1em;
+  padding: 0.5em;
   min-width: 100%;
   text-align: center;
+}
+.deckdescriptiondiv :nth-child(2) {
+  color: rgba(253, 253, 253, 0.681);
+  font-size: 0.9rem;
 }
 
 .itsemptymessage {
