@@ -94,6 +94,7 @@
     justify-content: space-between;
     align-items: center;
     padding: .5em;
+    margin-top: 3em;
 
     button {
         font-size: .9em;
@@ -101,8 +102,11 @@
     }
 }
 
-.cardcounth3 {
-    margin-bottom: .5em;
+.newcardtitlediv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: .2em .5em .5em .5em;
 }
 
 
