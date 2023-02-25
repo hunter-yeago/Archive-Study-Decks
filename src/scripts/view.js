@@ -3,6 +3,7 @@ import { controller } from "./controller";
 import {Observable} from './pubsub';
 import StudyIcon from '../images/studying.png';
 import OverviewIcon from '../images/edit.png';
+import { formatDistance } from "date-fns";
 
 const main = document.querySelector('main');
 
@@ -162,7 +163,7 @@ export const view = (function() {
 
         function renderOverviewSection() {
             const title = renderSectionTitle('Overview');
-            const rowOfCardsDiv = renderOverviewCards(controller.data.controllerOverviewCards);
+            const rowOfCardsDiv = renderOverviewCards(controller.data.Panels);
             
             const section = document.createElement('section');
             section.append(title, rowOfCardsDiv);
@@ -448,7 +449,7 @@ export const view = (function() {
             Observable.publish('AddCards', 'testdata');
         };
 
-        formSubmitButton.addEventListener('click', controller.handleFormInput);
+        formSubmitButton.addEventListener('click', controller.handleDeckCreationForm);
 
         const form = document.createElement('form');
         form.className = 'modal-form';
@@ -458,7 +459,7 @@ export const view = (function() {
             categoryLabel, categorySelect,
             descriptionLabel, descriptionInput,
             dueDateLabel, dueDateInput,
-            addCardsButton, formSubmitButton);
+            formSubmitButton);
         return form;
     };
 
@@ -470,28 +471,37 @@ export const view = (function() {
           }, 1);
     }
 
-    function renderAddCardModalBody() {
+    function renderAddCardModalBody(newDeck) {
         removeModalContent();
-        renderModalAddCardInput();
+        renderModalAddCardInput(newDeck);
         renderModalAddCardInputHeader();
         setModalAutofocus();
     }
 
-    function renderModalAddCardInput() {
+    function renderModalAddCardInput(newDeck) {
 
         const modalBody = document.getElementById('modal-body');
 
         const cardCountH3 = document.createElement('h3');
-        cardCountH3.innerText = 'Card 1';
+        cardCountH3.innerText = `Card: ${newDeck.cardCount + 1}`;
         cardCountH3.className = 'cardcounth3';
+
+        const deckName = document.createElement('h3');
+        deckName.innerText = newDeck.name;
+
+        const newCardTitleDiv = document.createElement('div');
+        newCardTitleDiv.className = 'newcardtitlediv';
+        newCardTitleDiv.append(cardCountH3, deckName);
 
         const questionLabel = document.createElement('label');
         questionLabel.htmlFor = 'questioninput';
         questionLabel.innerText = 'Question:';
+        
         const questionInput = document.createElement('textarea');
         questionInput.name = 'questioninput';
+        questionInput.id = 'questioninput';
         questionInput.minLength = 1;
-        questionInput.maxLength = 50;
+        questionInput.maxLength = 300;
 
         const questionDiv = document.createElement('div');
         questionDiv.className = 'questiondiv';
@@ -500,26 +510,39 @@ export const view = (function() {
         const answerLabel = document.createElement('label');
         answerLabel.htmlFor = 'answerinput';
         answerLabel.innerText = 'Answer:'
+        
         const answerInput = document.createElement('textarea');
         answerInput.name = 'answerinput';
+        answerInput.id = 'answerinput';
         answerInput.minLength = 1;
-        answerInput.maxLength = 50;
+        answerInput.maxLength = 300;
 
         const answerDiv = document.createElement('div');
         answerDiv.className = 'answerdiv';
         answerDiv.append(answerLabel, answerInput);
+
+        const modalCardForm = document.createElement('form');
+        modalCardForm.id = 'modal-card-form';
+        modalCardForm.append(questionDiv, answerDiv);
 
         const userOptionsDiv = document.createElement('div');
         userOptionsDiv.className = 'useroptionsdiv';
 
         const addNextCardButton = document.createElement('button');
         addNextCardButton.innerText = 'Add Next Card';
+        addNextCardButton.addEventListener('click', () => {
+            controller.handleAddCardsForm(newDeck, 'addmore')
+        });
+
         const finishAddingCardsButton = document.createElement('button');
         finishAddingCardsButton.innerText = 'Done Adding Cards';
+        finishAddingCardsButton.addEventListener('click', () => {
+            controller.handleAddCardsForm(newDeck, 'doneadding')
+        });
 
         userOptionsDiv.append(addNextCardButton, finishAddingCardsButton);
 
-        modalBody.append(cardCountH3, questionDiv, answerDiv, userOptionsDiv);
+        modalBody.append(newCardTitleDiv, modalCardForm, userOptionsDiv);
     }
 
     function renderModalAddCardInputHeader() {
@@ -539,12 +562,8 @@ export const view = (function() {
         document.getElementById('modal').style.display = 'none';
     };
 
-    function resetForm() {
-        document.getElementById('modal-form').reset();
-    }
-
-    function renderDefaultPage() {
-        studyPage.renderPage();
+    function resetForm(form) {
+        form.reset();
     }
 
     function changePage(newPageID) {
@@ -613,9 +632,7 @@ export const view = (function() {
         const h1 = document.createElement('h1');
         h1.innerText = titleName;
         h1.id = titleName.slice().toLowerCase() + 'title';
-        // title.id = 'topdeckstitle';
         return h1;
-
     }
 
     //TODO - problem - menu does not hide when user taps 
@@ -703,7 +720,6 @@ export const view = (function() {
 
     return {
         renderMobileNavigation,
-        renderDefaultPage,
         studyPage,
         changeTabColor,
         removeMainTagContent,

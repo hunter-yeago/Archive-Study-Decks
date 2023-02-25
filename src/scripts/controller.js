@@ -24,7 +24,7 @@ export const controller = (function(){
 
     const data = {
         localDecks: Array.from(model.getLocalStorage()),
-        controllerOverviewCards: model.overviewCards,
+        Panels: model.dataPanels,
 
         updateLocalDecks: function() {
             this.localDecks = Array.from(model.getLocalStorage());
@@ -47,18 +47,19 @@ export const controller = (function(){
     function startApplication() {
         view.renderMobileNavigation();
         updateMobileNavButtons();
-            view.renderBanner();
-            view.changePage(defaultTabID);
-            view.changeTabColor(defaultTabID);
-            model.setCurrentPage(defaultTabID);
-            addMobileNavEventListeners();
+        view.renderBanner();
+        view.changePage(defaultTabID);
+        view.changeTabColor(defaultTabID);
+        model.setCurrentPage(defaultTabID);
+        addMobileNavEventListeners();
     };
 
-    function handleFormInput() {
+    function handleDeckCreationForm() {
 
         const nameElement = document.getElementById('deckname');
         const categoryElement = document.getElementById('deckcategory');
         const dateElement = document.getElementById('deckduedate');
+        const form = document.getElementById('modal-form');
 
         model.nameValidator.setData(nameElement, nameElement.value.trim());
         model.categoryValidator.setData(categoryElement, categoryElement.value.trim());
@@ -69,6 +70,7 @@ export const controller = (function(){
             input.checkValidity();
             input.setValidityClass();
         });
+        
 
         const invalidInputs = validators.filter(input => input.isValid === false);
         if (invalidInputs.length > 0) {
@@ -77,18 +79,62 @@ export const controller = (function(){
                 return;
             });
         } else {
-            model.addDeckToLocalStorage();
+            const formDataObject = model.createFormDataObject(form);
+            const newDeck = model.createDeck(formDataObject);
+            model.addDeckToLocalStorage(newDeck);
             data.updateLocalDecks();
+            view.resetForm(form);
+            resetInputValidity(validators);
+            view.renderAddCardModalBody(newDeck);
+        }
+    };
 
-            let currentPage = model.getCurrentPage();
+    function handleAddCardsForm(newDeck, status) {
+        const questionInput = document.getElementById('questioninput');
+        const answerInput = document.getElementById('answerinput');
+        const form = document.getElementById('modal-card-form');
+
+        model.cardQuestionValidator.setData(questionInput, questionInput.value.trim());
+        model.cardAnswerValidator.setData(answerInput, answerInput.value.trim());
+
+        const validators = [model.cardQuestionValidator, model.cardAnswerValidator];
+        validators.forEach((input) => {
+            input.checkValidity();
+            //TODO commenting this out because it runs at the start each time
+            //meaning that it will make the border red before the user
+            //has had a chance to put anything in
+            // input.setValidityClass();
+        });
+
+        const invalidInputs = validators.filter(input => input.isValid === false);
+        if (invalidInputs.length > 0) {
+            invalidInputs.forEach((item) => {
+                item.displayWarning();
+                return;
+            });
+         } else {
+            const formDataObject = model.createFormDataObject(form);
+            const newCard = model.createCard(formDataObject);
+            const theDeck = model.getDeckFromLocalStorage(newDeck.name);
+            theDeck.cards.push(newCard);
+            theDeck.cardCount = theDeck.cardCount + 1;
+            const modifiedandstringifiedforstorage = JSON.stringify(theDeck);
+            localStorage.setItem(newDeck.name, modifiedandstringifiedforstorage);
+            data.updateLocalDecks();
+            resetInputValidity(validators);
+            if (status === 'addmore') {
+                view.renderAddCardModalBody(theDeck);
+            } else if (status === 'doneadding') {
+                view.hideModal();
+                view.resetForm(form);
+                console.log('firing');
+            }
+            const currentPage = model.getCurrentPage();
             if (currentPage === 'studybutton') {
                 view.studyPage.updateDeckDisplay(data.localDecks);
             }
-            view.hideModal();
-            view.resetForm();
-            resetInputValidity(validators);
-        }
-    };
+        };
+    }
 
     function resetInputValidity(inputs) {
         inputs.forEach(element => {
@@ -115,12 +161,12 @@ export const controller = (function(){
 
     function studyDeck() {
         view.renderAddCardModalBody();
-        console.log(`name of deck is`);
     }
 
     return {
+        handleAddCardsForm,
         startApplication,
-        handleFormInput,
+        handleDeckCreationForm,
         addMobileNavEventListeners,
         mobileNavButtons,
         data

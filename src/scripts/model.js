@@ -6,63 +6,87 @@ import EducationIcon from '../images/education-color.svg';
 
 export const model = (function(){
 
-    const Card = {
+    let currentPage = '';
 
-        doSomething: function() {
-            console.log(`im trying to do something`);
-        }
+    const DataPanel = {
+        imagesrc: null,
+        title: null,
+        underlinecolor: null,
+        statistic: null
     };
 
-    const card1= Object.assign(Object.create(Card), {
+    const dataPanel1 = Object.assign(Object.create(DataPanel), {
         imagesrc: LearningIcon,
         title: 'Decks Created',
         underlinecolor: 'greencardunderline',
         statistic: '18',
     });
 
-    const card2 = Object.assign(Object.create(Card), {
+    const dataPanel2 = Object.assign(Object.create(DataPanel), {
         imagesrc: EducationIcon,
         title: 'Card 2 Title',
         underlinecolor: 'bluecardunderline',
         statistic: '73',
     });
 
-    const card3 = Object.assign(Object.create(Card), {
+    const dataPanel3 = Object.assign(Object.create(DataPanel), {
         imagesrc: StudyDeskIcon,
         title: 'Card 3 Title',
         underlinecolor: 'brickcardunderline',
         statistic: '9',
     });
 
-    const card4 = Object.assign(Object.create(Card), {
+    const dataPanel4 = Object.assign(Object.create(DataPanel), {
         imagesrc: StudyLampIcon,
         title: 'Card 4 Title',
         underlinecolor: 'sunshinecardunderline',
         statistic: '100',
     });
 
-    const overviewCards = [card1, card2, card3, card4];
+    const dataPanels = [dataPanel1, dataPanel2, dataPanel3, dataPanel4];
+
+    const Card = {
+        question: null,
+        answer: null,
+    }
+
+    function createCard(formDataObj) {
+
+        const newCard = Object.assign(Object.create(Card), {
+            question: formDataObj.questioninput,
+            answer: formDataObj.answerinput,
+        });
+        return newCard;
+    }
 
     const Deck = {
-        name: 'default name',
-        description: 'default description',
-        dueDate: 'default dueDate',
-        category: 'default category',
-        print: function () {
-            console.log(`printing from inside Deck`);
-        },
+        name: null,
+        category: null,
+        description: null,
+        dueDate: null,
+        cards: [],
+        cardCount: 0,
+    };
+
+    function createDeck(formDataObj) {
+    
+        const newDeck = Object.assign(Object.create(Deck), {
+            name: formDataObj.deckname,
+            category: formDataObj.deckcategory,
+            description: formDataObj.deckdescription,
+            dueDate: formDataObj.deckduedate,
+            cards: [],
+            cardCount: 0,
+        });
+        return newDeck;
     };
 
     const frenchDeck = Object.assign(Object.create(Deck), {
         name: 'French',
         description: 'A deck to learn French',
-        numberOfQuestions: 10,
         dueDate: 'some time date thing',
         category: 'Languages',
-        questionsList: [],
     });
-    
-    let currentPage = '';
 
     function setCurrentPage(page) {
         currentPage = page;
@@ -76,25 +100,20 @@ export const model = (function(){
         const deck = localStorage.getItem('newdeck');
     };
 
-    function populateStorage(deck) {
+    function addDeckToLocalStorage(deck) {
         localStorage.setItem(deck.name, JSON.stringify(deck));
         setStyles();
     };
 
-    function addDeckToLocalStorage() {
-        const myFormData = new FormData(document.querySelector('.modal-form'));
+    function createFormDataObject(form) {
+        const myFormData = new FormData(form);
         const formDataObj = Object.fromEntries(myFormData.entries());
-        formDataObj.deckduedate = makeDateReadable(formDataObj.deckduedate);
-    
-        const newDeck = Object.assign(Object.create(Deck), {
-            name: formDataObj.deckname,
-            category: formDataObj.deckcategory,
-            description: formDataObj.deckdescription,
-            dueDate: formDataObj.deckduedate,
-        });
-    
-        populateStorage(newDeck);
-    };
+
+        if (formDataObj.deckduedate) {
+            formDataObj.deckduedate = makeDateReadable(formDataObj.deckduedate);
+        }
+        return formDataObj;
+    }
 
     function makeDateReadable(dateData) {
         const array = dateData.split('-');
@@ -106,7 +125,6 @@ export const model = (function(){
 
     function convertMonthNumberToMonthName(number) {
         number = parseInt(number, 10);
-        console.log(number);
         const months = {
             1: 'January',
             2: 'February',
@@ -151,6 +169,11 @@ export const model = (function(){
                 deckArray.push(deck);
             }
             return deckArray;
+    }
+
+    function getDeckFromLocalStorage(deckName) {
+        const deck = JSON.parse(localStorage.getItem(deckName));
+        return deck;
     }
 
     function clearLocalStorage() {
@@ -295,10 +318,46 @@ export const model = (function(){
         },
     });
 
+    const cardQuestionValidator = Object.assign(Object.create(Validator), {
+        minlength: 1,
+        maxLength: 300,
+
+        checkValidity: function() {
+            this.isValid = this.data.length > 0 && 
+                           this.data.length < 301 ? true : false;
+        },
+
+        displayWarning: function() {
+            this.element.setCustomValidity('Must be between 1 and 300 characters');
+            this.element.reportValidity();
+        },
+    });
+
+    const cardAnswerValidator = Object.assign(Object.create(Validator), {
+        minlength: 1,
+        maxLength: 300,
+
+        checkValidity: function() {
+            this.isValid = this.data.length > 0 && 
+                           this.data.length < 301 ? true : false;
+        },
+
+        displayWarning: function() {
+            this.element.setCustomValidity('Must be between 1 and 300 characters');
+            this.element.reportValidity();
+        },
+    });
+
     return {
+        getDeckFromLocalStorage,
+        createCard,
         addDeckToLocalStorage,
+        createFormDataObject,
+        createDeck,
         getLocalStorage,
-        overviewCards,
+        dataPanels,
+        cardQuestionValidator,
+        cardAnswerValidator,
         nameValidator,
         categoryValidator,
         dateValidator,
