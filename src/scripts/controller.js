@@ -5,8 +5,6 @@ import { Observable } from "./pubsub";
 //Add functionality
 // TODO show remaining characters for each input
 // TODO: you can edit the cards while you're studying them
-// TODO: Add cards during deck construction
-//TODO add Reset functionality to Overview Page (delete localStorage and update stats)
 
 //Clean Code/Fix Bugs
 // TODO View: Seems kind of backwards to call RenderDeckDisplay from renderTopDecks //Shouldn't it be the other way around?
