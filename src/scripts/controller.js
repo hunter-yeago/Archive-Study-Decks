@@ -2,74 +2,52 @@ import { model } from "./model";
 import { view } from "./view";
 import { Observable } from "./pubsub";
 
-//Add functionality
 // TODO show remaining characters for each input
+// TODO Reimplement pre-built decks
+// TODO - problem - Add A Deck menu does not hide when user taps //elsewhere on the page
 // TODO: you can edit the cards while you're studying them
-
-//Clean Code/Fix Bugs
 // TODO View: Seems kind of backwards to call RenderDeckDisplay from renderTopDecks //Shouldn't it be the other way around?
 
 export const controller = (function(){
 
     Observable.subscribe('DataReset', resetDataAndView);
-    Observable.subscribe('AddCards', studyDeck);
-
-    const defaultTabID = 'studybutton';
-    const mobileNavButtons = Array.from([
-        document.getElementById('studybutton'),
-        document.getElementById('overviewbutton'),
-        ]);
-
+    
     const data = {
+        defaultTabID: 'studybutton',
         localDecks: Array.from(model.getLocalStorage()),
         Panels: model.dataPanels,
 
-        updateLocalDecks: function() {
+        updateDecks: function() {
             this.localDecks = Array.from(model.getLocalStorage());
         },
     }
-
-    function updateMobileNavButtons() {
-        controller.mobileNavButtons = Array.from([
-            document.getElementById('studybutton'),
-            document.getElementById('overviewbutton'),
-            ]);
-    }
-
-    function resetDataAndView() {
-        model.clearLocalStorage();
-        data.updateLocalDecks();
-        Observable.publish('UpdateOverviewData', data.localDecks);
-    };
     
     function startApplication() {
-        view.renderMobileNavigation();
-        updateMobileNavButtons();
-        view.renderBanner();
-        view.changePage(defaultTabID);
-        view.changeTabColor(defaultTabID);
-        model.setCurrentPage(defaultTabID);
-        addMobileNavEventListeners();
+        view.renderDefaultView(data.defaultTabID);
+        model.setCurrentPage(data.defaultTabID);
     };
 
     function handleDeckCreationForm() {
 
+        const form = document.getElementById('modal-form');
         const nameElement = document.getElementById('deckname');
         const categoryElement = document.getElementById('deckcategory');
         const dateElement = document.getElementById('deckduedate');
-        const form = document.getElementById('modal-form');
 
-        model.nameValidator.setData(nameElement, nameElement.value.trim());
-        model.categoryValidator.setData(categoryElement, categoryElement.value.trim());
-        model.dateValidator.setData(dateElement, dateElement.value.trim());
+        const nameChecker =  model.validators.nameValidator;
+        const categoryChecker = model.validators.categoryValidator;
+        const dateChecker = model.validators.dateValidator;
 
-        const validators = [model.nameValidator, model.categoryValidator, model.dateValidator];
+        nameChecker.setData(nameElement, nameElement.value.trim());
+        categoryChecker.setData(categoryElement, categoryElement.value.trim());
+        dateChecker.setData(dateElement, dateElement.value.trim());
+
+        const validators = [nameChecker, categoryChecker, dateChecker];
         validators.forEach((input) => {
             input.checkValidity();
             input.setValidityClass();
         });
         
-
         const invalidInputs = validators.filter(input => input.isValid === false);
         if (invalidInputs.length > 0) {
             invalidInputs.forEach((invalidInput) => {
@@ -80,28 +58,27 @@ export const controller = (function(){
             const formDataObject = model.createFormDataObject(form);
             const newDeck = model.createDeck(formDataObject);
             model.addDeckToLocalStorage(newDeck);
-            data.updateLocalDecks();
+            data.updateDecks();
             view.resetForm(form);
-            resetInputValidity(validators);
+            model.validators.resetInputValidity(validators);
             view.renderAddCardModalBody(newDeck);
         }
     };
 
     function handleAddCardsForm(newDeck, status) {
+        const form = document.getElementById('modal-card-form');
         const questionInput = document.getElementById('questioninput');
         const answerInput = document.getElementById('answerinput');
-        const form = document.getElementById('modal-card-form');
 
-        model.cardQuestionValidator.setData(questionInput, questionInput.value.trim());
-        model.cardAnswerValidator.setData(answerInput, answerInput.value.trim());
+        const questionChecker = model.validators.questionValidator;
+        const answerChecker = model.validators.answerValidator;
 
-        const validators = [model.cardQuestionValidator, model.cardAnswerValidator];
+        questionChecker.setData(questionInput, questionInput.value.trim());
+        answerChecker.setData(answerInput, answerInput.value.trim());
+
+        const validators = [questionChecker, answerChecker];
         validators.forEach((input) => {
             input.checkValidity();
-            //TODO commenting this out because it runs at the start each time
-            //meaning that it will make the border red before the user
-            //has had a chance to put anything in
-            // input.setValidityClass();
         });
 
         const invalidInputs = validators.filter(input => input.isValid === false);
@@ -113,20 +90,23 @@ export const controller = (function(){
          } else {
             const formDataObject = model.createFormDataObject(form);
             const newCard = model.createCard(formDataObject);
-            const theDeck = model.getDeckFromLocalStorage(newDeck.name);
-            theDeck.cards.push(newCard);
-            theDeck.cardCount = theDeck.cardCount + 1;
-            const modifiedandstringifiedforstorage = JSON.stringify(theDeck);
-            localStorage.setItem(newDeck.name, modifiedandstringifiedforstorage);
-            data.updateLocalDecks();
-            resetInputValidity(validators);
+            const deckCopy = model.getDeckFromLocalStorage(newDeck.name);
+            deckCopy.cards.push(newCard);
+            deckCopy.cardCount = deckCopy.cardCount + 1;
+
+            const deckData = JSON.stringify(deckCopy);
+            localStorage.setItem(deckCopy.name, deckData);
+
+            data.updateDecks();
+            model.validators.resetInputValidity(validators);
+            
             if (status === 'addmore') {
-                view.renderAddCardModalBody(theDeck);
+                view.renderAddCardModalBody(deckCopy);
             } else if (status === 'doneadding') {
                 view.hideModal();
-                view.resetForm(form);
-                console.log('firing');
+                view.resetModal();
             }
+            
             const currentPage = model.getCurrentPage();
             if (currentPage === 'studybutton') {
                 view.studyPage.updateDeckDisplay(data.localDecks);
@@ -134,39 +114,22 @@ export const controller = (function(){
         };
     }
 
-    function resetInputValidity(inputs) {
-        inputs.forEach(element => {
-            element.setValidityClass();
-        });
-    }
-
-    function addMobileNavEventListeners() {
-        controller.mobileNavButtons.forEach((button) => {
-            button.addEventListener('click', (event) => {
-                
-                const currentTabID = event.target.id;
-                view.removeMainTagContent();
-                view.changeTabColor(currentTabID, mobileNavButtons);
-                changePage(currentTabID);
-            });
-        });
-    };
-
     function changePage(page) {
-        view.changePage(page);
+        view.renderPage(page);
         model.setCurrentPage(page);
     }
 
-    function studyDeck() {
-        view.renderAddCardModalBody();
-    }
+    function resetDataAndView() {
+        model.clearLocalStorage();
+        data.updateDecks();
+        Observable.publish('UpdateOverviewData');
+    };
 
     return {
-        handleAddCardsForm,
+        data,
+        changePage,
         startApplication,
+        handleAddCardsForm,
         handleDeckCreationForm,
-        addMobileNavEventListeners,
-        mobileNavButtons,
-        data
     }
 })();

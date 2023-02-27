@@ -3,11 +3,13 @@ import { controller } from "./controller";
 import {Observable} from './pubsub';
 import StudyIcon from '../images/studying.png';
 import OverviewIcon from '../images/edit.png';
-import { formatDistance } from "date-fns";
-
-const main = document.querySelector('main');
 
 export const view = (function() {
+    const main = document.querySelector('main');
+    const mobileNavButtons = Array.from([
+        document.getElementById('studybutton'),
+        document.getElementById('overviewbutton'),
+        ]);
 
     const studyPage = (function(){
 
@@ -29,11 +31,9 @@ export const view = (function() {
         function renderYourDecks() {
             const section = document.createElement('section');
             const title = renderSectionTitle('Your Decks');
-
-            //shouldn't have this here probably, but it's working for the immediate moment.
-            controller.data.updateLocalDecks();
+            const localDecks = controller.data.localDecks;
             
-            const deckDisplayDiv = renderDeckDisplay(controller.data.localDecks);
+            const deckDisplayDiv = renderDeckDisplay(localDecks);
             
             section.append(title, deckDisplayDiv);
             
@@ -49,7 +49,7 @@ export const view = (function() {
             const prebuiltDecksDiv = document.createElement('div');
             prebuiltDecksDiv.className = 'deckdisplay';
     
-            //TODO Reimplement pre-built decks
+
 
             // const deck1 = renderDeck();
             // const deck2 = renderDeck();
@@ -268,13 +268,13 @@ export const view = (function() {
         function updateDeleteDeckOptions() {
             const dropdownSelect = document.getElementById('dropdownselect');
             const decks = Array.from(dropdownSelect.children);
-            const data = controller.data.localDecks;
+            const localDecks = controller.data.localDecks;
 
             decks.forEach((item) => {
                 if (item.value != '') { item.remove(); }
             });
             
-            data.forEach((item) => {
+            localDecks.forEach((item) => {
                 const option = document.createElement('option');
                 option.id = item.name + 'id';
                 option.value = item.name;
@@ -289,7 +289,6 @@ export const view = (function() {
             button.className = 'resetbutton';
             button.ariaLabel = 'Click here to delete all saved data';
             button.onclick = function() {
-                // localStorage.clear();
                 showResetDataConfirmationWindow();
             };
             return button;
@@ -297,7 +296,6 @@ export const view = (function() {
 
         function showResetDataConfirmationWindow() {
             if (confirm('Are you sure you want to reset your data? You cannot undo this action!')) {
-                // localStorage.clear();
                 Observable.publish('DataReset');
                 
             } else { return; }
@@ -446,7 +444,7 @@ export const view = (function() {
         addCardsButton.type = 'button';
         addCardsButton.onclick = function(event) {
             event.preventDefault();
-            Observable.publish('AddCards', 'testdata');
+            renderAddCardModalBody();
         };
 
         formSubmitButton.addEventListener('click', controller.handleDeckCreationForm);
@@ -477,6 +475,11 @@ export const view = (function() {
         renderModalAddCardInputHeader();
         setModalAutofocus();
     }
+
+    function resetModal() {
+        document.getElementById('modal').remove();
+        renderModal();
+    };
 
     function renderModalAddCardInput(newDeck) {
 
@@ -566,7 +569,7 @@ export const view = (function() {
         form.reset();
     }
 
-    function changePage(newPageID) {
+    function renderPage(newPageID) {
         removeMainTagContent();
         switch (newPageID) {
             case 'studybutton':
@@ -580,7 +583,7 @@ export const view = (function() {
     };
 
     function changeTabColor(newPageID) {
-        controller.mobileNavButtons.forEach((navTab) => {
+        view.mobileNavButtons.forEach((navTab) => {
             if ( navTab.id === newPageID) {
                 navTab.style.borderTop = '1px solid blue';
                 document.getElementById(`${navTab.id}h3`).style.color = 'blue';
@@ -591,37 +594,6 @@ export const view = (function() {
             }
         })
     };
-
-    // function renderBanner() {
-
-    //     const path = document.createElement('path');
-    //     path.setAttribute('d', 'M12 6V18M6 12H18');
-    //     path.setAttribute('stroke', 'currentColor');
-    //     path.setAttribute('stroke-width', '2');
-    //     path.setAttribute('stroke-linecap', 'round');
-    //     path.setAttribute('stroke-linejoin', 'round');
-
-    //     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    //     svg.setAttribute('height', '40px');
-    //     svg.setAttribute('width', '40px');
-    //     svg.setAttribute('viewBox', '0 0 24 24');
-    //     svg.appendChild(path);
-
-    //     const addDeckButton = document.createElement('button');
-    //     addDeckButton.id = 'bannerbutton';
-    //     addDeckButton.appendChild(svg);
-
-    //     const title = document.createElement('h3');
-    //     title.innerText = 'Study Decks';
-
-    //     const innerHeaderDiv = document.createElement('div');
-    //     innerHeaderDiv.className = 'innerheaderdiv';
-    //     innerHeaderDiv.append(title, addDeckButton);
-
-    //     const mainHeader = document.getElementById('mainheader');
-    //     mainHeader.appendChild(innerHeaderDiv);
-
-    // }
 
     function renderBanner() {
         addBannerButtonFunctionality();
@@ -635,8 +607,7 @@ export const view = (function() {
         return h1;
     }
 
-    //TODO - problem - menu does not hide when user taps 
-    //elsewhere on the page
+
     function addBannerButtonFunctionality() {
         const bannerButton = document.getElementById('bannerbutton');
         const menu = document.getElementById('menu');
@@ -718,16 +689,71 @@ export const view = (function() {
         body.appendChild(footer);
     }
 
+    function updateMobileNavButtons() {
+        view.mobileNavButtons = Array.from([
+            document.getElementById('studybutton'),
+            document.getElementById('overviewbutton'),
+            ]);
+    }
+
+    function addMobileNavEventListeners() {
+        view.mobileNavButtons.forEach((button) => {
+            button.addEventListener('click', (event) => {
+            const currentTabID = event.target.id;
+            removeMainTagContent();
+            changeTabColor(currentTabID);
+            controller.changePage(currentTabID);
+            });
+        });
+};
+
+    function renderDefaultView(defaultTabID) {
+        renderMobileNavigation();
+        updateMobileNavButtons();
+        addMobileNavEventListeners();
+        renderBanner();
+        renderPage(defaultTabID)
+        changeTabColor(defaultTabID);
+    }
+
+    // function renderBanner() {
+
+    //     const path = document.createElement('path');
+    //     path.setAttribute('d', 'M12 6V18M6 12H18');
+    //     path.setAttribute('stroke', 'currentColor');
+    //     path.setAttribute('stroke-width', '2');
+    //     path.setAttribute('stroke-linecap', 'round');
+    //     path.setAttribute('stroke-linejoin', 'round');
+
+    //     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    //     svg.setAttribute('height', '40px');
+    //     svg.setAttribute('width', '40px');
+    //     svg.setAttribute('viewBox', '0 0 24 24');
+    //     svg.appendChild(path);
+
+    //     const addDeckButton = document.createElement('button');
+    //     addDeckButton.id = 'bannerbutton';
+    //     addDeckButton.appendChild(svg);
+
+    //     const title = document.createElement('h3');
+    //     title.innerText = 'Study Decks';
+
+    //     const innerHeaderDiv = document.createElement('div');
+    //     innerHeaderDiv.className = 'innerheaderdiv';
+    //     innerHeaderDiv.append(title, addDeckButton);
+
+    //     const mainHeader = document.getElementById('mainheader');
+    //     mainHeader.appendChild(innerHeaderDiv);
+
+    // }
+
     return {
-        renderMobileNavigation,
         studyPage,
-        changeTabColor,
-        removeMainTagContent,
-        changePage,
+        resetModal,
         hideModal,
         resetForm,
-        renderModal,
-        renderBanner,
+        renderPage,
+        renderDefaultView,
         renderAddCardModalBody,
         };
 })();
