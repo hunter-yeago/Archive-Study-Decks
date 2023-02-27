@@ -1,18 +1,20 @@
 {
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyradar/StudyDecks.git"
+  },
   "name": "studydecks",
   "version": "1.0.0",
   "description": "A website to study pre-built or your own custom-made study decks!",
   "main": "main.js",
   "scripts": {
     "test": "test",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "build": "webpack",
     "watch": "webpack --watch",
     "start": "webpack serve --open",
     "sass": "sass --watch ./src/scss/style.scss ./src/scss/css/style.css"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/hyradar/StudyDecks.git"
   },
   "keywords": [
     "study",
@@ -27,6 +29,7 @@
   "devDependencies": {
     "css-loader": "^6.7.3",
     "date-fns": "^2.29.3",
+    "gh-pages": "^5.0.0",
     "html-webpack-plugin": "^5.5.0",
     "node-sass": "^8.0.0",
     "sass-loader": "^13.2.0",

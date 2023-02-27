@@ -6,10 +6,6 @@ import OverviewIcon from '../images/edit.png';
 
 export const view = (function() {
     const main = document.querySelector('main');
-    const mobileNavButtons = Array.from([
-        document.getElementById('studybutton'),
-        document.getElementById('overviewbutton'),
-        ]);
 
     const studyPage = (function(){
 
