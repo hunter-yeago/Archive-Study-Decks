@@ -1,11 +1,10 @@
-<a name="readme-top"></a>
-<br />
 <div align="center">
+<a name="readme-top" height="0"></a>
   <a href="https://github.com/hyradar/StudyDecks">
-    <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/studydeckslogo.svg" alt="Logo" width="200" height="200">
+    <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/studydeckslogo.svg" alt="Study Decks Logo" width="200" height="200">
   </a>
 
-  <h2 align="center">Study Decks</h2>
+  <!-- <h2 align="center">Study Decks</h2> -->
 
   <p align="center">
     Creat and study flashcard decks on StudyDecks! We store your decks locally on your machine for easy access without the hassle of logging in.
