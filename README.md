@@ -2,6 +2,8 @@
 
 With this website you can create and study decks of flashcards.
 
+### <a href="https://hyradar.github.io/StudyDecks" target="_blank">Live Demo!</a>
+
 ### [Live Demo](https://hyradar.github.io/StudyDecks/)
 
 ### Built With
@@ -16,7 +18,7 @@ With this website you can create and study decks of flashcards.
 	  * Observer
 * Styling
 	* SASS
-		* Resposive Design with minimal media queries
+		* Responsive Design with minimal media queries
 		* Andy Bell CSS [Reset](https://andy-bell.co.uk/a-modern-css-reset/)
 		* Mixins
 		* Modules
@@ -24,6 +26,5 @@ With this website you can create and study decks of flashcards.
 	* Webpack
 * Design
 	* Color Palette / Site Design inspired from [Quizlet](https://quizlet.com/)
-	* Figma
 	* Affinity Designer 2
 		* Custom Icons
