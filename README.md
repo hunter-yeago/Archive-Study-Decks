@@ -1,3 +1,9 @@
+<!-- TODO Fix links in Table of Contents
+TODO Installation Section - update default info with project info
+TODO Prerequisites Section - update default info with project info
+TODO Lessons Learned Section - update default info with project info
+TODO Optimization Section - update default info with project info -->
+
 <div align="center">
 <a name="readme-top" height="0"></a>
   <a href="https://github.com/hyradar/StudyDecks">
@@ -50,7 +56,9 @@
 
 I have a passion for learning languages, especially French. In the future, I'd like to build a full-fledged language-learning app, and I've taken this opportunity during my front-end development journey to build a web-app to both showcase my skills, as well as practice building functionality that I'll use in my future projects.
 
-<img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/StudyDecksMobileDemo.gif" alt="Gif of Study Decks Live Demo" width="50%"/>
+<div align="center">
+    <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/StudyDecksMobileDemo.gif" alt="Gif of Study Decks Live Demo" width="70%"/>
+</div>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
