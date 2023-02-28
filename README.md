@@ -4,13 +4,11 @@ Creat and study flashcard decks on StudyDecks! We store your decks locally on yo
 
 **Link to project:** https://hyradar.github.io/StudyDecks
 
-<!-- ![Gif of Study Decks Live Demo][gif] -->
 <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/StudyDecksMobileDemo.gif" alt="Gif of Study Decks Live Demo" width="50%"/>
-
 
 ## How It's Made:
 
-**Tech used:** JavaScript, Webpack
+**Tech used:** HTML, SCSS, JavaScript, Webpack
 
 **HTML:**
 
@@ -23,34 +21,22 @@ Responsive design with only **one** media query. Mixins and modules are used to 
 
 I used the WebStorage API to store user decks locally on their device. For form validation I  implemented the Constraint Validation API to display custom error messages for each form input. Upon successful submission of the form, I convert the input values into a FormData object and send that data to the model to create a Deck object. Additionally, I used a function from the date-fns library to ensure that the chosen due-date for the deck is in the future.
 
-**Design Pattern**
-
-In this Single Page Application, I used the Model-View-Controller design pattern as the foundation for the project, and implemented the Observer pattern to update other parts of the page when there is new data to display.
-
 **Webpack**
 
 In this Single Page Application, I used the Model-View-Controller design pattern as the foundation for the project, and implemented the Observer pattern to update other parts of the page when there is new data to display.
 
+**Design Pattern**
+
+In this Single Page Application, I used the Model-View-Controller design pattern as the foundation for the project, and implemented the Observer pattern to update other parts of the page when there is new data to display.
+
+TODO
 ## Optimizations
 
 This website is responsive with only **one** media query for flexibility and sustainability of the code.
 
 You don't have to include this section but interviewers *love* that you can not only deliver a final product that looks great but also functions efficiently. Did you write something then refactor it later and the result was 5x faster than the original implementation? Did you cache your assets? Things that you write in this section are **GREAT** to bring up in interviews and you can use this section as reference when studying for technical interviews!
 
+TODO
 ## Lessons Learned:
 
 No matter what your experience level, being an engineer means continuously learning. Every time you build something you always have those *whoa this is awesome* or *fuck yeah I did it!* moments. This is where you should share those moments! Recruiters and interviewers love to see that you're self-aware and passionate about growing.
-
-## Examples:
-
-Take a look at these couple examples that I have in my own portfolio:
-
-**Palettable:** https://github.com/alecortega/palettable
-
-**Twitter Battle:** https://github.com/alecortega/twitter-battle
-
-**Patch Panel:** https://github.com/alecortega/patch-panel
-
-
-
-<!-- [gif]: https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/StudyDecksMobileDemo.gif "A Gif of a Live Demo of Study Decks Website" -->
