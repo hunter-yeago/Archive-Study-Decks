@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/hyradar/StudyDecks">
-    <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/studydeckslogo.svg" alt="Logo" width="80" height="80">
+    <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/studydeckslogo.svg" alt="Logo" width="200" height="200">
   </a>
 
   <h2 align="center">Study Decks</h2>
