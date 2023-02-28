@@ -31,6 +31,7 @@ Creat and study flashcard decks on StudyDecks! We store your decks locally on yo
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
+</details>
 
 ## About this Project
 
