@@ -4,7 +4,9 @@ Creat and study flashcard decks on StudyDecks! We store your decks locally on yo
 
 **Link to project:** https://hyradar.github.io/StudyDecks
 
-![Gif of Study Decks Live Demo][gif]
+<!-- ![Gif of Study Decks Live Demo][gif] -->
+<img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/StudyDecksMobileDemo.gif" alt="Gif of Study Decks Live Demo" width="50%"/>
+
 
 ## How It's Made:
 
@@ -51,4 +53,4 @@ Take a look at these couple examples that I have in my own portfolio:
 
 
 
-[gif]: https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/StudyDecksMobileDemo.gif "A Gif of a Live Demo of Study Decks Website"
+<!-- [gif]: https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/StudyDecksMobileDemo.gif "A Gif of a Live Demo of Study Decks Website" -->
