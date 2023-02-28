@@ -20,11 +20,6 @@
   </p>
 </div>
 
-
-**Link to project:** https://hyradar.github.io/StudyDecks
-
-<img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/StudyDecksMobileDemo.gif" alt="Gif of Study Decks Live Demo" width="50%"/>
-
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
@@ -54,6 +49,8 @@
 ## About this Project
 
 I have a passion for learning languages, especially French. In the future, I'd like to build a full-fledged language-learning app, and I've taken this opportunity during my front-end development journey to build a web-app to both showcase my skills, as well as practice building functionality that I'll use in my future projects.
+
+<img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/StudyDecksMobileDemo.gif" alt="Gif of Study Decks Live Demo" width="50%"/>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
