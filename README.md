@@ -1,22 +1,32 @@
-# StudyDecks
-<br />
-Create your own study decks here!
-<br />
-Technologies and Designs used in this project:
-<br />
-Date FNS Library
-<br />
-FormData API
-<br />
-Constraint Validation API
-<br />
-MVC Pattern with Pub/Sub Pattern
-<br />
-Vanilla Javascript
-<br />
-Webpack (Custom Configuration)
-<br />
-SCSS
-<br />
-Affinity Designer 2
-<br />
+## StudyDecks
+
+A website application to create decks of flashcard and study them!
+
+### Built With
+
+* Javascript
+ * localStorage
+ * Constraint Validation API
+ * FormData API
+ * date-fns Library
+
+* Design Pattern
+ * MVC
+ * Observer
+
+* Styling
+ * SASS
+  * Resposive Design with minimal media queries
+  * Andy Bell CSS [Reset](https://andy-bell.co.uk/a-modern-css-reset/)
+  * Mixins
+  * Modules
+
+
+* Build-Tools
+ * Webpack
+
+* Design
+ * Color Palatte / Site Design inspired from [Quizlet](https://quizlet.com/)
+ * Figma
+ * Affinity Designer 2
+  * Customized Logos as needed
