@@ -1,7 +1,26 @@
 <a name="readme-top"></a>
-# StudyDecks
+<br />
+<div align="center">
+  <a href="https://github.com/hyradar/StudyDecks">
+    <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/studydeckslogo.svg" alt="Logo" width="80" height="80">
+  </a>
 
-Creat and study flashcard decks on StudyDecks! We store your decks locally on your machine for easy access without the hassle of logging in.
+  <h2 align="center">Study Decks</h2>
+
+  <p align="center">
+    Creat and study flashcard decks on StudyDecks! We store your decks locally on your machine for easy access without the hassle of logging in.
+    <br />
+    <a href="https://github.com/hyradar/StudyDecks"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://hyradar.github.io/StudyDecks">View Demo</a>
+    ·
+    <a href="https://github.com/hyradar/StudyDecks/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/hyradar/StudyDecks/issues">Request Feature</a>
+  </p>
+</div>
+
 
 **Link to project:** https://hyradar.github.io/StudyDecks
 
