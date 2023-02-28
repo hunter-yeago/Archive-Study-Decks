@@ -51,4 +51,4 @@ Take a look at these couple examples that I have in my own portfolio:
 
 
 
-[gif]: https://github.com/hyradar/StudyDecks/ReadMeImages/StudyDecksMobileDemo.gif "A Gif of a Live Demo of Study Decks Website"
+[gif]: https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/StudyDecksMobileDemo.gif "A Gif of a Live Demo of Study Decks Website"
