@@ -1,17 +1,14 @@
 <!-- TODO Fix links in Table of Contents
-TODO Installation Section - update default info with project info
-TODO Prerequisites Section - update default info with project info
-TODO Lessons Learned Section - update default info with project info
-TODO Optimization Section - update default info with project info -->
+TODO Installation Section - update default info with project info -->
 
 <div align="center">
 <a name="readme-top" height="0"></a>
   <a href="https://github.com/hyradar/StudyDecks">
-    <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/studydeckslogo.svg" alt="Study Decks Logo" width="200" height="200">
+    <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/studydeckslogo.svg" alt="Study Decks Logo" width="40%" height="40%">
   </a>
 
   <p align="center">
-    Creat and study flashcard decks on StudyDecks! We store your decks locally on your machine for easy access without the hassle of logging in.
+    Create and study flashcard decks on StudyDecks! We store your decks locally on your machine for easy access without the hassle of logging in.
     <br />
     <a href="https://github.com/hyradar/StudyDecks"><strong>Explore the docs »</strong></a>
     <br />
@@ -33,6 +30,8 @@ TODO Optimization Section - update default info with project info -->
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
+    <li><a href="#optimizations">Optimizations</a></li>
+    <li><a href="#lessons-learned">Lessons Learned</a></li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
@@ -40,12 +39,8 @@ TODO Optimization Section - update default info with project info -->
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
+
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -59,9 +54,10 @@ I have a passion for learning languages, especially French. In the future, I'd l
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## How It's Made:
+## Built With:
 
-**Tech used:** HTML, SCSS, JavaScript, Webpack
+**Tech:** HTML, SCSS, JavaScript, Webpack
+**Design:** MVC, Observer, Single Page Application
 
 **HTML:**
 
@@ -85,31 +81,27 @@ In this Single Page Application, I used the Model-View-Controller design pattern
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-TODO
 ## Optimizations
 
-This website is responsive with only **one** media query for flexibility and sustainability of the code.
+### Responsiveness
 
-DEFAULT TEXT TO REPLACE You don't have to include this section but interviewers *love* that you can not only deliver a final product that looks great but also functions efficiently. Did you write something then refactor it later and the result was 5x faster than the original implementation? Did you cache your assets? Things that you write in this section are **GREAT** to bring up in interviews and you can use this section as reference when studying for technical interviews!
+This site only has **one** media query. Rather than rely on several of them for responsiveness, I used other SCSS techniques such as rem/em units as well as scaling functions on the text sizes so that the site is automatically responsive. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-TODO
 ## Lessons Learned:
 
-DEFAULT TEXT TO REPLACE No matter what your experience level, being an engineer means continuously learning. Every time you build something you always have those *whoa this is awesome* or *fuck yeah I did it!* moments. This is where you should share those moments! Recruiters and interviewers love to see that you're self-aware and passionate about growing.
+A big part of what I tried to implement into this project is writing cleaner code. I had read Clean Code by Robert Martin, and decided to implement some of his ideas into this project. I also learned how to implement the Observer Pattern with MVC, how to utilize Web APIs to increase functionality of things like Form Validation, as well as new techniques to reduce repetitive code, such as the use of mixins in SCSS.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- GETTING STARTED -->
 ## Getting Started
 
-DEFAULT TEXT TO REPLACE  This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+Follow the following steps to get this program up and running as a local repository.
 
 ### Prerequisites
 
-DEFAULT TEXT TO REPLACE This is an example of how to list things you need to use the software and how to install them.
+You will need to have NPM installed on your computer. 
 * npm
   ```sh
   npm install npm@latest -g
@@ -118,14 +110,16 @@ DEFAULT TEXT TO REPLACE This is an example of how to list things you need to use
 ### Installation
 
 DEFAULT TEXT TO REPLACE _Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
-
+<!-- Do I need them to install external dependencies or services for them to run my program? -->
+<!-- I guess so, right? It's not going to install all the loaders such as node-sass from my code -->
+<!-- TODO Replace the following link witih my SSH link -->
 1. Clone the repo
    ```sh
    git clone https://github.com/your_username_/Project-Name.git
    ```
-2. Install NPM packages
+2. Run the Program
    ```sh
-   npm install
+   npm start
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
