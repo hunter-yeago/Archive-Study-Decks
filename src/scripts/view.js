@@ -124,7 +124,7 @@ export const view = (function() {
             //this is colliding with the name for my mobile nav button
             // studyButton.id = 'studybutton';
             // studyButton.className = 'studybutton';
-            studyButton.onclick = function() {
+            studyButton.onclick = () => {
                 // Observable.publish('Study', deck.name);
             };
     
@@ -284,7 +284,7 @@ export const view = (function() {
             button.innerText = 'Delete all saved data';
             button.className = 'resetbutton';
             button.ariaLabel = 'Click here to delete all saved data';
-            button.onclick = function() {
+            button.onclick = () => {
                 showResetDataConfirmationWindow();
             };
             return button;
@@ -333,10 +333,10 @@ export const view = (function() {
 
         const exitSpan = document.createElement('span');
         exitSpan.innerHTML = '&times;';
-        exitSpan.onclick = function() {
+        exitSpan.onclick = () => {
             modal.style.display = 'none';
         }
-        window.onclick = function(event) {
+        window.onclick = (event) => {
             if (event.target == modal) {
                 modal.style.display = 'none';
             }
@@ -430,7 +430,7 @@ export const view = (function() {
         const addCardsButton = document.createElement('button');
         addCardsButton.innerText = 'Add Cards';
         addCardsButton.type = 'button';
-        addCardsButton.onclick = function(event) {
+        addCardsButton.onclick = (event) => {
             event.preventDefault();
             renderAddCardModalBody();
         };
@@ -598,27 +598,25 @@ export const view = (function() {
 
     function addBannerButtonFunctionality() {
         const bannerButton = document.getElementById('bannerbutton');
-        const menu = document.getElementById('menu');
-        menu.onclick = function() {
-            if (menu.style.display === 'block') {
-                menu.style.display = 'none'
-            } else {
-                menu.style.display = 'block';
-            }
+        bannerButton.onclick = () => {
+            menu.classList.toggle('show');
         };
 
-        bannerButton.onclick = function() {
-            if (menu.style.display === 'block') {
-                menu.style.display = 'none'
-            } else {
-                menu.style.display = 'block';
-            }
+        const menu = document.getElementById('menu');
+        menu.onclick = () => {
+            menu.classList.remove('show');
         };
+
+        document.onclick = () => {
+            if (!bannerButton.contains(event.target)) {
+                menu.classList.remove('show');
+            }
+        }
     }
 
     function makeNewAddDeckButtonWork() {
         const buttttton = document.getElementById('thebutttton');
-        buttttton.onclick = function() {
+        buttttton.onclick = () => {
             setModalAutofocus();
             document.getElementById('modal').style.display = 'block';
         }

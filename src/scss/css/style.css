@@ -417,6 +417,10 @@ select {
   opacity: 0.9;
 }
 
+.menu.show {
+  display: block;
+}
+
 .nav-right {
   display: flex;
   justify-content: center;

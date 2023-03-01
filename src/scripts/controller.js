@@ -2,7 +2,6 @@ import { model } from "./model";
 import { view } from "./view";
 import { Observable } from "./pubsub";
 
-// TODO show remaining characters for each input
 // TODO Reimplement pre-built decks
 // TODO - problem - Add A Deck menu does not hide when user taps //elsewhere on the page
 // TODO: you can edit the cards while you're studying them
