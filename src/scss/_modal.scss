@@ -65,10 +65,32 @@
     }
 
     textarea {
-        resize: vertical;
+        resize: none;
         min-height: 3.5rem;
         max-height: 12rem;
     }
+}
+
+.deckname,
+.deckcategory,
+.deckduedate,
+.deckdescription {
+    padding: .2em;
+}
+
+.deckdescription {
+    width: 100%;
+    height: 5rem;
+    resize: none;
+}
+
+.disabledinputtag {
+    position: relative;
+    bottom: 40px;
+    left: 195px;
+    color: grey;
+    padding: 0 0 0 .5em; 
+    pointer-events: none;
 }
 
 .invalid {

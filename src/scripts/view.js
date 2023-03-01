@@ -352,13 +352,14 @@ export const view = (function() {
 
         const nameInputLabel = document.createElement('label');
         nameInputLabel.htmlFor = 'deckname';
-        nameInputLabel.innerText = 'Deck Name:'
+        nameInputLabel.innerText = `Max 20 Characters`;
         
         const nameInput = document.createElement('input');
         nameInput.required = true;
         nameInput.minLength = 1;
         setAttributes(nameInput, {
             'id': 'deckname',
+            'class': 'deckname',
             'name': 'deckname',
             'type': 'text',
             'maxLength': '20',
@@ -367,7 +368,7 @@ export const view = (function() {
 
         const descriptionLabel = document.createElement('label');
         descriptionLabel.htmlFor = 'deckdescription';
-        descriptionLabel.innerText = 'Description (Max 50 charachters):';
+        descriptionLabel.innerText = `Description Max 60 Characters`;
 
         const descriptionInput = document.createElement('textarea');
         setAttributes(descriptionInput,
@@ -375,9 +376,10 @@ export const view = (function() {
                 'id': 'deckdescription',
                 'class': 'deckdescription',
                 'name': 'deckdescription',
-                'rows': '4',
+                'rows': '8',
                 'cols': '20',
                 'maxLength': '60',
+                'min-height': '3rem',
             });
 
         const dueDateLabel = document.createElement('label');
@@ -404,16 +406,6 @@ export const view = (function() {
             'name': 'deckcategory',
             'class': 'deckcategory',
         });
-
-        // categorySelect.oninput = () => {
-        //     const length = categorySelect.value.trim().length;
-        //     if (length < 1) {
-        //         categorySelect.className = 'invalid';
-        //     }
-        //     else {
-        //         categorySelect.className = 'valid';
-        //     }
-        // };
         
         const defaultOption = document.createElement('option');
         defaultOption.value = '';
