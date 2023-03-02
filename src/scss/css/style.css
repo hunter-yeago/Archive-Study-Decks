@@ -476,8 +476,7 @@ select {
   align-items: center;
   flex-direction: column;
   margin-top: 1em;
-  border: 1px solid yellow;
-  background-color: rgba(46, 56, 86, 0.8);
+  border: 1px solid #ffcd1e;
 }
 .studycarddiv div {
   flex-direction: column;
@@ -506,12 +505,14 @@ select {
 
 .flip-card {
   background-color: transparent;
+  border-radius: 25% 10%;
   width: 300px;
   height: 300px;
   perspective: 1000px;
 }
 
 .flip-card-inner {
+  border-radius: 25% 10%;
   cursor: pointer;
   position: relative;
   width: 100%;
@@ -519,7 +520,6 @@ select {
   text-align: center;
   transition: transform 0.4s;
   transform-style: preserve-3d;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .flip-card-inner.activated {
@@ -535,11 +535,13 @@ select {
 }
 
 .flip-card-front {
+  border-radius: 25% 10%;
   background-color: #bbb;
   color: black;
 }
 
 .flip-card-back {
+  border-radius: 25% 10%;
   background-color: #2980b9;
   color: white;
   transform: rotateY(180deg);

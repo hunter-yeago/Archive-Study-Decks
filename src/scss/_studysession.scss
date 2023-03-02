@@ -5,8 +5,8 @@
     @include mixins.centered-flexbox;
     flex-direction: column;
     margin-top: 1em;
-    border: 1px solid yellow;
-    background-color: rgba(config.$quizlet-study-card-color , $alpha: .8);
+    border: 1px solid config.$quizlet-gold-color;
+    // background-color: rgba(config.$quizlet-study-card-color , $alpha: .8);
 
     div {
         flex-direction: column;
@@ -36,12 +36,14 @@
 
 .flip-card {
     background-color: transparent;
+    border-radius: 25% 10%;;
     width: 300px;
     height: 300px;
     perspective: 1000px;
   }
 
   .flip-card-inner {
+    border-radius: 25% 10%;;
     cursor: pointer;
     position: relative;
     width: 100%;
@@ -49,7 +51,7 @@
     text-align: center;
     transition: transform 0.4s;
     transform-style: preserve-3d;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    // box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   }
   
   .flip-card-inner.activated {
@@ -65,11 +67,13 @@
   }
   
   .flip-card-front {
+    border-radius: 25% 10%;
     background-color: #bbb;
     color: black;
   }
   
   .flip-card-back {
+    border-radius: 25% 10%;
     background-color: #2980b9;
     color: white;
     transform: rotateY(180deg);
