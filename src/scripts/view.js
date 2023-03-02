@@ -82,6 +82,78 @@ export const view = (function() {
             return deckDisplayDiv;
         };
 
+        function renderStudySession(deck) {
+
+
+            const studyDiv = document.createElement('div');
+            studyDiv.className = 'studydiv';
+
+            const studyCardDiv = document.createElement('div');
+            studyCardDiv.id = 'studycarddiv';
+            studyCardDiv.className = 'studycarddiv';
+
+            const deckNameHeader = document.createElement('h1');
+            deckNameHeader.innerText = deck.name;
+            deckNameHeader.className = 'decknameheader';
+
+            const questionSection = document.createElement('div');
+            questionSection.id = 'questionsection';
+            questionSection.className = 'questionsection';
+
+            const questionHeader = document.createElement('h4');
+            questionHeader.innerText = 'Question:'
+
+            const questionText = document.createElement('p')
+            questionText.innerText = deck.cards[0].question;
+
+            const answerSection = document.createElement('div');
+            answerSection.id = 'answersection';
+            answerSection.className = 'answersection';
+
+            const answerHeader = document.createElement('h4');
+            answerHeader.innerText = 'Answer';
+            
+            const answerText = document.createElement('p')
+            answerText.innerText = deck.cards[0].answer;
+
+            const flipCard = document.createElement('div');
+            flipCard.className = 'flip-card';
+            flipCard.addEventListener('click', () => {
+                flipCardInner.classList.toggle('activated');
+            });
+
+            const flipCardInner = document.createElement('div');
+            flipCardInner.className = 'flip-card-inner';
+
+            const flipCardFront = document.createElement('div');
+            flipCardFront.className = 'flip-card-front';
+
+            const flipCardBack = document.createElement('div');
+            flipCardBack.className = 'flip-card-back';
+
+            const previousButton = document.createElement('button');
+            previousButton.innerText = 'Last Card';
+
+            const nextButton = document.createElement('button');
+            nextButton.innerText = 'Next Card';
+
+            const buttonsSpan = document.createElement('span');
+            buttonsSpan.className = 'buttonsspan';
+            buttonsSpan.append(previousButton, nextButton);
+
+            questionSection.append(questionHeader, questionText);
+            answerSection.append(answerHeader, answerText);
+
+            flipCard.appendChild(flipCardInner);
+            flipCardInner.append(flipCardFront, flipCardBack);
+            flipCardFront.appendChild(questionSection);
+            flipCardBack.appendChild(answerSection);
+
+            studyCardDiv.append(flipCard, buttonsSpan);
+            studyDiv.append(deckNameHeader, studyCardDiv)
+            main.append(studyDiv);
+        }
+
         function removeDecksFromPage() {
             const deckDisplayDiv = document.getElementById('deckdisplay');
             const children = Array.from(deckDisplayDiv.children);
@@ -125,7 +197,8 @@ export const view = (function() {
             // studyButton.id = 'studybutton';
             // studyButton.className = 'studybutton';
             studyButton.onclick = () => {
-                // Observable.publish('Study', deck.name);
+                removeMainTagContent();
+                renderStudySession(deck);
             };
     
             const deckDescriptionDiv = document.createElement('div');
