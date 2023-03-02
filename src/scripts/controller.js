@@ -2,9 +2,11 @@ import { model } from "./model";
 import { view } from "./view";
 import { Observable } from "./pubsub";
 
-// TODO Reimplement pre-built decks
-// TODO - problem - Add A Deck menu does not hide when user taps //elsewhere on the page
-// TODO: you can edit the cards while you're studying them
+//1. study functionality
+    // TODO Reimplement pre-built decks
+//2. responsive design
+
+//bugs
 // TODO View: Seems kind of backwards to call RenderDeckDisplay from renderTopDecks //Shouldn't it be the other way around?
 
 export const controller = (function(){
