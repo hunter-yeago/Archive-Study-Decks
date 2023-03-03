@@ -5,6 +5,11 @@ import { preBuiltDecks } from "./prebuiltdecks";
 
 //TODO responsive design
 //TODO dynamically render ALL HTML
+//TODO bug: when i delete a deck individually and then switch to the study screen, it's still there.
+//TODO Double check my Observer Pattern - are they being used correctly? Consistently? Are there things I'm not using with it that should be using it?
+//TODO Update stats
+    //Probably going to require creating a userData object of some sort in localStorage, and then updating all of my
+    //functions that access localStorage already with decks and make sure they only choose items that have some sort of 'type=deck' situation
 
 export const controller = (function(){
 
