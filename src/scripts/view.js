@@ -44,25 +44,12 @@ export const view = (function() {
     
             const prebuiltDecksDiv = document.createElement('div');
             prebuiltDecksDiv.className = 'deckdisplay';
-    
-
-
             controller.data.preBuiltDecks.forEach((deck) => {
-                console.log(deck);
                 deck = renderDeck(deck);
                 prebuiltDecksDiv.appendChild(deck);
             });
-            // const deck1 = renderDeck();
-            // const deck2 = renderDeck();
-            // const deck3 = renderDeck();
-    
-            // const prebuiltDecks = [deck1, deck2, deck3];
-            // prebuiltDecks.forEach((deck) => {
-            //     prebuiltDecksDiv.appendChild(deck);
-            // });
     
             section.append(title, prebuiltDecksDiv);
-    
             return section;
         };
 

@@ -24,7 +24,6 @@ export const controller = (function(){
     function startApplication() {
         view.renderDefaultView(data.defaultTabID);
         model.setCurrentPage(data.defaultTabID);
-        console.log(data.preBuiltDecks[0].cards[0].question);
     };
 
     function handleDeckCreationForm() {
