@@ -135,6 +135,10 @@ export const view = (function() {
             } else {
                 previousButton.classList.add('inactive');
             }
+
+            if (deck.currentCard + 1 === deck.cards.length) {
+                document.getElementById('nextcardbutton').innerText = 'Finish Session';
+            }
         }
 
         function renderFlipCard(questionSection, answerSection) {
@@ -186,6 +190,7 @@ export const view = (function() {
 
             const nextButton = document.createElement('button');
             nextButton.innerText = 'Next Card';
+            nextButton.id = 'nextcardbutton';
             nextButton.addEventListener('click', () => {
                 controller.showNextStudyCard(deck, 'shownext');
             });
