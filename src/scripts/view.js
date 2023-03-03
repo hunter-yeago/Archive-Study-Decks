@@ -232,7 +232,6 @@ export const view = (function() {
             });
         };
 
-        //TODO lots of repeating myself between the function above and this one, but, yeah
         function updateDeckDisplay(localDecks) {
             const deckDisplayDiv = document.getElementById('deckdisplay');
             removeDecksFromPage();
@@ -260,9 +259,7 @@ export const view = (function() {
 
             const studyButton = document.createElement('button');
             studyButton.innerText = 'Study';
-            //TODO going to have to dynamically render my mobile nav buttons now in order to make them
-            //work with the webpack stuff
-
+            
             //this is colliding with the name for my mobile nav button
             // studyButton.id = 'studybutton';
             // studyButton.className = 'studybutton';

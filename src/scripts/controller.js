@@ -3,10 +3,8 @@ import { view } from "./view";
 import { Observable } from "./pubsub";
 import { preBuiltDecks } from "./prebuiltdecks";
 
-//2. responsive design
-
-//bugs
-// TODO View: Seems kind of backwards to call RenderDeckDisplay from renderTopDecks //Shouldn't it be the other way around?
+//TODO responsive design
+//TODO dynamically render ALL HTML
 
 export const controller = (function(){
 

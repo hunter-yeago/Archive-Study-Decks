@@ -36,13 +36,9 @@ export const model = (function(){
             return;
         }
 
-        if (operation === 'reset') {
-            getDeckFromLocalStorage(deck.name).currentCard = 0;
-        } else if (operation === 'shownext') {
-            deck.currentCard++;
-        } else if (operation === 'showprevious') {
-            deck.currentCard--;
-        }
+        if (operation === 'reset') { getDeckFromLocalStorage(deck.name).currentCard = 0; } 
+        else if (operation === 'shownext') { deck.currentCard++; } 
+        else if (operation === 'showprevious') { deck.currentCard--; }
     };
 
     function checkIfDeckIsPreBuilt(deck, preBuiltDecks) {
