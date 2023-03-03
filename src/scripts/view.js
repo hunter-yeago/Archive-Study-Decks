@@ -47,6 +47,11 @@ export const view = (function() {
     
 
 
+            controller.data.preBuiltDecks.forEach((deck) => {
+                console.log(deck);
+                deck = renderDeck(deck);
+                prebuiltDecksDiv.appendChild(deck);
+            });
             // const deck1 = renderDeck();
             // const deck2 = renderDeck();
             // const deck3 = renderDeck();
@@ -880,18 +885,6 @@ export const view = (function() {
         renderAddCardModalBody,
         };
 })();
-
-    // function renderTableCells() {
-    //     let dataCells = [];
-
-    //     for (let i = 0; i < arguments.length; i++) {
-    //         const cell = document.createElement('td');
-    //         cell.innerText = arguments[i];
-    //         dataCells.push(cell);
-    //     }
-
-    //     return dataCells;
-    // };
 
 //Side-bar Nav
 

@@ -1,4 +1,4 @@
-const Deck = {
+export const Deck = {
     name: 'default name',
     description: 'default description',
     dueDate: 'default dueDate',
@@ -7,14 +7,6 @@ const Deck = {
     cardCount: 0,
     cards: [],
 };
-
-const frenchDeck = Object.assign(Object.create(Deck), {
-    name: 'French',
-    description: 'A deck to learn French',
-    numberOfQuestions: 10,
-    dueDate: 'some time date thing',
-    category: 'Languages',
-});
 
 export function createDeck(formDataObj) {
     
