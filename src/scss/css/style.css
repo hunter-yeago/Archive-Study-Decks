@@ -476,7 +476,6 @@ select {
   align-items: center;
   flex-direction: column;
   margin-top: 1em;
-  border: 1px solid #ffcd1e;
 }
 .studycarddiv div {
   flex-direction: column;
@@ -488,19 +487,22 @@ select {
   text-align: center;
 }
 
-.flip-card-inner,
-.flip-card-front,
-.flip-card-back {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.inactive {
+  background-color: rgba(121, 121, 121, 0.9);
+  pointer-events: none;
+  border-color: rgba(121, 121, 121, 0.9);
+}
+
+.numberofcards {
+  margin-bottom: 3em;
 }
 
 .studydiv {
   margin: 0 1.2em 0 1.2em;
 }
 .studydiv h1 {
-  margin-top: 0.7em;
+  margin-top: 0.5 em;
+  font-size: 1.8rem;
 }
 
 .flip-card {
@@ -512,6 +514,9 @@ select {
 }
 
 .flip-card-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 25% 10%;
   cursor: pointer;
   position: relative;
@@ -535,12 +540,14 @@ select {
 }
 
 .flip-card-front {
+  border: 2px solid #ffcd1e;
   border-radius: 25% 10%;
   background-color: #bbb;
   color: black;
 }
 
 .flip-card-back {
+  border: 2px solid #ffcd1e;
   border-radius: 25% 10%;
   background-color: #2980b9;
   color: white;
@@ -557,6 +564,15 @@ select {
 }
 .buttonsspan button {
   padding: 0.3em;
+}
+
+.congratsdiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 3em;
+  margin: 3em 1em 1em 1em;
 }
 
 html,

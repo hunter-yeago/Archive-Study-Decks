@@ -3,9 +3,9 @@ const Deck = {
     description: 'default description',
     dueDate: 'default dueDate',
     category: 'default category',
-    print: function () {
-        console.log(`printing from inside Deck`);
-    },
+    currentCard: 0,
+    cardCount: 0,
+    cards: [],
 };
 
 const frenchDeck = Object.assign(Object.create(Deck), {
@@ -14,7 +14,6 @@ const frenchDeck = Object.assign(Object.create(Deck), {
     numberOfQuestions: 10,
     dueDate: 'some time date thing',
     category: 'Languages',
-    questionsList: [],
 });
 
 export function createDeck(formDataObj) {
@@ -24,8 +23,9 @@ export function createDeck(formDataObj) {
         category: formDataObj.deckcategory,
         description: formDataObj.deckdescription,
         dueDate: makeDateReadable(formDataObj.deckduedate),
-        cards: [],
+        currentCard: 0,
         cardCount: 0,
+        cards: [],
     });
     return newDeck;
 };

@@ -9,11 +9,11 @@ export const model = (function(){
 
     function setCurrentPage(page) {
         currentPage = page;
-    }
+    };
 
     function getCurrentPage() {
         return currentPage;
-    }
+    };
 
     function getLocalStorage() {
         const deckArray = [];
@@ -23,7 +23,19 @@ export const model = (function(){
                 deckArray.push(deck);
             }
             return deckArray;
-    }
+    };
+
+    function updateCurrentCard(deck, operation) {
+
+        if (operation === 'reset') {
+            getDeckFromLocalStorage(deck.name).currentCard = 0
+        } else if (operation === 'shownext') {
+            deck.currentCard++;
+        } else if (operation === 'showprevious') {
+            deck.currentCard--;
+        }
+        
+    };
 
     function getDeckFromLocalStorage(deckName) {
         const deck = JSON.parse(localStorage.getItem(deckName));
@@ -36,13 +48,13 @@ export const model = (function(){
 
     function clearLocalStorage() {
         localStorage.clear();
-    }
+    };
 
     function createFormDataObject(form) {
         const myFormData = new FormData(form);
         const formDataObj = Object.fromEntries(myFormData.entries());
         return formDataObj;
-    }
+    };
 
     return {
         dataPanels,
@@ -52,6 +64,7 @@ export const model = (function(){
         getCurrentPage,
         setCurrentPage,
         getLocalStorage,
+        updateCurrentCard,
         clearLocalStorage,
         createFormDataObject,
         addDeckToLocalStorage,

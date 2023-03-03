@@ -1,4 +1,5 @@
 import { isFuture } from 'date-fns';
+
 const Validator = {
     data: null,
     element: null,

@@ -82,39 +82,57 @@ export const view = (function() {
             return deckDisplayDiv;
         };
 
-        function renderStudySession(deck) {
+        function renderStudyCardSide(cardSide, deck) {
 
+            const numberOfCardsFront = document.createElement('p');
+            numberOfCardsFront.innerText = `${deck.currentCard + 1} / ${deck.cards.length}`;
+            numberOfCardsFront.className = 'numberofcards';
+            numberOfCardsFront.id = `${cardSide}sectionnumberofcards`.toLowerCase();
 
-            const studyDiv = document.createElement('div');
-            studyDiv.className = 'studydiv';
+            const header = document.createElement('h4');
+            header.innerText = `${cardSide}:`;
 
-            const studyCardDiv = document.createElement('div');
-            studyCardDiv.id = 'studycarddiv';
-            studyCardDiv.className = 'studycarddiv';
+            const text = document.createElement('p')
+            text.id = `${cardSide}text`.toLowerCase();
+            if (cardSide === 'Question') {
+                text.innerText = deck.cards[deck.currentCard].question;
+            } else {
+                text.innerText = deck.cards[deck.currentCard].answer;
+            }
 
-            const deckNameHeader = document.createElement('h1');
-            deckNameHeader.innerText = deck.name;
-            deckNameHeader.className = 'decknameheader';
+            const innerDiv = document.createElement('div');
+            innerDiv.append(header, text);
 
-            const questionSection = document.createElement('div');
-            questionSection.id = 'questionsection';
-            questionSection.className = 'questionsection';
+            const section = document.createElement('div');
+            section.id = `${cardSide}section`.toLowerCase();
+            section.className = `${cardSide}section`.toLowerCase();
+            section.append(numberOfCardsFront, innerDiv);
+            return section;
 
-            const questionHeader = document.createElement('h4');
-            questionHeader.innerText = 'Question:'
+        };
 
-            const questionText = document.createElement('p')
-            questionText.innerText = deck.cards[0].question;
+        function updateStudyCard(deck) {
+            const numberOfCardsFront = document.getElementById('questionsectionnumberofcards');
+            numberOfCardsFront.innerText = `${deck.currentCard + 1} / ${deck.cards.length}`;
 
-            const answerSection = document.createElement('div');
-            answerSection.id = 'answersection';
-            answerSection.className = 'answersection';
+            const questionText = document.getElementById('questiontext');
+            questionText.innerText = deck.cards[deck.currentCard].question;
 
-            const answerHeader = document.createElement('h4');
-            answerHeader.innerText = 'Answer';
-            
-            const answerText = document.createElement('p')
-            answerText.innerText = deck.cards[0].answer;
+            const answerText = document.getElementById('answertext');
+            answerText.innerText = deck.cards[deck.currentCard].answer;
+
+            const numberOfCardsBack = document.getElementById('answersectionnumberofcards');
+            numberOfCardsBack.innerText = `${deck.currentCard + 1} / ${deck.cards.length}`;
+
+            const previousButton = document.getElementById('previousbutton');
+            if (deck.currentCard > 0) {
+                previousButton.classList.remove('inactive')
+            } else {
+                previousButton.classList.add('inactive');
+            }
+        }
+
+        function renderFlipCard(questionSection, answerSection) {
 
             const flipCard = document.createElement('div');
             flipCard.className = 'flip-card';
@@ -131,27 +149,69 @@ export const view = (function() {
             const flipCardBack = document.createElement('div');
             flipCardBack.className = 'flip-card-back';
 
+            flipCard.appendChild(flipCardInner);
+            flipCardInner.append(flipCardFront, flipCardBack);
+            flipCardFront.appendChild(questionSection);
+            flipCardBack.appendChild(answerSection);
+            return flipCard;
+        };
+
+        function renderStudySession(deck) {
+
+            const studyDiv = document.createElement('div');
+            studyDiv.className = 'studydiv';
+
+            const studyCardDiv = document.createElement('div');
+            studyCardDiv.id = 'studycarddiv';
+            studyCardDiv.className = 'studycarddiv';
+
+            const deckNameHeader = renderSectionTitle(deck.name);
+            deckNameHeader.className = 'decknameheader';
+
+            const questionSection = renderStudyCardSide('Question', deck);
+            const answerSection = renderStudyCardSide('Answer', deck);
+
             const previousButton = document.createElement('button');
+            previousButton.id = 'previousbutton';
             previousButton.innerText = 'Last Card';
+            previousButton.addEventListener('click', () => {
+                controller.showNextStudyCard(deck, 'showprevious');
+            });
+            previousButton.classList.add('inactive');
 
             const nextButton = document.createElement('button');
             nextButton.innerText = 'Next Card';
+            nextButton.addEventListener('click', () => {
+                controller.showNextStudyCard(deck, 'shownext');
+            });
 
             const buttonsSpan = document.createElement('span');
             buttonsSpan.className = 'buttonsspan';
             buttonsSpan.append(previousButton, nextButton);
 
-            questionSection.append(questionHeader, questionText);
-            answerSection.append(answerHeader, answerText);
-
-            flipCard.appendChild(flipCardInner);
-            flipCardInner.append(flipCardFront, flipCardBack);
-            flipCardFront.appendChild(questionSection);
-            flipCardBack.appendChild(answerSection);
+            const flipCard = renderFlipCard(questionSection, answerSection);
 
             studyCardDiv.append(flipCard, buttonsSpan);
             studyDiv.append(deckNameHeader, studyCardDiv)
             main.append(studyDiv);
+        };
+
+        function renderStudySessionComplete(deck) {
+            const congratsDiv = document.createElement('div');
+            congratsDiv.className = 'congratsdiv';
+
+            const celebrationText = document.createElement('p');
+            celebrationText.innerText = `Congratulations, you studied ${deck.cards.length} cards! Click the button below to return to your decks page`;
+
+            const returnToDecksPageButton = document.createElement('button');
+            returnToDecksPageButton.innerText = 'Return to Decks Page';
+            returnToDecksPageButton.addEventListener('click', () => {
+                view.removeMainTagContent();
+                renderPage();
+            });
+
+            congratsDiv.append(celebrationText, returnToDecksPageButton);
+            main.appendChild(congratsDiv);
         }
 
         function removeDecksFromPage() {
@@ -160,7 +220,7 @@ export const view = (function() {
             children.forEach((child) => {
                 child.remove();
             });
-        }
+        };
 
         //TODO lots of repeating myself between the function above and this one, but, yeah
         function updateDeckDisplay(localDecks) {
@@ -171,7 +231,7 @@ export const view = (function() {
                 const element = renderDeck(deck);
                 deckDisplayDiv.appendChild(element);
             });
-        }
+        };
 
         function renderDeck(deck) {
 
@@ -198,7 +258,7 @@ export const view = (function() {
             // studyButton.className = 'studybutton';
             studyButton.onclick = () => {
                 removeMainTagContent();
-                renderStudySession(deck);
+                controller.startStudySession(deck);
             };
     
             const deckDescriptionDiv = document.createElement('div');
@@ -214,7 +274,11 @@ export const view = (function() {
         return {
             renderPage,
             updateDeckDisplay,
-        }
+            renderStudySession,
+            updateStudyCard,
+            renderStudyCardSide,
+            renderStudySessionComplete,
+        };
     })();
 
     const overviewPage = (function(){
@@ -668,7 +732,6 @@ export const view = (function() {
         return h1;
     }
 
-
     function addBannerButtonFunctionality() {
         const bannerButton = document.getElementById('bannerbutton');
         bannerButton.onclick = () => {
@@ -813,6 +876,7 @@ export const view = (function() {
         resetForm,
         renderPage,
         renderDefaultView,
+        removeMainTagContent,
         renderAddCardModalBody,
         };
 })();

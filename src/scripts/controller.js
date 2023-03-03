@@ -12,7 +12,7 @@ import { Observable } from "./pubsub";
 export const controller = (function(){
 
     Observable.subscribe('DataReset', resetDataAndView);
-    
+
     const data = {
         defaultTabID: 'studybutton',
         localDecks: Array.from(model.getLocalStorage()),
@@ -126,10 +126,35 @@ export const controller = (function(){
         Observable.publish('UpdateOverviewData');
     };
 
+    function startStudySession(deck) {
+        view.studyPage.renderStudySession(deck);
+    }
+
+    function showNextStudyCard(deck, operation) {
+
+        if (operation === 'shownext') {
+            if (deck.currentCard + 1 === deck.cards.length) {
+                model.updateCurrentCard(deck, 'reset');
+                view.removeMainTagContent();
+                view.studyPage.renderStudySessionComplete(deck);
+            } else {
+                model.updateCurrentCard(deck, operation);
+                view.studyPage.updateStudyCard(deck);
+            }
+        } 
+        else if (operation === 'showprevious') {
+            model.updateCurrentCard(deck, operation);
+            view.studyPage.updateStudyCard(deck);
+        }
+        controller.data.updateDecks();
+    }
+
     return {
         data,
         changePage,
         startApplication,
+        startStudySession,
+        showNextStudyCard,
         handleAddCardsForm,
         handleDeckCreationForm,
     }
