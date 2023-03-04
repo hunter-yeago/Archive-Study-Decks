@@ -654,6 +654,8 @@ export const view = (function() {
         addNextCardButton.innerText = 'Add Next Card';
         addNextCardButton.addEventListener('click', () => {
             controller.handleAddCardsForm(newDeck, 'addmore')
+            console.log('pringint from view');
+            console.log(newDeck);
         });
 
         const finishAddingCardsButton = document.createElement('button');

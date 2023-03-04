@@ -8,6 +8,8 @@ export const Deck = {
     cards: [],
 };
 
+export const deckArray = [];
+
 export function createDeck(formDataObj) {
     
     const newDeck = Object.assign(Object.create(Deck), {
@@ -18,6 +20,7 @@ export function createDeck(formDataObj) {
         currentCard: 0,
         cardCount: 0,
         cards: [],
+        type: 'deck',
     });
     return newDeck;
 };

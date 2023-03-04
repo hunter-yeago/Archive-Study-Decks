@@ -1,9 +1,9 @@
-import { dataPanels } from './datapanel';
 import { validators } from './validator';
-import { createDeck } from './deck';
+import { createDeck, deckArray} from './deck';
 import { createCard } from './card';
 import { preBuiltDecks } from './prebuiltdecks';
 import { controller } from './controller';
+import { newUserData, dataPanels} from './userdata';
 
 export const model = (function(){
 
@@ -17,14 +17,138 @@ export const model = (function(){
         return currentPage;
     };
 
-    function getLocalStorage() {
-        const deckArray = [];
+    function getDeckArrayFromLocalStorage() {
+        
+        // return Array.from(JSON.parse(localStorage.getItem('deckarray')));    
+        const items = { ...localStorage};
+        if (items.hasOwnProperty('deckarray')) {
+            return Array.from(JSON.parse(localStorage.getItem('deckarray')));    
+        }
+    };
 
-          for (let i = 0; i < localStorage.length; i++) {
-                const deck = JSON.parse(localStorage.getItem(localStorage.key(i)));
-                deckArray.push(deck);
-            }
-            return deckArray;
+    function getDeckFromLocalStorage(deckName) {
+        const decks = getDeckArrayFromLocalStorage();
+        return decks.find(item => item.name === deckName);
+    };
+
+    function addCardtoDeck(card, deck) {
+        deck.cards.push(card);
+        return deck;
+    }
+
+    function resetDeckArray() {
+        localStorage.setItem('deckarray', JSON.stringify(deckArray));
+    };
+
+    function updateDeckInLocalStorage(deck) {
+        const decks = getDeckArrayFromLocalStorage();
+        const foundDeck = getDeckFromLocalStorage(deck.name)
+        foundDeck.cards = deck.cards;
+        foundDeck.cardCount = deck.cardCount;
+
+        const index = decks.findIndex(d => d.name === foundDeck.name);
+        decks[index] = foundDeck;
+        localStorage.setItem('deckarray', JSON.stringify(decks));
+    }
+
+    function addDeckToLocalStorage(deck) {
+        const arrayOfDecks = getDeckArrayFromLocalStorage();
+        arrayOfDecks.push(deck);
+        localStorage.setItem('deckarray', JSON.stringify(arrayOfDecks));
+    };
+
+    // function getLocalDecks() {
+    //     const deckArray = [];
+    //       for (let i = 0; i < localStorage.length; i++) {
+    //             const localObject = JSON.parse(localStorage.getItem(localStorage.key(i)));
+    //             if (localObject.type === 'deck') {
+    //                 deckArray.push(localObject);
+    //             }
+    //         }
+    //     return deckArray;
+    // };
+
+    function resetDataPanelData() {
+        localStorage.setItem('datapanels', JSON.stringify(dataPanels));
+    };
+
+    function basicLocalStorageSetup() {
+        const item = {...localStorage};
+
+    }
+
+    function setDataPanelData(updatedPanels) {
+        localStorage.setItem('datapanels', JSON.stringify(updatedPanels));
+    };
+
+    function getLocalPanels() {
+        return JSON.parse(localStorage.getItem('datapanels'));
+        // const items = { ...localStorage};
+        // if (items.hasOwnProperty('datapanels')) {
+        //    return JSON.parse(localStorage.getItem('datapanels'));
+        // }
+    };
+
+    function getLocalPanel(data) {
+        const panels = Array.from(JSON.parse(localStorage.getItem('datapanels')));
+        // let panel = {};
+        panels.forEach((item) => {
+            if (item.hasOwnProperty(data)) {
+                return item;
+                // panel = item;
+            };
+        });
+        // return panel;
+    };
+
+    function resetNewUserData() {
+        localStorage.setItem('userdata', JSON.stringify(newUserData));
+    };
+
+    function setUserData(data) {
+        localStorage.setItem('userdata', JSON.stringify(data));
+    };
+
+    function getUserData() {
+
+        const items = { ...localStorage};
+
+        if (items.hasOwnProperty('userdata')) {
+           return JSON.parse(localStorage.getItem('userdata'));
+        }
+    };
+
+    function getNonParsedUserData() {
+        const items = { ...localStorage};
+        if (items.hasOwnProperty('userdata')) {
+
+           return localStorage.getItem('userdata');
+        }
+
+    }
+
+    function incrementUserData(data) {
+        const userData = getUserData();
+        userData[data] = userData[data] + 1;
+        setUserData(userData);
+
+        const panels = getLocalPanels();
+        panels.forEach((item) => {
+            if (item.hasOwnProperty(data)) {
+                item.statistic = item.statistic + 1;
+            };
+        });
+        
+        setDataPanelData(panels);
+        controller.data.Update();
+    };
+
+    function decrementUserData(data) {
+        const userData = getUserData();
+        userData[data] = userData[data] - 1;
+        setUserData(userData);
+
+        const newdata = getUserData();
     };
 
     function updateCurrentCard(deck, operation) {
@@ -50,19 +174,11 @@ export const model = (function(){
                 return false;
             }
         }
-    }
-
-    function getDeckFromLocalStorage(deckName) {
-        const deck = JSON.parse(localStorage.getItem(deckName));
-        return deck;
-    };
-
-    function addDeckToLocalStorage(deck) {
-        localStorage.setItem(deck.name, JSON.stringify(deck));
     };
 
     function clearLocalStorage() {
         localStorage.clear();
+        resetNewUserData(newUserData);
     };
 
     function createFormDataObject(form) {
@@ -76,9 +192,21 @@ export const model = (function(){
         validators,
         createCard,
         createDeck,
+        getLocalPanel,
+        getLocalPanels,
+        resetDataPanelData,
+        incrementUserData,
+        getNonParsedUserData,
+        resetDeckArray,
+        updateDeckInLocalStorage,
+        decrementUserData,
+        getUserData,
+        resetNewUserData,
+        getDeckArrayFromLocalStorage,
         getCurrentPage,
         setCurrentPage,
-        getLocalStorage,
+        // getLocalDecks,
+        addCardtoDeck,
         updateCurrentCard,
         clearLocalStorage,
         createFormDataObject,

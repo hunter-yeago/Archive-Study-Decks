@@ -18,17 +18,50 @@ export const controller = (function(){
     const data = {
         preBuiltDecks: preBuiltDecks,
         defaultTabID: 'studybutton',
-        localDecks: Array.from(model.getLocalStorage()),
+        localDecks: model.getDeckArrayFromLocalStorage(),
         Panels: model.dataPanels,
 
+        Update: function() {
+            this.updateDecks();
+            this.updatePanels();
+        },
+
         updateDecks: function() {
-            this.localDecks = Array.from(model.getLocalStorage());
+            this.localDecks = model.getDeckArrayFromLocalStorage();
+        },
+
+        updatePanels: function() {
+            this.Panels = model.getLocalPanels();
         },
     }
     
     function startApplication() {
+        const decks = model.getDeckArrayFromLocalStorage();
+        if (!decks || decks === null) {
+            model.resetDeckArray();
+        }
+
+        const panels = model.getLocalPanels();
+        if (!panels || panels === null) {
+            model.resetDataPanelData();
+        }
+
         view.renderDefaultView(data.defaultTabID);
         model.setCurrentPage(data.defaultTabID);
+        
+        const userData = model.getUserData();
+        if (!userData || userData === null || userData === undefined || userData === 'undefined') {
+            model.resetNewUserData();
+        }
+
+        // model.resetDataPanelData();
+        // const panels = model.getLocalPanel();
+        // console.table(panels);
+        // if (!panels) {
+        //     console.log('firing inside controller');
+        //     model.resetDataPanelData();
+        // }
+        // data.Panels = model.getLocalPanel();
     };
 
     function handleDeckCreationForm() {
@@ -62,6 +95,7 @@ export const controller = (function(){
             const formDataObject = model.createFormDataObject(form);
             const newDeck = model.createDeck(formDataObject);
             model.addDeckToLocalStorage(newDeck);
+            model.incrementUserData('decksCreated');
             data.updateDecks();
             view.resetForm(form);
             model.validators.resetInputValidity(validators);
@@ -92,20 +126,28 @@ export const controller = (function(){
                 return;
             });
          } else {
+            
             const formDataObject = model.createFormDataObject(form);
             const newCard = model.createCard(formDataObject);
-            const deckCopy = model.getDeckFromLocalStorage(newDeck.name);
+
+            //TODO Clean this code
+            //and code of ALL the referenced functions here
+            //as they are now janky as shit after my very long and frustrating day
+            //of coding....
+            let deckCopy = model.getDeckFromLocalStorage(newDeck.name);
             deckCopy.cards.push(newCard);
             deckCopy.cardCount = deckCopy.cardCount + 1;
+            model.updateDeckInLocalStorage(deckCopy);
 
-            const deckData = JSON.stringify(deckCopy);
-            localStorage.setItem(deckCopy.name, deckData);
+            const newDeckCopy = model.getDeckFromLocalStorage(newDeck.name);
 
-            data.updateDecks();
+            data.Update();
+            model.incrementUserData('cardsCreated');
             model.validators.resetInputValidity(validators);
             
             if (status === 'addmore') {
-                view.renderAddCardModalBody(deckCopy);
+                console.log(newDeckCopy);
+                view.renderAddCardModalBody(newDeckCopy);
             } else if (status === 'doneadding') {
                 view.hideModal();
                 view.resetModal();
@@ -140,16 +182,24 @@ export const controller = (function(){
                 model.updateCurrentCard(deck, 'reset');
                 view.removeMainTagContent();
                 view.studyPage.renderStudySessionComplete(deck);
+                model.incrementUserData('decksStudied');
+                
             } else {
                 model.updateCurrentCard(deck, operation);
                 view.studyPage.updateStudyCard(deck);
+                model.incrementUserData('cardsStudied');
             }
         } 
         else if (operation === 'showprevious') {
             model.updateCurrentCard(deck, operation);
             view.studyPage.updateStudyCard(deck);
+            model.decrementUserData('cardsStudied');
         }
         controller.data.updateDecks();
+    }
+
+    function getUpdatedOverviewPanels() {
+        
     }
 
     return {
