@@ -25,21 +25,16 @@ export const view = (function() {
         };
         
         function renderYourDecks() {
-            const section = document.createElement('section');
             const title = renderSectionTitle('Your Decks');
-            const localDecks = controller.data.localDecks;
-            
-            const deckDisplayDiv = renderDeckDisplay(localDecks);
-            
+            const deckDisplayDiv = renderDeckDisplay(controller.data.localDecks);
+            const section = document.createElement('section');
             section.append(title, deckDisplayDiv);
-            
             return section;
         };
 
         function renderPreBuiltDecks() {
 
-            const section = document.createElement('section');
-        
+            
             const title = renderSectionTitle('Prebuilt Decks');
     
             const prebuiltDecksDiv = document.createElement('div');
@@ -49,6 +44,7 @@ export const view = (function() {
                 prebuiltDecksDiv.appendChild(deck);
             });
     
+            const section = document.createElement('section');
             section.append(title, prebuiltDecksDiv);
             return section;
         };
@@ -70,7 +66,6 @@ export const view = (function() {
                 itsEmptyMessage.innerText = `It's empty in here! Click the blue button above to create a new deck.`;
                 deckDisplayDiv.appendChild(itsEmptyMessage);
             }
-    
             return deckDisplayDiv;
         };
 
@@ -654,8 +649,6 @@ export const view = (function() {
         addNextCardButton.innerText = 'Add Next Card';
         addNextCardButton.addEventListener('click', () => {
             controller.handleAddCardsForm(newDeck, 'addmore')
-            console.log('pringint from view');
-            console.log(newDeck);
         });
 
         const finishAddingCardsButton = document.createElement('button');

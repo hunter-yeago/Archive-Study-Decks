@@ -20,7 +20,6 @@ export function createDeck(formDataObj) {
         currentCard: 0,
         cardCount: 0,
         cards: [],
-        type: 'deck',
     });
     return newDeck;
 };

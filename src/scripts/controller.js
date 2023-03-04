@@ -7,9 +7,6 @@ import { preBuiltDecks } from "./prebuiltdecks";
 //TODO dynamically render ALL HTML
 //TODO bug: when i delete a deck individually and then switch to the study screen, it's still there.
 //TODO Double check my Observer Pattern - are they being used correctly? Consistently? Are there things I'm not using with it that should be using it?
-//TODO Update stats
-    //Probably going to require creating a userData object of some sort in localStorage, and then updating all of my
-    //functions that access localStorage already with decks and make sure they only choose items that have some sort of 'type=deck' situation
 
 export const controller = (function(){
 
@@ -107,11 +104,7 @@ export const controller = (function(){
             
             const formDataObject = model.createFormDataObject(form);
             const card = model.createCard(formDataObject);
-
-            //TODO Clean this code
-            //and code of ALL the referenced functions here
-            //as they are now janky as shit after my very long and frustrating day
-            //of coding....
+            
             let deckCopy = model.getDeckFromLocalStorage(newDeck.name);
             deckCopy = model.addCardToDeck(card, deckCopy);
             model.updateDeckInLocalStorage(deckCopy);

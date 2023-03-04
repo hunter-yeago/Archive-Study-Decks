@@ -24,7 +24,6 @@ const decksCreatedPanel = Object.assign(Object.create(DataPanel), {
     underlinecolor: 'greencardunderline',
     decksCreated: 0,
     statistic: 0,
-    type: 'panel',
 });
 
 const decksStudiedPanel = Object.assign(Object.create(DataPanel), {
@@ -33,7 +32,6 @@ const decksStudiedPanel = Object.assign(Object.create(DataPanel), {
     underlinecolor: 'bluecardunderline',
     statistic: 0,
     decksStudied: 0,
-    type: 'panel',
 });
 
 const cardsCreatedPanel = Object.assign(Object.create(DataPanel), {
@@ -42,7 +40,6 @@ const cardsCreatedPanel = Object.assign(Object.create(DataPanel), {
     underlinecolor: 'brickcardunderline',
     statistic: 0,
     cardsCreated: 0,
-    type: 'panel',
 });
 
 const cardsStudiedPanel = Object.assign(Object.create(DataPanel), {
@@ -51,7 +48,6 @@ const cardsStudiedPanel = Object.assign(Object.create(DataPanel), {
     underlinecolor: 'sunshinecardunderline',
     statistic: 0,
     cardsStudied: 0,
-    type: 'panel',
 });
 
 export const dataPanels = [decksCreatedPanel, decksStudiedPanel, cardsCreatedPanel, cardsStudiedPanel];
