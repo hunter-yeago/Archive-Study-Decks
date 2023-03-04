@@ -17,6 +17,23 @@ export const model = (function(){
         return currentPage;
     };
 
+    function checkIfThereIsAlreadyLocallyStoredData() {
+        const decks = model.getDeckArrayFromLocalStorage();
+        if (!decks || decks === null) {
+            resetDeckArray();
+        }
+
+        const panels = model.getLocalPanels();
+        if (!panels || panels === null) {
+            resetDataPanelData(dataPanels);
+        }
+        
+        const userData = model.getUserData();
+        if (!userData || userData === null) {
+            resetNewUserData(newUserData);
+        }
+    }
+
     function getDeckArrayFromLocalStorage() {
         
         // return Array.from(JSON.parse(localStorage.getItem('deckarray')));    
@@ -57,25 +74,23 @@ export const model = (function(){
         localStorage.setItem('deckarray', JSON.stringify(arrayOfDecks));
     };
 
-    // function getLocalDecks() {
-    //     const deckArray = [];
-    //       for (let i = 0; i < localStorage.length; i++) {
-    //             const localObject = JSON.parse(localStorage.getItem(localStorage.key(i)));
-    //             if (localObject.type === 'deck') {
-    //                 deckArray.push(localObject);
-    //             }
-    //         }
-    //     return deckArray;
-    // };
+    function addCardToDeck(card, deck) {
+        deck.cards.push(card);
+        deck.cardCount++;
+        return deck;
+    }
+
+    function deleteDeckFromLocalStorage(deckName) {
+        const decks = getDeckArrayFromLocalStorage();
+        const deckToDelete = getDeckFromLocalStorage(deckName);
+        const index = decks.findIndex(d => d.name === deckToDelete.name);
+        decks.splice(index, 1);
+        localStorage.setItem('deckarray', JSON.stringify(decks));
+    }
 
     function resetDataPanelData() {
         localStorage.setItem('datapanels', JSON.stringify(dataPanels));
     };
-
-    function basicLocalStorageSetup() {
-        const item = {...localStorage};
-
-    }
 
     function setDataPanelData(updatedPanels) {
         localStorage.setItem('datapanels', JSON.stringify(updatedPanels));
@@ -83,22 +98,15 @@ export const model = (function(){
 
     function getLocalPanels() {
         return JSON.parse(localStorage.getItem('datapanels'));
-        // const items = { ...localStorage};
-        // if (items.hasOwnProperty('datapanels')) {
-        //    return JSON.parse(localStorage.getItem('datapanels'));
-        // }
     };
 
     function getLocalPanel(data) {
         const panels = Array.from(JSON.parse(localStorage.getItem('datapanels')));
-        // let panel = {};
         panels.forEach((item) => {
             if (item.hasOwnProperty(data)) {
                 return item;
-                // panel = item;
             };
         });
-        // return panel;
     };
 
     function resetNewUserData() {
@@ -177,8 +185,10 @@ export const model = (function(){
     };
 
     function clearLocalStorage() {
-        localStorage.clear();
-        resetNewUserData(newUserData);
+        resetNewUserData();
+        resetDataPanelData()
+        resetDeckArray();
+        controller.data.Update();
     };
 
     function createFormDataObject(form) {
@@ -191,6 +201,7 @@ export const model = (function(){
         dataPanels,
         validators,
         createCard,
+        addCardToDeck,
         createDeck,
         getLocalPanel,
         getLocalPanels,
@@ -198,6 +209,8 @@ export const model = (function(){
         incrementUserData,
         getNonParsedUserData,
         resetDeckArray,
+        checkIfThereIsAlreadyLocallyStoredData,
+        deleteDeckFromLocalStorage,
         updateDeckInLocalStorage,
         decrementUserData,
         getUserData,

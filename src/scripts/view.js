@@ -376,9 +376,9 @@ export const view = (function() {
             deleteButton.innerHTML = 'Delete';
             
             deleteButton.onclick = () => {
-                const deck = dropdownSelect.value;
-                localStorage.removeItem(deck);
-                document.getElementById(deck + 'id').remove();
+                const deckName = dropdownSelect.value;
+                controller.deleteDeck(deckName);
+                document.getElementById(deckName + 'id').remove();
             };
             //update the page somehow?
 

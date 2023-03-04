@@ -36,32 +36,10 @@ export const controller = (function(){
     }
     
     function startApplication() {
-        const decks = model.getDeckArrayFromLocalStorage();
-        if (!decks || decks === null) {
-            model.resetDeckArray();
-        }
-
-        const panels = model.getLocalPanels();
-        if (!panels || panels === null) {
-            model.resetDataPanelData();
-        }
-
-        view.renderDefaultView(data.defaultTabID);
+        data.Update();
+        model.checkIfThereIsAlreadyLocallyStoredData();
         model.setCurrentPage(data.defaultTabID);
-        
-        const userData = model.getUserData();
-        if (!userData || userData === null || userData === undefined || userData === 'undefined') {
-            model.resetNewUserData();
-        }
-
-        // model.resetDataPanelData();
-        // const panels = model.getLocalPanel();
-        // console.table(panels);
-        // if (!panels) {
-        //     console.log('firing inside controller');
-        //     model.resetDataPanelData();
-        // }
-        // data.Panels = model.getLocalPanel();
+        view.renderDefaultView(data.defaultTabID);  
     };
 
     function handleDeckCreationForm() {
@@ -128,26 +106,22 @@ export const controller = (function(){
          } else {
             
             const formDataObject = model.createFormDataObject(form);
-            const newCard = model.createCard(formDataObject);
+            const card = model.createCard(formDataObject);
 
             //TODO Clean this code
             //and code of ALL the referenced functions here
             //as they are now janky as shit after my very long and frustrating day
             //of coding....
             let deckCopy = model.getDeckFromLocalStorage(newDeck.name);
-            deckCopy.cards.push(newCard);
-            deckCopy.cardCount = deckCopy.cardCount + 1;
+            deckCopy = model.addCardToDeck(card, deckCopy);
             model.updateDeckInLocalStorage(deckCopy);
-
-            const newDeckCopy = model.getDeckFromLocalStorage(newDeck.name);
 
             data.Update();
             model.incrementUserData('cardsCreated');
             model.validators.resetInputValidity(validators);
             
             if (status === 'addmore') {
-                console.log(newDeckCopy);
-                view.renderAddCardModalBody(newDeckCopy);
+                view.renderAddCardModalBody(deckCopy);
             } else if (status === 'doneadding') {
                 view.hideModal();
                 view.resetModal();
@@ -183,6 +157,7 @@ export const controller = (function(){
                 view.removeMainTagContent();
                 view.studyPage.renderStudySessionComplete(deck);
                 model.incrementUserData('decksStudied');
+                model.incrementUserData('cardsStudied');
                 
             } else {
                 model.updateCurrentCard(deck, operation);
@@ -198,13 +173,14 @@ export const controller = (function(){
         controller.data.updateDecks();
     }
 
-    function getUpdatedOverviewPanels() {
-        
+    function deleteDeck(deckName) {
+        model.deleteDeckFromLocalStorage(deckName);
     }
 
     return {
         data,
         changePage,
+        deleteDeck,
         startApplication,
         startStudySession,
         showNextStudyCard,
