@@ -133,6 +133,7 @@ export const view = (function() {
 
             const flipCardInner = document.createElement('div');
             flipCardInner.className = 'flip-card-inner';
+            flipCardInner.id = 'flip-card-inner';
 
             const flipCardFront = document.createElement('div');
             flipCardFront.className = 'flip-card-front';
@@ -148,6 +149,8 @@ export const view = (function() {
         };
 
         function renderStudySession(deck) {
+
+            
 
             const studyDiv = document.createElement('div');
             studyDiv.className = 'studydiv';
@@ -167,6 +170,8 @@ export const view = (function() {
             previousButton.innerText = 'Last Card';
             previousButton.addEventListener('click', () => {
                 controller.showNextStudyCard(deck, 'showprevious');
+                const flipCardInner = document.getElementById('flip-card-inner');
+                flipCardInner.classList.remove('activated');
             });
             previousButton.classList.add('inactive');
 
@@ -175,6 +180,8 @@ export const view = (function() {
             nextButton.id = 'nextcardbutton';
             nextButton.addEventListener('click', () => {
                 controller.showNextStudyCard(deck, 'shownext');
+                const flipCardInner = document.getElementById('flip-card-inner');
+                flipCardInner.classList.remove('activated');
             });
 
             const buttonsSpan = document.createElement('span');
@@ -846,15 +853,15 @@ export const view = (function() {
     //     addDeckButton.id = 'bannerbutton';
     //     addDeckButton.appendChild(svg);
 
-    //     const title = document.createElement('h3');
-    //     title.innerText = 'Study Decks';
+        // const title = document.createElement('h3');
+        // title.innerText = 'Study Decks';
 
-    //     const innerHeaderDiv = document.createElement('div');
-    //     innerHeaderDiv.className = 'innerheaderdiv';
-    //     innerHeaderDiv.append(title, addDeckButton);
+        // const innerHeaderDiv = document.createElement('div');
+        // innerHeaderDiv.className = 'innerheaderdiv';
+        // innerHeaderDiv.append(title, addDeckButton);
 
-    //     const mainHeader = document.getElementById('mainheader');
-    //     mainHeader.appendChild(innerHeaderDiv);
+        // const mainHeader = document.getElementById('mainheader');
+        // mainHeader.appendChild(innerHeaderDiv);
 
     // }
 
