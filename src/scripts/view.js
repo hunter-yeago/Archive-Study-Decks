@@ -105,8 +105,17 @@ export const view = (function() {
             const questionText = document.getElementById('questiontext');
             questionText.innerText = deck.cards[deck.currentCard].question;
 
+            
+              
             const answerText = document.getElementById('answertext');
-            answerText.innerText = deck.cards[deck.currentCard].answer;
+            // answerText.innerText = deck.cards[deck.currentCard].answer;
+
+            //Before, you would see the next answer too soon if you were on the backside
+            //of the card and clicked next, with this delay, you no longer will
+            //accidentally see the answer to the next card
+            setTimeout(() => {
+                answerText.innerText = deck.cards[deck.currentCard].answer;
+              }, 100);
 
             const numberOfCardsBack = document.getElementById('answersectionnumberofcards');
             numberOfCardsBack.innerText = `${deck.currentCard + 1} / ${deck.cards.length}`;
