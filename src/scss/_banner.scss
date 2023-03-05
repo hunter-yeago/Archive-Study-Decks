@@ -24,6 +24,7 @@
     @include mixins.button-reset;
     height: 2.4rem;
     width: 2.4rem;
+    padding: 0em;
     border-radius: 50%;
     background-color: config.$quizlet-button-color;
 }

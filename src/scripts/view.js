@@ -8,6 +8,9 @@ export const view = (function() {
     const main = document.querySelector('main');
 
     const studyPage = (function(){
+        Observable.subscribe('NewDeckAdded', localDecks => {
+            updateDeckDisplay(localDecks)
+        });
 
         function renderPage() {
             //This is for the slide in menu nav bar
@@ -159,8 +162,6 @@ export const view = (function() {
 
         function renderStudySession(deck) {
 
-            
-
             const studyDiv = document.createElement('div');
             studyDiv.className = 'studydiv';
 
@@ -288,7 +289,11 @@ export const view = (function() {
 
     const overviewPage = (function(){
 
-        Observable.subscribe('UpdateOverviewData', updateDeleteDeckOptions);
+        Observable.subscribe('UpdateOverviewData', cardData => {
+            updateOverviewCards(cardData);
+            updateDeleteDeckOptions();
+        }
+        );
 
         function renderPage() {
             renderModal();
@@ -328,6 +333,7 @@ export const view = (function() {
                 title.innerText = card.title;
          
                 const statistic = document.createElement('p');
+                statistic.id = card.underlinecolor;
                 statistic.className = card.underlinecolor;
                 statistic.innerText = card.statistic;
         
@@ -340,10 +346,6 @@ export const view = (function() {
             return rowOfCardsDiv;
         };
 
-        function updateOverviewCards() {
-            
-        }
-
         function renderSettingsSection() {
             const section = document.createElement('section');
             section.className = 'settingssection';
@@ -355,7 +357,7 @@ export const view = (function() {
 
             section.append(title, deleteDeckSection, resetButton);
             return section;
-        }
+        };
 
         function renderDeleteDeckOptions() {
 
@@ -389,6 +391,7 @@ export const view = (function() {
             deleteButton.onclick = () => {
                 const deckName = dropdownSelect.value;
                 controller.deleteDeck(deckName);
+                controller.data.Update();
                 document.getElementById(deckName + 'id').remove();
             };
             //update the page somehow?
@@ -401,7 +404,15 @@ export const view = (function() {
             div.className = 'deckdeleteoptions';
             div.append(dropdownLabel, horizontalDiv);
             return div;
-        }
+        };
+
+        function updateOverviewCards(cards) {
+            cards.forEach((card) => {
+                const overviewCard = document.getElementById(card.underlinecolor);
+                overviewCard.innerText = card.statistic;
+            });
+
+        };
 
         function updateDeleteDeckOptions() {
             const dropdownSelect = document.getElementById('dropdownselect');
@@ -419,7 +430,7 @@ export const view = (function() {
                 option.innerText = item.name;
                 dropdownSelect.appendChild(option);
             });
-        }
+        };
 
         function renderResetButton() {
             const button = document.createElement('button');
@@ -430,18 +441,17 @@ export const view = (function() {
                 showResetDataConfirmationWindow();
             };
             return button;
-        }
+        };
 
         function showResetDataConfirmationWindow() {
             if (confirm('Are you sure you want to reset your data? You cannot undo this action!')) {
-                Observable.publish('DataReset');
-                
+                Observable.publish('DataReset');    
             } else { return; }
-        }
+        };
 
         return {
             renderPage,
-        }
+        };
     })();
 
     function renderModal() {
@@ -674,7 +684,6 @@ export const view = (function() {
         });
 
         userOptionsDiv.append(addNextCardButton, finishAddingCardsButton);
-
         modalBody.append(newCardTitleDiv, modalCardForm, userOptionsDiv);
     }
 

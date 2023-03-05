@@ -59,6 +59,10 @@ select {
   font: inherit;
 }
 
+button {
+  padding: 0.2em;
+}
+
 /* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
 @media (prefers-reduced-motion: reduce) {
   html:focus-within {
@@ -328,9 +332,6 @@ select {
   text-decoration-color: #FFBA17;
 }
 
-.settingssection button {
-  padding: 0.2em;
-}
 .settingssection select {
   padding: 0.3em;
 }
@@ -384,6 +385,7 @@ select {
   outline: inherit;
   height: 2.4rem;
   width: 2.4rem;
+  padding: 0em;
   border-radius: 50%;
   background-color: #4255ff;
 }
@@ -573,6 +575,9 @@ select {
   flex-direction: column;
   gap: 3em;
   margin: 3em 1em 1em 1em;
+}
+.congratsdiv button {
+  padding: 0.2em;
 }
 
 html,

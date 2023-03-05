@@ -5,7 +5,6 @@ import { preBuiltDecks } from "./prebuiltdecks";
 
 //TODO responsive design
 //TODO dynamically render ALL HTML
-//TODO bug: when i delete a deck individually and then switch to the study screen, it's still there.
 //TODO Double check my Observer Pattern - are they being used correctly? Consistently? Are there things I'm not using with it that should be using it?
 
 export const controller = (function(){
@@ -71,7 +70,8 @@ export const controller = (function(){
             const newDeck = model.createDeck(formDataObject);
             model.addDeckToLocalStorage(newDeck);
             model.incrementUserData('decksCreated');
-            data.updateDecks();
+            data.Update();
+            updateDataOnCurrentPage();
             view.resetForm(form);
             model.validators.resetInputValidity(validators);
             view.renderAddCardModalBody(newDeck);
@@ -101,7 +101,6 @@ export const controller = (function(){
                 return;
             });
          } else {
-            
             const formDataObject = model.createFormDataObject(form);
             const card = model.createCard(formDataObject);
             
@@ -112,6 +111,7 @@ export const controller = (function(){
             data.Update();
             model.incrementUserData('cardsCreated');
             model.validators.resetInputValidity(validators);
+            updateDataOnCurrentPage();
             
             if (status === 'addmore') {
                 view.renderAddCardModalBody(deckCopy);
@@ -119,12 +119,16 @@ export const controller = (function(){
                 view.hideModal();
                 view.resetModal();
             }
-            
-            const currentPage = model.getCurrentPage();
-            if (currentPage === 'studybutton') {
-                view.studyPage.updateDeckDisplay(data.localDecks);
-            }
         };
+    };
+
+    function updateDataOnCurrentPage() {
+        const currentPage = model.getCurrentPage();
+        if (currentPage === 'studybutton') {
+            Observable.publish('NewDeckAdded', data.localDecks)
+        } else {
+            Observable.publish('UpdateOverviewData', data.Panels);
+        }
     }
 
     function changePage(page) {
@@ -134,8 +138,8 @@ export const controller = (function(){
 
     function resetDataAndView() {
         model.clearLocalStorage();
-        data.updateDecks();
-        Observable.publish('UpdateOverviewData');
+        data.Update();
+        Observable.publish('UpdateOverviewData', data.Panels);
     };
 
     function startStudySession(deck) {
