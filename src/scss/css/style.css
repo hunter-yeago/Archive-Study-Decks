@@ -94,7 +94,7 @@ select {
   position: relative;
   margin: auto;
   border: 1px solid #888;
-  width: 92%;
+  width: min(30rem, 92%);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   animation-name: animatetop;
   animation-duration: 0.4s;
@@ -127,6 +127,7 @@ select {
 .modal-body {
   padding: 0.15rem 0.7rem;
   margin: 0.5rem 0 1rem 0;
+  width: 90%;
 }
 .modal-body form {
   display: flex;
