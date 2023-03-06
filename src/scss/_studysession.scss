@@ -5,8 +5,6 @@
   @include mixins.centered-flexbox;
   flex-direction: column;
   margin-top: 1em;
-  // border: 1px solid config.$quizlet-gold-color;
-  // background-color: rgba(config.$quizlet-study-card-color , $alpha: .8);
 
   div {
       flex-direction: column;
@@ -14,10 +12,7 @@
       min-width: 50%;
       min-height: 5rem;        
   }
-
-  p {
-      text-align: center;
-  }
+  p { text-align: center; }
 }
 
 .inactive {
@@ -41,13 +36,15 @@
 
 .flip-card {
     background-color: transparent;
-    border-radius: 25% 10%;;
-    width: 300px;
-    height: 300px;
+    border-radius: 25% 10%;
+    width: clamp(18.75rem, 30vw, 25rem);
+    height: clamp(18.75rem, 30vw, 25rem);
     perspective: 1000px;
   }
 
   .flip-card-inner {
+    width: clamp(18.75rem, 30vw, 25rem);
+    height: clamp(18.75rem, 30vw, 25rem);
     @include mixins.centered-flexbox;
     border-radius: 25% 10%;;
     cursor: pointer;
@@ -73,6 +70,8 @@
   }
   
   .flip-card-front {
+    width: clamp(18.75rem, 30vw, 25rem);
+    height: clamp(18.75rem, 30vw, 25rem);
     border: 2px solid config.$quizlet-gold-color;
     border-radius: 25% 10%;
     background-color: #bbb;
@@ -80,6 +79,8 @@
   }
   
   .flip-card-back {
+    width: clamp(18.75rem, 30vw, 25rem);
+    height: clamp(18.75rem, 30vw, 25rem);
     border: 2px solid config.$quizlet-gold-color;
     border-radius: 25% 10%;
     background-color: #2980b9;
@@ -95,9 +96,7 @@
     width: 100%;
     margin: 1em;
 
-    button {
-        padding: .3em;
-    }
+    button { padding: clamp(.3rem, 2.5vw, .7rem); }
   }
 
   .congratsdiv {
@@ -106,7 +105,5 @@
     gap: 3em;
     margin: 3em 1em 1em 1em;
 
-    button {
-      padding: .2em;
-    }
+    button { padding: .2em; }
   }

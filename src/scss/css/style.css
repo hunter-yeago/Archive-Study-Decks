@@ -528,12 +528,14 @@ svg path {
 .flip-card {
   background-color: transparent;
   border-radius: 25% 10%;
-  width: 300px;
-  height: 300px;
+  width: clamp(18.75rem, 30vw, 25rem);
+  height: clamp(18.75rem, 30vw, 25rem);
   perspective: 1000px;
 }
 
 .flip-card-inner {
+  width: clamp(18.75rem, 30vw, 25rem);
+  height: clamp(18.75rem, 30vw, 25rem);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -560,6 +562,8 @@ svg path {
 }
 
 .flip-card-front {
+  width: clamp(18.75rem, 30vw, 25rem);
+  height: clamp(18.75rem, 30vw, 25rem);
   border: 2px solid #ffcd1e;
   border-radius: 25% 10%;
   background-color: #bbb;
@@ -567,6 +571,8 @@ svg path {
 }
 
 .flip-card-back {
+  width: clamp(18.75rem, 30vw, 25rem);
+  height: clamp(18.75rem, 30vw, 25rem);
   border: 2px solid #ffcd1e;
   border-radius: 25% 10%;
   background-color: #2980b9;
@@ -583,7 +589,7 @@ svg path {
   margin: 1em;
 }
 .buttonsspan button {
-  padding: 0.3em;
+  padding: clamp(0.3rem, 2.5vw, 0.7rem);
 }
 
 .congratsdiv {
