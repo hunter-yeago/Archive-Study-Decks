@@ -3,6 +3,13 @@ import { view } from "./view";
 import { Observable } from "./pubsub";
 import { preBuiltDecks } from "./prebuiltdecks";
 
+
+// TODO No way to leave Study Session early
+// TODO theres a bug that always pops up at the end of my study sessions, although it doesn't breeak the app
+// TODO still have that bug with it saying its not in the future just because the monthe isn't further!
+// TODO CLEAN
+// TODO ReadMe
+
 export const controller = (function(){
     Observable.subscribe('DataReset', resetDataAndView);
     const data = {
