@@ -5,10 +5,38 @@
     display: grid;
     // justify-content: center;
     // align-items: center;
-    grid-template-columns: 1fr 1fr;
+    // grid-template-columns: 1fr 1fr;
     // grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: .5em;
+    // gap: .5em;
     padding: clamp(.5em, 3.5vw, 2em);
+
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: clamp(.3em, 2vw, 1.5em);
+
+    // div {
+    //     justify-self: center
+    // }
+    //TODO turn this on during media query
+    // max-width: fit-content;
+    // :first-child {
+    //     justify-self: flex-end;
+    // }
+    
+    // :nth-child(2) {
+    //     justify-self: flex-start;
+    // }
+}
+
+
+.overviewflexboxdiv {
+    @include mixins.centered-flexbox;
+    flex-direction: row;
+    gap: .3em;
+    width: fit-content;
 }
 
 .overviewcard {
@@ -17,19 +45,24 @@
     border-radius: 5px;
     background-color: white;
     text-align: center;
+    padding: .3em;
+    padding: clamp(.3em, 2vw, 1em);
+    
 
     div {
         @include mixins.centered-flexbox;
         gap: .3rem;
         padding-top: .5rem;
     }
-    img{ width: clamp(1.6rem, 4vw, 2.3rem); }
-    h3{ font-size: clamp(1rem, 3.5vw, 2rem); }
+    
+    img{ width: clamp(1.6rem, 3.5vw, 2rem); }
+    h3{ font-size: clamp(.9rem, 3.5vw, 1.1rem); }
+    
     p{ 
-        font-size: clamp(1.6rem, 5.5vw, 2.5rem);
+        font-size: clamp(1.3rem, 5.5vw, 2rem);
         padding-bottom: .5rem;
         text-decoration: underline;
-        text-decoration-thickness: 1.5px;
+        text-decoration-thickness: .12rem;
         text-underline-offset: 5px;
      }
 }

@@ -261,9 +261,6 @@ export const view = (function() {
             const deckDescriptionDiv = document.createElement('div');
             deckDescriptionDiv.className = 'deckdescriptiondiv';
             deckDescriptionDiv.append(deckDescriptionParagraph, dueDateParagraphElement);
-    
-            const flexboxDiv = document.createElement('div');
-            
 
             const deckDiv = document.createElement('div');
             deckDiv.className = 'deck';
@@ -309,34 +306,68 @@ export const view = (function() {
         
         function renderOverviewCards(cards) {
 
-            const rowOfCardsDiv = document.createElement('div');
-            rowOfCardsDiv.className = 'rowofcards';
-            rowOfCardsDiv.id = 'rowofcards';
-    
-            cards.forEach((card) => {
-                
+            const row1 = document.createElement('div');
+            row1.className = 'overviewflexboxdiv'
+            row1.classList.add('flexenddiv');
+            const row2 = document.createElement('div');
+            row2.className = 'overviewflexboxdiv';
+
+            for (let i = 0; i < cards.length; i++) {
+
                 const cardOuterDiv = document.createElement('div');
                 cardOuterDiv.className = 'overviewcard';
         
                 const cardInnerDiv = document.createElement('div');
                 
                 const image = document.createElement('img');
-                image.src = card.imagesrc;
+                image.src = cards[i].imagesrc;
         
                 const title = document.createElement('h3');
-                title.innerText = card.title;
+                title.innerText = cards[i].title;
          
                 const statistic = document.createElement('p');
-                statistic.id = card.underlinecolor;
-                statistic.className = card.underlinecolor;
-                statistic.innerText = card.statistic;
+                statistic.id = cards[i].underlinecolor;
+                statistic.className = cards[i].underlinecolor;
+                statistic.innerText = cards[i].statistic;
         
                 cardInnerDiv.append(image, title);
                 cardOuterDiv.append(cardInnerDiv, statistic);
-        
-                rowOfCardsDiv.appendChild(cardOuterDiv);
-            });
+                
+                i % 2 === 0 ? row1.appendChild(cardOuterDiv) : row2.appendChild(cardOuterDiv);
+            }
     
+            // cards.forEach((card) => {
+                
+            //     const cardOuterDiv = document.createElement('div');
+            //     cardOuterDiv.className = 'overviewcard';
+        
+            //     const cardInnerDiv = document.createElement('div');
+                
+            //     const image = document.createElement('img');
+            //     image.src = card.imagesrc;
+        
+            //     const title = document.createElement('h3');
+            //     title.innerText = card.title;
+         
+            //     const statistic = document.createElement('p');
+            //     statistic.id = card.underlinecolor;
+            //     statistic.className = card.underlinecolor;
+            //     statistic.innerText = card.statistic;
+        
+            //     cardInnerDiv.append(image, title);
+            //     cardOuterDiv.append(cardInnerDiv, statistic);
+        
+            //     rowOfCardsDiv.appendChild(cardOuterDiv);
+            // });
+    
+            // const overviewFlexboxDiv = document.createElement('div');
+            // overviewFlexboxDiv.className = 'overviewflexboxdiv';
+            // overviewFlexboxDiv.append(row1);
+
+            const rowOfCardsDiv = document.createElement('div');
+            rowOfCardsDiv.className = 'rowofcards';
+            rowOfCardsDiv.id = 'rowofcards';
+            rowOfCardsDiv.append(row1, row2);
             return rowOfCardsDiv;
         };
 
@@ -756,7 +787,7 @@ export const view = (function() {
     };
 
     function makeNewAddDeckButtonWork() {
-        const buttttton = document.getElementById('thebutttton');
+        const buttttton = document.getElementById('adddeckbutton');
         buttttton.onclick = () => {
             setModalAutofocus();
             document.getElementById('modal').style.display = 'block';
@@ -862,22 +893,18 @@ export const view = (function() {
         title.innerText = 'Study Decks';
 
         const button = document.createElement('button');
-        button.id = 'thebutttton';
+        button.id = 'adddeckbutton';
         button.textContent = 'Add a Deck';
- 
-        const buttonDiv = document.createElement('div');
-        buttonDiv.classList.add('buttonbuffer');
-        buttonDiv.appendChild(button);
 
         const menuDiv = document.createElement('div');
         menuDiv.classList.add('menu');
         menuDiv.id = 'menu';
-        menuDiv.appendChild(buttonDiv);
+        menuDiv.appendChild(button);
 
         const containerDiv = document.createElement('div');
         containerDiv.id = 'containerdiv';
         containerDiv.className = 'containerdiv';
-        containerDiv.append(bannerButton, menuDiv);
+        containerDiv.append(menuDiv, bannerButton);
 
         const innerHeaderDiv = document.createElement('div');
         innerHeaderDiv.className = 'innerheaderdiv';

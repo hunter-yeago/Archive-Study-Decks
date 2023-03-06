@@ -273,9 +273,22 @@ select {
 
 .rowofcards {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5em;
   padding: clamp(0.5em, 3.5vw, 2em);
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(0.3em, 2vw, 1.5em);
+}
+
+.overviewflexboxdiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 0.3em;
+  width: fit-content;
 }
 
 .overviewcard {
@@ -284,6 +297,8 @@ select {
   border-radius: 5px;
   background-color: white;
   text-align: center;
+  padding: 0.3em;
+  padding: clamp(0.3em, 2vw, 1em);
 }
 .overviewcard div {
   display: flex;
@@ -293,16 +308,16 @@ select {
   padding-top: 0.5rem;
 }
 .overviewcard img {
-  width: clamp(1.6rem, 4vw, 2.3rem);
+  width: clamp(1.6rem, 3.5vw, 2rem);
 }
 .overviewcard h3 {
-  font-size: clamp(1rem, 3.5vw, 2rem);
+  font-size: clamp(0.9rem, 3.5vw, 1.1rem);
 }
 .overviewcard p {
-  font-size: clamp(1.6rem, 5.5vw, 2.5rem);
+  font-size: clamp(1.3rem, 5.5vw, 2rem);
   padding-bottom: 0.5rem;
   text-decoration: underline;
-  text-decoration-thickness: 1.5px;
+  text-decoration-thickness: 0.12rem;
   text-underline-offset: 5px;
 }
 
@@ -367,7 +382,9 @@ select {
 }
 
 .containerdiv {
-  height: 38.4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 svg {
@@ -400,13 +417,8 @@ svg path {
 
 .menu {
   position: absolute;
-  right: 1rem;
-  border-radius: 0.5rem;
-  color: black;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  z-index: 1;
   display: none;
+  margin-top: 3em;
 }
 .menu button {
   min-width: 8rem;
