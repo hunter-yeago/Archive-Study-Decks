@@ -4,7 +4,6 @@ import { Observable } from "./pubsub";
 import { preBuiltDecks } from "./prebuiltdecks";
 
 //TODO responsive design
-//TODO dynamically render ALL HTML
 
 export const controller = (function(){
 

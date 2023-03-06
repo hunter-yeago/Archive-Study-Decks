@@ -837,44 +837,41 @@ export const view = (function() {
 };
 
     function renderDefaultView(defaultTabID) {
+        renderBanner();
         renderMobileNavigation();
         updateMobileNavButtons();
         addMobileNavEventListeners();
-        renderBanner();
         renderPage(defaultTabID)
         changeTabColor(defaultTabID);
     };
 
-    // function renderBanner() {
+    function renderBanner() {
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute('d', 'M12 6V18M6 12H18');
 
-    //     const path = document.createElement('path');
-    //     path.setAttribute('d', 'M12 6V18M6 12H18');
-    //     path.setAttribute('stroke', 'currentColor');
-    //     path.setAttribute('stroke-width', '2');
-    //     path.setAttribute('stroke-linecap', 'round');
-    //     path.setAttribute('stroke-linejoin', 'round');
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('viewBox', '0 0 24 24');
+        svg.appendChild(path);
 
-    //     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    //     svg.setAttribute('height', '40px');
-    //     svg.setAttribute('width', '40px');
-    //     svg.setAttribute('viewBox', '0 0 24 24');
-    //     svg.appendChild(path);
+        const addDeckButton = document.createElement('button');
+        addDeckButton.id = 'bannerbutton';
+        addDeckButton.className = 'bannerbutton';
+        addDeckButton.appendChild(svg);
 
-    //     const addDeckButton = document.createElement('button');
-    //     addDeckButton.id = 'bannerbutton';
-    //     addDeckButton.appendChild(svg);
+        const title = document.createElement('h3');
+        title.innerText = 'Study Decks';
 
-        // const title = document.createElement('h3');
-        // title.innerText = 'Study Decks';
+        const innerHeaderDiv = document.createElement('div');
+        innerHeaderDiv.className = 'innerheaderdiv';
+        innerHeaderDiv.append(title, addDeckButton);
 
-        // const innerHeaderDiv = document.createElement('div');
-        // innerHeaderDiv.className = 'innerheaderdiv';
-        // innerHeaderDiv.append(title, addDeckButton);
+        const mainHeader = document.createElement('header');
+        mainHeader.id = 'mainheader';
+        mainHeader.appendChild(innerHeaderDiv);
 
-        // const mainHeader = document.getElementById('mainheader');
-        // mainHeader.appendChild(innerHeaderDiv);
-
-    // }
+        const body = document.getElementsByTagName("body")[0];
+        body.insertBefore(mainHeader, body.firstChild);
+    }
 
     return {
         studyPage,
