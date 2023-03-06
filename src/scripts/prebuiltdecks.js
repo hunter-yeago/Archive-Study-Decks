@@ -74,4 +74,4 @@ function createFrenchCards() {
     });
     return frenchCards;
 }
-export const preBuiltDecks = [frenchDeck];
+export const preBuiltDecks = [frenchDeck, frenchDeck, frenchDeck, frenchDeck];

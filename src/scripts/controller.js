@@ -32,8 +32,17 @@ export const controller = (function(){
     function startApplication() {
         model.checkIfThereIsAlreadyLocallyStoredData();
         data.Update();
-        model.setCurrentPage(data.defaultPageID);
-        view.renderDefaultView(data.defaultPageID);  
+
+        console.log(window.innerWidth);
+
+        if (window.innerWidth >= 800) {
+            data.defaultPageID = 'desktoppage';
+            model.setCurrentPage(data.defaultPageID)
+            view.renderDesktopDefaultView(data.defaultPageID);
+        } else {
+            model.setCurrentPage(data.defaultPageID);
+            view.renderMobileDefaultView(data.defaultPageID);  
+        }   
     };
 
     function handleDeckCreationForm() {
@@ -73,6 +82,7 @@ export const controller = (function(){
             view.resetForm(form);
             model.validators.resetInputValidity(validators);
             view.renderAddCardModalBody(newDeck);
+            Observable.publish('NewDeckAdded', data.localDecks);
         }
     };
 

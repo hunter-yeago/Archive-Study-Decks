@@ -4,19 +4,29 @@
 //Desktop
 @media (min-width: config.$breakpoint)  {
     
-    //In _overview.scss
+    //_overview.scss
     .rowofcards {
-        :first-child { justify-self: flex-end; }
-        :nth-child(2) { justify-self: flex-start; }
-        // display: flex;
-        // justify-content: flex-start;
+        // :first-child { justify-self: flex-start; }
+        // :nth-child(2) { justify-self: flex-start; }
+        display: flex;
+        justify-content: flex-start;
     }
 
+    //_yourdecks.scss
     .deckdisplay {
         width: 80vw;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     }
 
     .deck {
-        // justify-self: flex-start;
+        min-height: 11em;
+        // margin: auto;
+    }
+
+    section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
     }
 }

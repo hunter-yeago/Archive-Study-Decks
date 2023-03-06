@@ -1,6 +1,7 @@
 @use './config';
 @use './mixins';
 
+//Changes at 800px Media Query: display: flex; justify-content: flex-start;
 .rowofcards {
     display: grid;
     // justify-content: center;

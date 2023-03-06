@@ -220,14 +220,13 @@ select {
 }
 
 .deck {
-  margin: auto;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0rem 0.5rem;
   border-radius: 0.5em;
   min-width: 90%;
-  min-height: 11em;
+  min-height: 8em;
   background-color: #2e3856;
   font-size: clamp(1rem, 5.5vw, 1.1rem);
 }
@@ -600,14 +599,22 @@ svg path {
 }
 
 @media (min-width: 800px) {
-  .rowofcards :first-child {
-    justify-self: flex-end;
-  }
-  .rowofcards :nth-child(2) {
-    justify-self: flex-start;
+  .rowofcards {
+    display: flex;
+    justify-content: flex-start;
   }
   .deckdisplay {
     width: 80vw;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+  .deck {
+    min-height: 11em;
+  }
+  section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
 }
 html,
@@ -621,6 +628,7 @@ body {
 main {
   border-top: 1px solid black;
   min-height: fit-content;
+  margin-bottom: 3rem;
 }
 
 .mobilenav {
@@ -658,12 +666,12 @@ main {
 }
 
 section {
-  padding: clamp(0.2em, 2vw, 1.5em);
+  padding: 0.5em clamp(0.2em, 2vw, 1.5em);
 }
 section h1 {
   text-align: left;
   padding: 1rem;
-  font-size: clamp(1.3rem, 2vw, 1.7rem);
+  font-size: clamp(1.3rem, 2vw, 3.5rem);
 }
 
 /*# sourceMappingURL=style.css.map */

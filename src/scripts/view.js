@@ -19,7 +19,6 @@ export const view = (function() {
             //This is for the slide in menu nav bar
 
             renderModal();
-
             const topDecksSection = renderYourDecks();
             const prebuiltDecksSection = renderPreBuiltDecks();
             const emptySpace = getEmptyDivForExtraPageSpaceAtBottomWithMobileNavHeight();
@@ -56,6 +55,9 @@ export const view = (function() {
             deckDisplayDiv.className = 'deckdisplay';
             deckDisplayDiv.id = 'deckdisplay';
 
+            const div = document.createElement('div');
+            div.appendChild(deckDisplayDiv);
+
             if (localDecks.length > 0) {
                 localDecks.forEach((deck) => {
                     const element = renderDeck(deck);
@@ -66,8 +68,9 @@ export const view = (function() {
                 itsEmptyMessage.className = 'itsemptymessage';
                 itsEmptyMessage.innerText = `It's empty in here! Click the blue button above to create a new deck.`;
                 deckDisplayDiv.appendChild(itsEmptyMessage);
+                div.appendChild(itsEmptyMessage);
             }
-            return deckDisplayDiv;
+            return div;
         };
 
         function renderStudyCardSide(cardSide, deck) {
@@ -270,6 +273,8 @@ export const view = (function() {
         
         return {
             renderPage,
+            renderYourDecks,
+            renderPreBuiltDecks,
             updateDeckDisplay,
             renderStudySession,
             updateStudyCard,
@@ -475,7 +480,26 @@ export const view = (function() {
 
         return {
             renderPage,
+            renderOverviewSection,
+            renderSettingsSection,
         };
+    })();
+
+    const desktopPage = (function() {
+        function renderPage() {
+            renderModal();
+
+            const overviewSection = overviewPage.renderOverviewSection();
+            const topDecksSection = studyPage.renderYourDecks();
+            const prebuiltDecksSection = studyPage.renderPreBuiltDecks();
+            const settingsSection = overviewPage.renderSettingsSection();
+            // const emptySpaceWithMobileNavHeight = getEmptyDivForExtraPageSpaceAtBottomWithMobileNavHeight();
+            main.append(overviewSection,topDecksSection, prebuiltDecksSection, settingsSection);
+        };
+
+        return {
+            renderPage,
+        }
     })();
 
     function renderModal() {
@@ -631,14 +655,14 @@ export const view = (function() {
             const firstText = modalbody.getElementsByTagName('input')[0] || modalbody.getElementsByTagName('textarea')[0];
             firstText.focus();
           }, 1);
-    }
+    };
 
     function renderAddCardModalBody(newDeck) {
         removeModalContent();
         renderModalAddCardInput(newDeck);
         renderModalAddCardInputHeader();
         setModalAutofocus();
-    }
+    };
 
     function resetModal() {
         document.getElementById('modal').remove();
@@ -709,12 +733,12 @@ export const view = (function() {
 
         userOptionsDiv.append(addNextCardButton, finishAddingCardsButton);
         modalBody.append(newCardTitleDiv, modalCardForm, userOptionsDiv);
-    }
+    };
 
     function renderModalAddCardInputHeader() {
         const title = document.getElementById('modalheaderh5');
         title.innerText = 'Step 2: Add Cards';
-    }
+    };
 
     function removeModalContent() {
         const modalBody = document.getElementById('modal-body');
@@ -722,7 +746,7 @@ export const view = (function() {
         children.forEach((child) => {
             child.remove();
         });
-    }
+    };
 
     function hideModal() {
         document.getElementById('modal').style.display = 'none';
@@ -730,7 +754,7 @@ export const view = (function() {
 
     function resetForm(form) {
         form.reset();
-    }
+    };
 
     function renderPage(newPageID) {
         removeMainTagContent();
@@ -742,6 +766,9 @@ export const view = (function() {
             case 'overviewpage':
                 overviewPage.renderPage();
                 break;
+            
+            case 'desktoppage':
+                desktopPage.renderPage();
         }
     };
 
@@ -757,8 +784,6 @@ export const view = (function() {
             }
         })
     };
-
-
 
     function renderSectionTitle(titleName) {
         const h1 = document.createElement('h1');
@@ -865,16 +890,23 @@ export const view = (function() {
         });
     };
 
-    function renderDefaultView(pageID) {
+    function renderMobileDefaultView(pageID) {
         renderBanner();
         addBannerButtonFunctionality();
         makeNewAddDeckButtonWork();
         renderMobileNavigation();
         updateMobileNavButtons();
         addMobileNavEventListeners();
-        renderPage(pageID)
+        renderPage(pageID);
         changeTabColor(pageID);
     };
+
+    function renderDesktopDefaultView(pageID) {
+        renderBanner();
+        addBannerButtonFunctionality();
+        makeNewAddDeckButtonWork();
+        renderPage(pageID);
+    }
 
     function renderBanner() {
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
@@ -921,11 +953,13 @@ export const view = (function() {
 
     return {
         studyPage,
+        desktopPage,
         resetModal,
         hideModal,
         resetForm,
         renderPage,
-        renderDefaultView,
+        renderDesktopDefaultView,
+        renderMobileDefaultView,
         removeMainTagContent,
         renderAddCardModalBody,
         };
