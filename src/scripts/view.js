@@ -727,10 +727,7 @@ export const view = (function() {
         })
     };
 
-    function renderBanner() {
-        addBannerButtonFunctionality();
-        makeNewAddDeckButtonWork();
-    };
+
 
     function renderSectionTitle(titleName) {
         const h1 = document.createElement('h1');
@@ -740,15 +737,16 @@ export const view = (function() {
     };
 
     function addBannerButtonFunctionality() {
+        const menu = document.getElementById('menu');
+        menu.onclick = () => {
+            menu.classList.remove('show');
+        };
+
         const bannerButton = document.getElementById('bannerbutton');
         bannerButton.onclick = () => {
             menu.classList.toggle('show');
         };
 
-        const menu = document.getElementById('menu');
-        menu.onclick = () => {
-            menu.classList.remove('show');
-        };
 
         document.onclick = () => {
             if (!bannerButton.contains(event.target)) {
@@ -834,15 +832,17 @@ export const view = (function() {
             controller.changePage(currentTabID);
             });
         });
-};
+    };
 
-    function renderDefaultView(defaultTabID) {
+    function renderDefaultView(pageID) {
         renderBanner();
+        addBannerButtonFunctionality();
+        makeNewAddDeckButtonWork();
         renderMobileNavigation();
         updateMobileNavButtons();
         addMobileNavEventListeners();
-        renderPage(defaultTabID)
-        changeTabColor(defaultTabID);
+        renderPage(pageID)
+        changeTabColor(pageID);
     };
 
     function renderBanner() {
@@ -853,17 +853,35 @@ export const view = (function() {
         svg.setAttribute('viewBox', '0 0 24 24');
         svg.appendChild(path);
 
-        const addDeckButton = document.createElement('button');
-        addDeckButton.id = 'bannerbutton';
-        addDeckButton.className = 'bannerbutton';
-        addDeckButton.appendChild(svg);
+        const bannerButton = document.createElement('button');
+        bannerButton.id = 'bannerbutton';
+        bannerButton.className = 'bannerbutton';
+        bannerButton.appendChild(svg);
 
         const title = document.createElement('h3');
         title.innerText = 'Study Decks';
 
+        const button = document.createElement('button');
+        button.id = 'thebutttton';
+        button.textContent = 'Add a Deck';
+ 
+        const buttonDiv = document.createElement('div');
+        buttonDiv.classList.add('buttonbuffer');
+        buttonDiv.appendChild(button);
+
+        const menuDiv = document.createElement('div');
+        menuDiv.classList.add('menu');
+        menuDiv.id = 'menu';
+        menuDiv.appendChild(buttonDiv);
+
+        const containerDiv = document.createElement('div');
+        containerDiv.id = 'containerdiv';
+        containerDiv.className = 'containerdiv';
+        containerDiv.append(bannerButton, menuDiv);
+
         const innerHeaderDiv = document.createElement('div');
         innerHeaderDiv.className = 'innerheaderdiv';
-        innerHeaderDiv.append(title, addDeckButton);
+        innerHeaderDiv.append(title, containerDiv);
 
         const mainHeader = document.createElement('header');
         mainHeader.id = 'mainheader';
@@ -871,6 +889,7 @@ export const view = (function() {
 
         const body = document.getElementsByTagName("body")[0];
         body.insertBefore(mainHeader, body.firstChild);
+        
     }
 
     return {

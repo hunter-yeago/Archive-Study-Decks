@@ -11,7 +11,7 @@ export const controller = (function(){
     
     const data = {
         preBuiltDecks: preBuiltDecks,
-        defaultTabID: 'studypage',
+        defaultPageID: 'studypage',
         localDecks: model.getDeckArrayFromLocalStorage(),
         Panels: model.dataPanels,
 
@@ -32,8 +32,8 @@ export const controller = (function(){
     function startApplication() {
         model.checkIfThereIsAlreadyLocallyStoredData();
         data.Update();
-        model.setCurrentPage(data.defaultTabID);
-        view.renderDefaultView(data.defaultTabID);  
+        model.setCurrentPage(data.defaultPageID);
+        view.renderDefaultView(data.defaultPageID);  
     };
 
     function handleDeckCreationForm() {
