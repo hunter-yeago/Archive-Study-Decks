@@ -31,8 +31,8 @@ export const controller = (function(){
     }
     
     function startApplication() {
-        data.Update();
         model.checkIfThereIsAlreadyLocallyStoredData();
+        data.Update();
         model.setCurrentPage(data.defaultTabID);
         view.renderDefaultView(data.defaultTabID);  
     };
