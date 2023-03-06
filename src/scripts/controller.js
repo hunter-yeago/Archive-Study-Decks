@@ -3,14 +3,10 @@ import { view } from "./view";
 import { Observable } from "./pubsub";
 import { preBuiltDecks } from "./prebuiltdecks";
 
-//TODO responsive design
-
 export const controller = (function(){
-
     Observable.subscribe('DataReset', resetDataAndView);
     const data = {
         preBuiltDecks: preBuiltDecks,
-        defaultPageID: 'studypage',
         localDecks: model.getDeckArrayFromLocalStorage(),
         Panels: model.dataPanels,
 
@@ -31,20 +27,7 @@ export const controller = (function(){
     function startApplication() {
         model.checkIfThereIsAlreadyLocallyStoredData();
         data.Update();
-        data.defaultPageID = 'desktoppage';
-        model.setCurrentPage(data.defaultPageID)
-        view.renderDesktopDefaultView(data.defaultPageID);
-
-        // console.log(window.innerWidth);
-
-        // if (window.innerWidth >= 800) {
-        //     data.defaultPageID = 'desktoppage';
-        //     model.setCurrentPage(data.defaultPageID)
-        //     view.renderDesktopDefaultView(data.defaultPageID);
-        // } else {
-        //     model.setCurrentPage(data.defaultPageID);
-        //     view.renderMobileDefaultView(data.defaultPageID);  
-        // }   
+        view.renderPage();
     };
 
     function handleDeckCreationForm() {
@@ -80,11 +63,10 @@ export const controller = (function(){
             model.addDeckToLocalStorage(newDeck);
             model.incrementUserData('decksCreated');
             data.Update();
-            updateDataOnCurrentPage();
             view.resetForm(form);
             model.validators.resetInputValidity(validators);
             view.renderAddCardModalBody(newDeck);
-            Observable.publish('NewDeckAdded', data.localDecks);
+            Observable.publish('DecksUpdated', data.localDecks);
         }
     };
 
@@ -113,15 +95,13 @@ export const controller = (function(){
          } else {
             const formDataObject = model.createFormDataObject(form);
             const card = model.createCard(formDataObject);
-            
             let deckCopy = model.getDeckFromLocalStorage(newDeck.name);
             deckCopy = model.addCardToDeck(card, deckCopy);
             model.updateDeckInLocalStorage(deckCopy);
-
             data.Update();
             model.incrementUserData('cardsCreated');
             model.validators.resetInputValidity(validators);
-            updateDataOnCurrentPage();
+            Observable.publish('UpdateOverviewData', data.Panels);
             
             if (status === 'addmore') {
                 view.renderAddCardModalBody(deckCopy);
@@ -132,28 +112,15 @@ export const controller = (function(){
         };
     };
 
-    function updateDataOnCurrentPage() {
-        const currentPage = model.getCurrentPage();
-        if (currentPage === 'studypage') {
-            Observable.publish('NewDeckAdded', data.localDecks)
-        } else {
-            Observable.publish('UpdateOverviewData', data.Panels);
-        }
-    }
-
-    function changePage(page) {
-        view.renderPage(page);
-        model.setCurrentPage(page);
-    }
-
     function resetDataAndView() {
         model.clearLocalStorage();
         data.Update();
+        Observable.publish('DecksUpdated', data.localDecks);
         Observable.publish('UpdateOverviewData', data.Panels);
     };
 
     function startStudySession(deck) {
-        view.studyPage.renderStudySession(deck);
+        view.renderStudySession(deck);
     }
 
     function showNextStudyCard(deck, operation) {
@@ -162,22 +129,22 @@ export const controller = (function(){
             if (deck.currentCard + 1 === deck.cards.length) {
                 model.updateCurrentCard(deck, 'reset');
                 view.removeMainTagContent();
-                view.studyPage.renderStudySessionComplete(deck);
+                view.renderStudySessionComplete(deck);
                 model.incrementUserData('decksStudied');
                 model.incrementUserData('cardsStudied');
                 
             } else {
                 model.updateCurrentCard(deck, operation);
-                view.studyPage.updateStudyCard(deck);
+                view.updateStudyCard(deck);
                 model.incrementUserData('cardsStudied');
             }
         } 
         else if (operation === 'showprevious') {
             model.updateCurrentCard(deck, operation);
-            view.studyPage.updateStudyCard(deck);
+            view.updateStudyCard(deck);
             model.decrementUserData('cardsStudied');
         }
-        controller.data.updateDecks();
+        data.Update();
     }
 
     function deleteDeck(deckName) {
@@ -186,7 +153,6 @@ export const controller = (function(){
 
     return {
         data,
-        changePage,
         deleteDeck,
         startApplication,
         startStudySession,

@@ -7,463 +7,418 @@ import OverviewIcon from '../images/edit.png';
 export const view = (function() {
     const main = document.getElementById('main');
 
-    const studyPage = (function(){
-        Observable.subscribe('NewDeckAdded', localDecks => {
-            updateDeckDisplay(localDecks)
+    Observable.subscribe('DecksUpdated', localDecks => {
+        updateDeckDisplay(localDecks);
+        updateDeleteDeckOptions(localDecks)
+    });
+    Observable.subscribe('UpdateOverviewData', cardData => {
+        updateOverviewCards(cardData);
+    });
+    
+    function renderYourDecks() {
+        const title = renderSectionTitle('Your Decks');
+        const deckDisplayDiv = renderDeckDisplay(controller.data.localDecks);
+        const section = document.createElement('section');
+        section.append(title, deckDisplayDiv);
+        return section;
+    };
+
+    function renderPreBuiltDecks() {            
+        
+        const title = renderSectionTitle('Prebuilt Decks');
+        const prebuiltDecksDiv = document.createElement('div');
+        prebuiltDecksDiv.className = 'deckdisplay';
+        controller.data.preBuiltDecks.forEach((deck) => {
+            deck = renderDeck(deck);
+            prebuiltDecksDiv.appendChild(deck);
         });
 
-        function renderPage() {
-            renderModal();
-            const topDecksSection = renderYourDecks();
-            const prebuiltDecksSection = renderPreBuiltDecks();
-            const emptySpace = getEmptyDivForExtraPageSpaceAtBottomWithMobileNavHeight();
-            
-            main.append(topDecksSection, prebuiltDecksSection, emptySpace);
-        };
-        
-        function renderYourDecks() {
-            const title = renderSectionTitle('Your Decks');
-            const deckDisplayDiv = renderDeckDisplay(controller.data.localDecks);
-            const section = document.createElement('section');
-            section.append(title, deckDisplayDiv);
-            return section;
-        };
+        const section = document.createElement('section');
+        section.append(title, prebuiltDecksDiv);
+        return section;
+    };
 
-        function renderPreBuiltDecks() {            
-            
-            const title = renderSectionTitle('Prebuilt Decks');
-            const prebuiltDecksDiv = document.createElement('div');
-            prebuiltDecksDiv.className = 'deckdisplay';
-            controller.data.preBuiltDecks.forEach((deck) => {
-                deck = renderDeck(deck);
-                prebuiltDecksDiv.appendChild(deck);
-            });
-    
-            const section = document.createElement('section');
-            section.append(title, prebuiltDecksDiv);
-            return section;
-        };
+    function renderDeckDisplay(localDecks) {
 
-        function renderDeckDisplay(localDecks) {
-    
-            const deckDisplayDiv = document.createElement('div');
-            deckDisplayDiv.className = 'deckdisplay';
-            deckDisplayDiv.id = 'deckdisplay';
+        const deckDisplayDiv = document.createElement('div');
+        deckDisplayDiv.className = 'deckdisplay';
+        deckDisplayDiv.id = 'deckdisplay';
 
-            const div = document.createElement('div');
-            div.appendChild(deckDisplayDiv);
+        const yourDecksSectionDiv = document.createElement('yourDecksSectionDiv');
+        yourDecksSectionDiv.id = 'yourdeckssectiondiv';
+        yourDecksSectionDiv.appendChild(deckDisplayDiv);
 
-            if (localDecks.length > 0) {
-                localDecks.forEach((deck) => {
-                    const element = renderDeck(deck);
-                    deckDisplayDiv.appendChild(element);
-                });
-            } else {
-                const itsEmptyMessage = document.createElement('p');
-                itsEmptyMessage.className = 'itsemptymessage';
-                itsEmptyMessage.innerText = `It's empty in here! Click the blue button above to create a new deck.`;
-                deckDisplayDiv.appendChild(itsEmptyMessage);
-                div.appendChild(itsEmptyMessage);
-            }
-            return div;
-        };
-
-        function renderStudyCardSide(cardSide, deck) {
-
-            const numberOfCardsFront = document.createElement('p');
-            numberOfCardsFront.innerText = `${deck.currentCard + 1} / ${deck.cards.length}`;
-            numberOfCardsFront.className = 'numberofcards';
-            numberOfCardsFront.id = `${cardSide}sectionnumberofcards`.toLowerCase();
-
-            const header = document.createElement('h4');
-            header.innerText = `${cardSide}:`;
-
-            const text = document.createElement('p')
-            text.id = `${cardSide}text`.toLowerCase();
-            if (cardSide === 'Question') {
-                text.innerText = deck.cards[deck.currentCard].question;
-            } else {
-                text.innerText = deck.cards[deck.currentCard].answer;
-            }
-
-            const innerDiv = document.createElement('div');
-            innerDiv.append(header, text);
-
-            const section = document.createElement('div');
-            section.id = `${cardSide}section`.toLowerCase();
-            section.className = `${cardSide}section`.toLowerCase();
-            section.append(numberOfCardsFront, innerDiv);
-            return section;
-
-        };
-
-        function updateStudyCard(deck) {
-            const numberOfCardsFront = document.getElementById('questionsectionnumberofcards');
-            numberOfCardsFront.innerText = `${deck.currentCard + 1} / ${deck.cards.length}`;
-
-            const questionText = document.getElementById('questiontext');
-            questionText.innerText = deck.cards[deck.currentCard].question;
-
-            const answerText = document.getElementById('answertext');
-
-            setTimeout(() => {
-                answerText.innerText = deck.cards[deck.currentCard].answer;
-              }, 100);
-
-            const numberOfCardsBack = document.getElementById('answersectionnumberofcards');
-            numberOfCardsBack.innerText = `${deck.currentCard + 1} / ${deck.cards.length}`;
-
-            const previousButton = document.getElementById('previousbutton');
-            if (deck.currentCard > 0) {
-                previousButton.classList.remove('inactive')
-            } else {
-                previousButton.classList.add('inactive');
-            }
-
-            if (deck.currentCard + 1 === deck.cards.length) {
-                document.getElementById('nextcardbutton').innerText = 'Finish Session';
-            }
-        }
-
-        function renderFlipCard(questionSection, answerSection) {
-
-            const flipCard = document.createElement('div');
-            flipCard.className = 'flip-card';
-            flipCard.addEventListener('click', () => {
-                flipCardInner.classList.toggle('activated');
-            });
-
-            const flipCardInner = document.createElement('div');
-            flipCardInner.className = 'flip-card-inner';
-            flipCardInner.id = 'flip-card-inner';
-
-            const flipCardFront = document.createElement('div');
-            flipCardFront.className = 'flip-card-front';
-
-            const flipCardBack = document.createElement('div');
-            flipCardBack.className = 'flip-card-back';
-
-            flipCard.appendChild(flipCardInner);
-            flipCardInner.append(flipCardFront, flipCardBack);
-            flipCardFront.appendChild(questionSection);
-            flipCardBack.appendChild(answerSection);
-            return flipCard;
-        };
-
-        function renderStudySession(deck) {
-
-            const studyDiv = document.createElement('div');
-            studyDiv.className = 'studydiv';
-
-            const studyCardDiv = document.createElement('div');
-            studyCardDiv.id = 'studycarddiv';
-            studyCardDiv.className = 'studycarddiv';
-
-            const deckNameHeader = renderSectionTitle(deck.name);
-            deckNameHeader.className = 'decknameheader';
-
-            const questionSection = renderStudyCardSide('Question', deck);
-            const answerSection = renderStudyCardSide('Answer', deck);
-
-            const previousButton = document.createElement('button');
-            previousButton.id = 'previousbutton';
-            previousButton.innerText = 'Last Card';
-            previousButton.addEventListener('click', () => {
-                controller.showNextStudyCard(deck, 'showprevious');
-                const flipCardInner = document.getElementById('flip-card-inner');
-                flipCardInner.classList.remove('activated');
-            });
-            previousButton.classList.add('inactive');
-
-            const nextButton = document.createElement('button');
-            nextButton.innerText = 'Next Card';
-            nextButton.id = 'nextcardbutton';
-            nextButton.addEventListener('click', () => {
-                controller.showNextStudyCard(deck, 'shownext');
-                const flipCardInner = document.getElementById('flip-card-inner');
-                flipCardInner.classList.remove('activated');
-            });
-
-            const buttonsSpan = document.createElement('span');
-            buttonsSpan.className = 'buttonsspan';
-            buttonsSpan.append(previousButton, nextButton);
-
-            const flipCard = renderFlipCard(questionSection, answerSection);
-
-            studyCardDiv.append(flipCard, buttonsSpan);
-            studyDiv.append(deckNameHeader, studyCardDiv)
-            main.append(studyDiv);
-        };
-
-        function renderStudySessionComplete(deck) {
-            const congratsDiv = document.createElement('div');
-            congratsDiv.className = 'congratsdiv';
-
-            const celebrationText = document.createElement('p');
-            celebrationText.innerText = `Congratulations, you studied ${deck.cards.length} cards! Click the button below to return to your decks page`;
-
-            const returnToDecksPageButton = document.createElement('button');
-            returnToDecksPageButton.innerText = 'Return to Decks Page';
-            returnToDecksPageButton.addEventListener('click', () => {
-                view.removeMainTagContent();
-                renderPage();
-            });
-
-            congratsDiv.append(celebrationText, returnToDecksPageButton);
-            main.appendChild(congratsDiv);
-        }
-
-        function removeDecksFromPage() {
-            const deckDisplayDiv = document.getElementById('deckdisplay');
-            const children = Array.from(deckDisplayDiv.children);
-            children.forEach((child) => {
-                child.remove();
-            });
-        };
-
-        function updateDeckDisplay(localDecks) {
-            const deckDisplayDiv = document.getElementById('deckdisplay');
-            removeDecksFromPage();
-
+        if (localDecks.length > 0) {
             localDecks.forEach((deck) => {
                 const element = renderDeck(deck);
                 deckDisplayDiv.appendChild(element);
             });
-        };
-
-        function renderDeck(deck) {
-
-            const name = document.createElement('h3');
-            name.innerText = deck.name;
-    
-            const dueDateParagraphElement = document.createElement('p');
-            dueDateParagraphElement.innerText = `Due: ${deck.dueDate}`;
-    
-            const deckDescriptionParagraph = document.createElement('p');
-            deckDescriptionParagraph.innerText = deck.description;
-
-            const studyButton = document.createElement('button');
-            studyButton.innerText = 'Study';
-            studyButton.onclick = () => {
-                removeMainTagContent();
-                controller.startStudySession(deck);
-            };
-
-            const imageAndNameDiv = document.createElement('div');
-            imageAndNameDiv.className = 'deckimageandname';
-            imageAndNameDiv.append(name, studyButton);
-    
-            const deckDescriptionDiv = document.createElement('div');
-            deckDescriptionDiv.className = 'deckdescriptiondiv';
-            deckDescriptionDiv.append(deckDescriptionParagraph, dueDateParagraphElement);
-
-            const deckDiv = document.createElement('div');
-            deckDiv.className = 'deck';
-            deckDiv.append(imageAndNameDiv, deckDescriptionDiv);
-            return deckDiv;
-        };
-        
-        return {
-            renderPage,
-            renderYourDecks,
-            renderPreBuiltDecks,
-            updateDeckDisplay,
-            renderStudySession,
-            updateStudyCard,
-            renderStudyCardSide,
-            renderStudySessionComplete,
-        };
-    })();
-
-    const overviewPage = (function(){
-
-        Observable.subscribe('UpdateOverviewData', cardData => {
-            updateOverviewCards(cardData);
-            updateDeleteDeckOptions();
+        } else {
+            const itsEmptyMessage = renderItsEmptyMessage();
+            deckDisplayDiv.appendChild(itsEmptyMessage);
+            yourDecksSectionDiv.appendChild(itsEmptyMessage);
         }
-        );
+        return yourDecksSectionDiv;
+    };
 
-        function renderPage() {
-            renderModal();
-            const overviewSection = renderOverviewSection();
-            const settingsSection = renderSettingsSection();
-            const emptySpaceWithMobileNavHeight = getEmptyDivForExtraPageSpaceAtBottomWithMobileNavHeight();
+    function renderStudyCardSide(cardSide, deck) {
+
+        const numberOfCardsFront = document.createElement('p');
+        numberOfCardsFront.innerText = `${deck.currentCard + 1} / ${deck.cards.length}`;
+        numberOfCardsFront.className = 'numberofcards';
+        numberOfCardsFront.id = `${cardSide}sectionnumberofcards`.toLowerCase();
+
+        const header = document.createElement('h4');
+        header.innerText = `${cardSide}:`;
+
+        const text = document.createElement('p')
+        text.id = `${cardSide}text`.toLowerCase();
+        if (cardSide === 'Question') {
+            text.innerText = deck.cards[deck.currentCard].question;
+        } else {
+            text.innerText = deck.cards[deck.currentCard].answer;
+        }
+
+        const innerDiv = document.createElement('div');
+        innerDiv.append(header, text);
+
+        const section = document.createElement('div');
+        section.id = `${cardSide}section`.toLowerCase();
+        section.className = `${cardSide}section`.toLowerCase();
+        section.append(numberOfCardsFront, innerDiv);
+        return section;
+
+    };
+
+    function updateStudyCard(deck) {
+        const numberOfCardsFront = document.getElementById('questionsectionnumberofcards');
+        numberOfCardsFront.innerText = `${deck.currentCard + 1} / ${deck.cards.length}`;
+
+        const questionText = document.getElementById('questiontext');
+        questionText.innerText = deck.cards[deck.currentCard].question;
+
+        const answerText = document.getElementById('answertext');
+
+        setTimeout(() => {
+            answerText.innerText = deck.cards[deck.currentCard].answer;
+          }, 100);
+
+        const numberOfCardsBack = document.getElementById('answersectionnumberofcards');
+        numberOfCardsBack.innerText = `${deck.currentCard + 1} / ${deck.cards.length}`;
+
+        const previousButton = document.getElementById('previousbutton');
+        if (deck.currentCard > 0) {
+            previousButton.classList.remove('inactive')
+        } else {
+            previousButton.classList.add('inactive');
+        }
+
+        if (deck.currentCard + 1 === deck.cards.length) {
+            document.getElementById('nextcardbutton').innerText = 'Finish Session';
+        }
+    }
+
+    function renderFlipCard(questionSection, answerSection) {
+
+        const flipCard = document.createElement('div');
+        flipCard.className = 'flip-card';
+        flipCard.addEventListener('click', () => {
+            flipCardInner.classList.toggle('activated');
+        });
+
+        const flipCardInner = document.createElement('div');
+        flipCardInner.className = 'flip-card-inner';
+        flipCardInner.id = 'flip-card-inner';
+
+        const flipCardFront = document.createElement('div');
+        flipCardFront.className = 'flip-card-front';
+
+        const flipCardBack = document.createElement('div');
+        flipCardBack.className = 'flip-card-back';
+
+        flipCard.appendChild(flipCardInner);
+        flipCardInner.append(flipCardFront, flipCardBack);
+        flipCardFront.appendChild(questionSection);
+        flipCardBack.appendChild(answerSection);
+        return flipCard;
+    };
+
+    function renderStudySession(deck) {
+
+        const studyDiv = document.createElement('div');
+        studyDiv.className = 'studydiv';
+
+        const studyCardDiv = document.createElement('div');
+        studyCardDiv.id = 'studycarddiv';
+        studyCardDiv.className = 'studycarddiv';
+
+        const deckNameHeader = renderSectionTitle(deck.name);
+        deckNameHeader.className = 'decknameheader';
+
+        const questionSection = renderStudyCardSide('Question', deck);
+        const answerSection = renderStudyCardSide('Answer', deck);
+
+        const previousButton = document.createElement('button');
+        previousButton.id = 'previousbutton';
+        previousButton.innerText = 'Last Card';
+        previousButton.addEventListener('click', () => {
+            controller.showNextStudyCard(deck, 'showprevious');
+            const flipCardInner = document.getElementById('flip-card-inner');
+            flipCardInner.classList.remove('activated');
+        });
+        previousButton.classList.add('inactive');
+
+        const nextButton = document.createElement('button');
+        nextButton.innerText = 'Next Card';
+        nextButton.id = 'nextcardbutton';
+        nextButton.addEventListener('click', () => {
+            controller.showNextStudyCard(deck, 'shownext');
+            const flipCardInner = document.getElementById('flip-card-inner');
+            flipCardInner.classList.remove('activated');
+        });
+
+        const buttonsSpan = document.createElement('span');
+        buttonsSpan.className = 'buttonsspan';
+        buttonsSpan.append(previousButton, nextButton);
+
+        const flipCard = renderFlipCard(questionSection, answerSection);
+
+        studyCardDiv.append(flipCard, buttonsSpan);
+        studyDiv.append(deckNameHeader, studyCardDiv)
+        main.append(studyDiv);
+    };
+
+    function renderStudySessionComplete(deck) {
+        const congratsDiv = document.createElement('div');
+        congratsDiv.className = 'congratsdiv';
+
+        const celebrationText = document.createElement('p');
+        celebrationText.innerText = `Congratulations, you studied ${deck.cards.length} cards! Click the button below to return to your decks page`;
+
+        const returnToDecksPageButton = document.createElement('button');
+        returnToDecksPageButton.innerText = 'Return to Decks Page';
+        returnToDecksPageButton.addEventListener('click', () => {
+            view.removeMainTagContent();
+            document.getElementById('mainheader').remove();
+            renderPage();
+        });
+
+        congratsDiv.append(celebrationText, returnToDecksPageButton);
+        main.appendChild(congratsDiv);
+    }
+
+    function removeDecksFromPage() {
+        const deckDisplayDiv = document.getElementById('deckdisplay');
+        const children = Array.from(deckDisplayDiv.children);
+        children.forEach((child) => {
+            child.remove();
+        });
+    };
+
+    function updateDeckDisplay(localDecks) {
+        const deckDisplayDiv = document.getElementById('deckdisplay');
+        const yourDecksSectionDiv = document.getElementById('yourdeckssectiondiv');
+        removeDecksFromPage();
+
+        if (localDecks.length > 0) {
+            document.getElementById('itsemptymessage').remove();
+            localDecks.forEach((deck) => {
+                const element = renderDeck(deck);
+                deckDisplayDiv.appendChild(element);
+            });
+        } else {
+            const existingItsEmptyMessage = document.getElementById('itsemptymessage');
+            if (existingItsEmptyMessage) { document.getElementById('itsemptymessage').remove(); }
+            const itsEmptyMessage = renderItsEmptyMessage();
+            yourDecksSectionDiv.appendChild(itsEmptyMessage);
+        }
+    };
+
+    function renderItsEmptyMessage() {
+        const itsEmptyMessage = document.createElement('p');
+        itsEmptyMessage.id = 'itsemptymessage';
+        itsEmptyMessage.className = 'itsemptymessage';
+        itsEmptyMessage.innerText = `It's empty in here! Click the blue button above to create a new deck.`;
+        return itsEmptyMessage;
+    }
+
+    function renderDeck(deck) {
+
+        const name = document.createElement('h3');
+        name.innerText = deck.name;
+
+        const dueDateParagraphElement = document.createElement('p');
+        dueDateParagraphElement.innerText = `Due: ${deck.dueDate}`;
+
+        const deckDescriptionParagraph = document.createElement('p');
+        deckDescriptionParagraph.innerText = deck.description;
+
+        const studyButton = document.createElement('button');
+        studyButton.innerText = 'Study';
+        studyButton.onclick = () => {
+            removeMainTagContent();
+            controller.startStudySession(deck);
+        };
+
+        const imageAndNameDiv = document.createElement('div');
+        imageAndNameDiv.className = 'deckimageandname';
+        imageAndNameDiv.append(name, studyButton);
+
+        const deckDescriptionDiv = document.createElement('div');
+        deckDescriptionDiv.className = 'deckdescriptiondiv';
+        deckDescriptionDiv.append(deckDescriptionParagraph, dueDateParagraphElement);
+
+        const deckDiv = document.createElement('div');
+        deckDiv.className = 'deck';
+        deckDiv.append(imageAndNameDiv, deckDescriptionDiv);
+        return deckDiv;
+    };
+
+    function renderOverviewSection() {
+        const title = renderSectionTitle('Overview');
+        const rowOfCardsDiv = renderOverviewCards(controller.data.Panels);
+        
+        const section = document.createElement('section');
+        section.append(title, rowOfCardsDiv);
+        return section;
+    };
     
-            main.append(overviewSection, settingsSection, emptySpaceWithMobileNavHeight);
-        };
+    function renderOverviewCards(cards) {
 
-        function renderOverviewSection() {
-            const title = renderSectionTitle('Overview');
-            const rowOfCardsDiv = renderOverviewCards(controller.data.Panels);
-            
-            const section = document.createElement('section');
-            section.append(title, rowOfCardsDiv);
-            return section;
-        };
-        
-        function renderOverviewCards(cards) {
+        const row1 = document.createElement('div');
+        row1.className = 'overviewflexboxdiv'
+        row1.classList.add('flexenddiv');
+        const row2 = document.createElement('div');
+        row2.className = 'overviewflexboxdiv';
 
-            const row1 = document.createElement('div');
-            row1.className = 'overviewflexboxdiv'
-            row1.classList.add('flexenddiv');
-            const row2 = document.createElement('div');
-            row2.className = 'overviewflexboxdiv';
+        for (let i = 0; i < cards.length; i++) {
 
-            for (let i = 0; i < cards.length; i++) {
-
-                const cardOuterDiv = document.createElement('div');
-                cardOuterDiv.className = 'overviewcard';
-        
-                const cardInnerDiv = document.createElement('div');
-                
-                const image = document.createElement('img');
-                image.src = cards[i].imagesrc;
-        
-                const title = document.createElement('h3');
-                title.innerText = cards[i].title;
-         
-                const statistic = document.createElement('p');
-                statistic.id = cards[i].underlinecolor;
-                statistic.className = cards[i].underlinecolor;
-                statistic.innerText = cards[i].statistic;
-        
-                cardInnerDiv.append(image, title);
-                cardOuterDiv.append(cardInnerDiv, statistic);
-                
-                i % 2 === 0 ? row1.appendChild(cardOuterDiv) : row2.appendChild(cardOuterDiv);
-            }
-
-            const rowOfCardsDiv = document.createElement('div');
-            rowOfCardsDiv.className = 'rowofcards';
-            rowOfCardsDiv.id = 'rowofcards';
-            rowOfCardsDiv.append(row1, row2);
-            return rowOfCardsDiv;
-        };
-
-        function renderSettingsSection() {
-            const section = document.createElement('section');
-            section.className = 'settingssection';
+            const cardOuterDiv = document.createElement('div');
+            cardOuterDiv.className = 'overviewcard';
     
-            const title = renderSectionTitle('Settings');
+            const cardInnerDiv = document.createElement('div');
             
-            const deleteDeckSection = renderDeleteDeckOptions();
-            const resetButton = renderResetButton();
-
-            section.append(title, deleteDeckSection, resetButton);
-            return section;
-        };
-
-        function renderDeleteDeckOptions() {
-
-            const decks = Array.from(controller.data.localDecks);
+            const image = document.createElement('img');
+            image.src = cards[i].imagesrc;
+    
+            const title = document.createElement('h3');
+            title.innerText = cards[i].title;
+     
+            const statistic = document.createElement('p');
+            statistic.id = cards[i].underlinecolor;
+            statistic.className = cards[i].underlinecolor;
+            statistic.innerText = cards[i].statistic;
+    
+            cardInnerDiv.append(image, title);
+            cardOuterDiv.append(cardInnerDiv, statistic);
             
-            const dropdownLabel = document.createElement('label');
-            dropdownLabel.htmlFor = 'decks';
-            dropdownLabel.innerText = 'Choose a deck you would like to delete';
+            i % 2 === 0 ? row1.appendChild(cardOuterDiv) : row2.appendChild(cardOuterDiv);
+        }
 
-            const dropdownSelect = document.createElement('select');
-            dropdownSelect.name = 'decks';
-            dropdownSelect.id = 'dropdownselect';
+        const rowOfCardsDiv = document.createElement('div');
+        rowOfCardsDiv.className = 'rowofcards';
+        rowOfCardsDiv.id = 'rowofcards';
+        rowOfCardsDiv.append(row1, row2);
+        return rowOfCardsDiv;
+    };
 
-            const defaultOption = document.createElement('option');
-            defaultOption.value = '';
-            defaultOption.innerText = '___________';
-            dropdownSelect.appendChild(defaultOption);
+    function updateOverviewCards(cards) {
+        cards.forEach((card) => {
+            const overviewCard = document.getElementById(card.underlinecolor);
+            overviewCard.innerText = card.statistic;
+        });
 
-            decks.forEach((item) => {
-                const option = document.createElement('option');
-                option.id = item.name + 'id';
-                option.value = item.name;
-                option.innerText = item.name;
-                dropdownSelect.appendChild(option);
-            });
+    };
 
-            const deleteButton = document.createElement('button');
-            deleteButton.className = 'deckdeletebutton';
-            deleteButton.innerHTML = 'Delete';
-            
-            deleteButton.onclick = () => {
-                const deckName = dropdownSelect.value;
-                controller.deleteDeck(deckName);
-                controller.data.Update();
-                document.getElementById(deckName + 'id').remove();
-            };
+    function renderSettingsSection() {
+        const section = document.createElement('section');
+        section.className = 'settingssection';
 
-            const deleteDeckDiv = document.createElement('div');
-            deleteDeckDiv.className = 'deletedeckdiv';
-            deleteDeckDiv.append(dropdownSelect, deleteButton);
+        const title = renderSectionTitle('Settings');
+        
+        const deleteDeckSection = renderDeleteDeckOptions();
+        const resetButton = renderResetButton();
 
-            const div = document.createElement('div');
-            div.className = 'deckdeleteoptions';
-            div.append(dropdownLabel, deleteDeckDiv);
-            return div;
+        section.append(title, deleteDeckSection, resetButton);
+        return section;
+    };
+
+    function renderDeleteDeckOptions() {
+
+        const decks = Array.from(controller.data.localDecks);
+        
+        const dropdownLabel = document.createElement('label');
+        dropdownLabel.htmlFor = 'decks';
+        dropdownLabel.innerText = 'Choose a deck you would like to delete';
+
+        const dropdownSelect = document.createElement('select');
+        dropdownSelect.name = 'decks';
+        dropdownSelect.id = 'dropdownselect';
+
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.innerText = '___________';
+        dropdownSelect.appendChild(defaultOption);
+
+        decks.forEach((item) => {
+            const option = document.createElement('option');
+            option.id = item.name + 'id';
+            option.value = item.name;
+            option.innerText = item.name;
+            dropdownSelect.appendChild(option);
+        });
+
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'deckdeletebutton';
+        deleteButton.innerHTML = 'Delete';
+        
+        deleteButton.onclick = () => {
+            const deckName = dropdownSelect.value;
+            controller.deleteDeck(deckName);
+            controller.data.Update();
+            document.getElementById(deckName + 'id').remove();
+            Observable.publish('DecksUpdated', controller.data.localDecks);
         };
 
-        function updateOverviewCards(cards) {
-            cards.forEach((card) => {
-                const overviewCard = document.getElementById(card.underlinecolor);
-                overviewCard.innerText = card.statistic;
-            });
+        const deleteDeckDiv = document.createElement('div');
+        deleteDeckDiv.className = 'deletedeckdiv';
+        deleteDeckDiv.append(dropdownSelect, deleteButton);
 
-        };
+        const div = document.createElement('div');
+        div.className = 'deckdeleteoptions';
+        div.append(dropdownLabel, deleteDeckDiv);
+        return div;
+    };
 
-        function updateDeleteDeckOptions() {
-            const dropdownSelect = document.getElementById('dropdownselect');
-            const decks = Array.from(dropdownSelect.children);
-            const localDecks = controller.data.localDecks;
+    function updateDeleteDeckOptions(localDecks) {
+        const dropdownSelect = document.getElementById('dropdownselect');
+        const decks = Array.from(dropdownSelect.children);
 
-            decks.forEach((item) => {
-                if (item.value != '') { item.remove(); }
-            });
-            
-            localDecks.forEach((item) => {
-                const option = document.createElement('option');
-                option.id = item.name + 'id';
-                option.value = item.name;
-                option.innerText = item.name;
-                dropdownSelect.appendChild(option);
-            });
-        };
+        decks.forEach((item) => {
+            if (item.value != '') { item.remove(); }
+        });
+        
+        localDecks.forEach((item) => {
+            const option = document.createElement('option');
+            option.id = item.name + 'id';
+            option.value = item.name;
+            option.innerText = item.name;
+            dropdownSelect.appendChild(option);
+        });
+    };
 
-        function renderResetButton() {
-            const button = document.createElement('button');
-            button.innerText = 'Delete all saved data';
-            button.className = 'resetbutton';
-            button.ariaLabel = 'Click here to delete all saved data';
-            button.onclick = () => {
-                showResetDataConfirmationWindow();
-            };
-            return button;
-        };
-
-        function showResetDataConfirmationWindow() {
+    function renderResetButton() {
+        const button = document.createElement('button');
+        button.innerText = 'Delete all saved data';
+        button.className = 'resetbutton';
+        button.ariaLabel = 'Click here to delete all saved data';
+        button.onclick = () => {
             if (confirm('Are you sure you want to reset your data? You cannot undo this action!')) {
                 Observable.publish('DataReset');    
             } else { return; }
         };
-
-        return {
-            renderPage,
-            renderOverviewSection,
-            renderSettingsSection,
-        };
-    })();
-
-    const desktopPage = (function() {
-        function renderPage() {
-            renderModal();
-
-            const overviewSection = overviewPage.renderOverviewSection();
-            const topDecksSection = studyPage.renderYourDecks();
-            const prebuiltDecksSection = studyPage.renderPreBuiltDecks();
-            const settingsSection = overviewPage.renderSettingsSection()
-            main.append(overviewSection,topDecksSection, prebuiltDecksSection, settingsSection);
-        };
-
-        return {
-            renderPage,
-        }
-    })();
+        return button;
+    };
 
     function renderModal() {
 
@@ -589,7 +544,7 @@ export const view = (function() {
         formSubmitButton.innerText = 'Create Deck';
         formSubmitButton.type = 'button';
         formSubmitButton.className = 'submitbutton';
-
+        formSubmitButton.addEventListener('click', controller.handleDeckCreationForm);
         const addCardsButton = document.createElement('button');
         addCardsButton.innerText = 'Add Cards';
         addCardsButton.type = 'button';
@@ -598,7 +553,7 @@ export const view = (function() {
             renderAddCardModalBody();
         };
 
-        formSubmitButton.addEventListener('click', controller.handleDeckCreationForm);
+        
 
         const form = document.createElement('form');
         form.className = 'modal-form';
@@ -719,35 +674,6 @@ export const view = (function() {
         form.reset();
     };
 
-    function renderPage(newPageID) {
-        removeMainTagContent();
-        switch (newPageID) {
-            case 'studypage':
-                studyPage.renderPage();
-                break;
-
-            case 'overviewpage':
-                overviewPage.renderPage();
-                break;
-            
-            case 'desktoppage':
-                desktopPage.renderPage();
-        }
-    };
-
-    function changeTabColor(newPageID) {
-        view.mobileNavButtons.forEach((navTab) => {
-            if ( navTab.id === newPageID) {
-                navTab.style.borderTop = '1px solid blue';
-                document.getElementById(`${navTab.id}h3`).style.color = 'blue';
-            }
-            else {
-                navTab.style.borderTop = 'none';
-                document.getElementById(`${navTab.id}h3`).style.color = 'grey';
-            }
-        })
-    };
-
     function renderSectionTitle(titleName) {
         const h1 = document.createElement('h1');
         h1.innerText = titleName;
@@ -755,7 +681,7 @@ export const view = (function() {
         return h1;
     };
 
-    function addBannerButtonFunctionality() {
+    function showAddDeckButton() {
         const menu = document.getElementById('menu');
         menu.onclick = () => {
             menu.classList.remove('show');
@@ -766,7 +692,6 @@ export const view = (function() {
             menu.classList.toggle('show');
         };
 
-
         document.onclick = () => {
             if (!bannerButton.contains(event.target)) {
                 menu.classList.remove('show');
@@ -774,9 +699,9 @@ export const view = (function() {
         }
     };
 
-    function makeNewAddDeckButtonWork() {
-        const buttttton = document.getElementById('adddeckbutton');
-        buttttton.onclick = () => {
+    function showModal() {
+        const addDeckButton = document.getElementById('adddeckbutton');
+        addDeckButton.onclick = () => {
             setModalAutofocus();
             document.getElementById('modal').style.display = 'block';
         }
@@ -789,87 +714,19 @@ export const view = (function() {
         });
 };
 
-    function getEmptyDivForExtraPageSpaceAtBottomWithMobileNavHeight() {
-        const mobileNavHeight = document.getElementById('mobilenav').offsetHeight.toString();
-        const emptySpaceDiv = document.createElement('div');
-        emptySpaceDiv.style.height = `${mobileNavHeight}px`;
-        return emptySpaceDiv;
-    };
-
-    function renderMobileNavigation () {
-        const footer = document.createElement('footer');
-        footer.id = 'footer';
-
-        const nav = document.createElement('nav');
-        nav.className = 'mobilenav';
-        nav.id = 'mobilenav';
-        
-        const studyImage = document.createElement('img');
-        studyImage.src = StudyIcon;
-        studyImage.alt = 'Click here to access the study section';
-
-        const studyH3 = document.createElement('h3');
-        studyH3.id = 'studypageh3'
-        studyH3.innerText = 'Study';
-
-        const studyButton = document.createElement('button');
-        studyButton.id = 'studypage';
-        studyButton.append(studyImage, studyH3)
-        
-        const overviewImage = document.createElement('img');
-        overviewImage.src = OverviewIcon;
-        overviewImage.alt = 'Click here to access the study section';
-
-        const overviewH3 = document.createElement('h3');
-        overviewH3.id = 'overviewpageh3'
-        overviewH3.innerText = 'Overview';
-
-        const overviewButton = document.createElement('button');
-        overviewButton.id = 'overviewpage';
-        overviewButton.append(overviewImage, overviewH3)
-
-        nav.append(studyButton, overviewButton);
-        footer.appendChild(nav);
-
-        const body = document.getElementsByTagName('body')[0];
-        body.appendChild(footer);
-    };
-
-    function updateMobileNavButtons() {
-        view.mobileNavButtons = Array.from([
-            document.getElementById('studypage'),
-            document.getElementById('overviewpage'),
-            ]);
-    };
-
-    function addMobileNavEventListeners() {
-        view.mobileNavButtons.forEach((button) => {
-            button.addEventListener('click', (event) => {
-            const currentTabID = event.target.id;
-            removeMainTagContent();
-            changeTabColor(currentTabID);
-            controller.changePage(currentTabID);
-            });
-        });
-    };
-
-    function renderMobileDefaultView(pageID) {
+    function renderPage() {
+        removeMainTagContent();
+        renderModal();
         renderBanner();
-        addBannerButtonFunctionality();
-        makeNewAddDeckButtonWork();
-        renderMobileNavigation();
-        updateMobileNavButtons();
-        addMobileNavEventListeners();
-        renderPage(pageID);
-        changeTabColor(pageID);
-    };
+        showAddDeckButton();
+        showModal();
 
-    function renderDesktopDefaultView(pageID) {
-        renderBanner();
-        addBannerButtonFunctionality();
-        makeNewAddDeckButtonWork();
-        renderPage(pageID);
-    }
+        const overviewSection = renderOverviewSection();
+        const topDecksSection = renderYourDecks();
+        const prebuiltDecksSection = renderPreBuiltDecks();
+        const settingsSection = renderSettingsSection()
+        main.append(overviewSection,topDecksSection, prebuiltDecksSection, settingsSection);
+    };
 
     function renderBanner() {
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
@@ -884,8 +741,9 @@ export const view = (function() {
         bannerButton.className = 'bannerbutton';
         bannerButton.appendChild(svg);
 
-        const title = document.createElement('h3');
-        title.innerText = 'Study Decks';
+        const siteTitle = document.createElement('h1');
+        siteTitle.className = 'sitetitle';
+        siteTitle.innerText = 'Study Decks';
 
         const button = document.createElement('button');
         button.id = 'adddeckbutton';
@@ -903,7 +761,7 @@ export const view = (function() {
 
         const innerHeaderDiv = document.createElement('div');
         innerHeaderDiv.className = 'innerheaderdiv';
-        innerHeaderDiv.append(title, containerDiv);
+        innerHeaderDiv.append(siteTitle, containerDiv);
 
         const mainHeader = document.createElement('header');
         mainHeader.id = 'mainheader';
@@ -911,18 +769,16 @@ export const view = (function() {
 
         const body = document.getElementsByTagName("body")[0];
         body.insertBefore(mainHeader, body.firstChild);
-        
     }
 
     return {
-        studyPage,
-        desktopPage,
         resetModal,
         hideModal,
         resetForm,
         renderPage,
-        renderDesktopDefaultView,
-        renderMobileDefaultView,
+        renderStudySession,
+        renderStudySessionComplete,
+        updateStudyCard,
         removeMainTagContent,
         renderAddCardModalBody,
         };

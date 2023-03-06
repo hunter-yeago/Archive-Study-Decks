@@ -4,13 +4,10 @@
 .innerheaderdiv {
     @include mixins.centered-flexbox;
     gap: 1rem;
-    padding: .8rem;
+    padding: 1rem 0 1.5rem 0;
     border-bottom: 1px solid config.$quizlet-border-color;
 
-    h3 {
-        font-size: 1.6rem;
-        border-bottom: 1px solid config.$quizlet-gold-color;
-    }
+    h1 { border-bottom: 1px solid config.$quizlet-gold-color; }
 }
 
 .containerdiv {
@@ -20,8 +17,8 @@
 }
 
 svg {
-    width: 40px;
-    height: 40px;
+    width: 2.5rem;
+    height: 2.5rem;
 
     path {
         stroke: white;

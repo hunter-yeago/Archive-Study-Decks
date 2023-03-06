@@ -376,11 +376,10 @@ select {
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  padding: 0.8rem;
+  padding: 1rem 0 1.5rem 0;
   border-bottom: 1px solid #282e3e;
 }
-.innerheaderdiv h3 {
-  font-size: 1.6rem;
+.innerheaderdiv h1 {
   border-bottom: 1px solid #ffcd1e;
 }
 
@@ -391,8 +390,8 @@ select {
 }
 
 svg {
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
 }
 svg path {
   stroke: white;

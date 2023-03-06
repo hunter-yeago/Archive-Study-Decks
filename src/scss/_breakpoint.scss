@@ -1,13 +1,10 @@
 @use 'config';
 
-
 //Desktop
 @media (min-width: config.$breakpoint)  {
     
     //_overview.scss
     .rowofcards {
-        // :first-child { justify-self: flex-start; }
-        // :nth-child(2) { justify-self: flex-start; }
         display: flex;
         justify-content: flex-start;
         gap: .7em;
@@ -21,6 +18,5 @@
 
     .deck {
         min-height: 11em;
-        // margin: auto;
     }
 }
