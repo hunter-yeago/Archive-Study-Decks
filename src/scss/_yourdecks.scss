@@ -6,19 +6,22 @@
     display: grid;
     justify-content: center;
     align-items: center;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: .5rem;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1em;
     margin: .5em;
 }
 
 .deck {
     margin: auto;
     display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 0rem .5rem;
     border-radius: .5em;
-    max-width: 70vw;
+    min-width: 90%;
     min-height: 11em;
     background-color: config.$quizlet-frontpage-deck-color;
+    font-size: clamp(1rem, 5.5vw, 1.1rem)
 }
 
 .deckimageandname { 
@@ -40,8 +43,8 @@
 .deckdescriptiondiv {
     @include mixins.centered-flexbox;
     flex-direction: column;
-    // min-width: 70%;
-    margin: .7em 0 .7em 0;
+    min-width: 70%;
+    margin: .7em 0;
 
     p {
         padding: .5em;

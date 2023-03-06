@@ -214,19 +214,22 @@ select {
   display: grid;
   justify-content: center;
   align-items: center;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1em;
   margin: 0.5em;
 }
 
 .deck {
   margin: auto;
   display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 0rem 0.5rem;
   border-radius: 0.5em;
-  max-width: 70vw;
+  min-width: 90%;
   min-height: 11em;
   background-color: #2e3856;
+  font-size: clamp(1rem, 5.5vw, 1.1rem);
 }
 
 .deckimageandname {
@@ -255,7 +258,8 @@ select {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin: 0.7em 0 0.7em 0;
+  min-width: 70%;
+  margin: 0.7em 0;
 }
 .deckdescriptiondiv p {
   padding: 0.5em;
@@ -288,7 +292,6 @@ select {
   align-items: center;
   flex-direction: row;
   gap: 0.3em;
-  width: fit-content;
 }
 
 .overviewcard {
@@ -596,6 +599,17 @@ svg path {
   padding: 0.2em;
 }
 
+@media (min-width: 800px) {
+  .rowofcards :first-child {
+    justify-self: flex-end;
+  }
+  .rowofcards :nth-child(2) {
+    justify-self: flex-start;
+  }
+  .deckdisplay {
+    width: 80vw;
+  }
+}
 html,
 body {
   background-color: #0a082d;
@@ -643,10 +657,13 @@ main {
   pointer-events: none;
 }
 
+section {
+  padding: clamp(0.2em, 2vw, 1.5em);
+}
 section h1 {
   text-align: left;
   padding: 1rem;
-  font-size: 1.3rem;
+  font-size: clamp(1.3rem, 2vw, 1.7rem);
 }
 
 /*# sourceMappingURL=style.css.map */

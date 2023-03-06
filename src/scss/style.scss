@@ -8,6 +8,7 @@
 @use 'banner';
 @use 'sidenav';
 @use 'studysession';
+@use 'breakpoint';
 
 //TODO - Responsive Design
 //Mobile Version
@@ -63,9 +64,11 @@ main {
 }
 
 section {
+
+    padding: clamp(.2em, 2vw, 1.5em);
     h1 {
         text-align: left;
         padding: 1rem;
-        font-size: 1.3rem;
+        font-size: clamp(1.3rem, 2vw, 1.7rem);
     }
 }

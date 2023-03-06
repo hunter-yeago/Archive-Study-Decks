@@ -20,7 +20,7 @@
     // div {
     //     justify-self: center
     // }
-    //TODO turn this on during media query
+    //media query -  turn this on during media query
     // max-width: fit-content;
     // :first-child {
     //     justify-self: flex-end;
@@ -36,7 +36,8 @@
     @include mixins.centered-flexbox;
     flex-direction: row;
     gap: .3em;
-    width: fit-content;
+    // media query - will likely need to 
+    // width: fit-content;
 }
 
 .overviewcard {
