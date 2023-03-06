@@ -62,11 +62,12 @@ main {
 }
 
 section {
-
+    @include mixins.centered-flexbox;
+    flex-direction: column;
     padding: .5em clamp(.2em, 2vw, 1.5em);
     h1 {
         text-align: left;
-        padding: 1rem;
-        font-size: clamp(1.3rem, 2vw, 3.5rem);
+        padding: .5rem;
+        font-size: clamp(1.6rem, 2vw, 3.5rem);
     }
 }

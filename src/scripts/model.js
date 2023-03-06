@@ -36,7 +36,6 @@ export const model = (function(){
 
     function getDeckArrayFromLocalStorage() {
         
-        // return Array.from(JSON.parse(localStorage.getItem('deckarray')));    
         const items = { ...localStorage};
         if (items.hasOwnProperty('deckarray')) {
             return Array.from(JSON.parse(localStorage.getItem('deckarray')));    
@@ -218,7 +217,6 @@ export const model = (function(){
         getDeckArrayFromLocalStorage,
         getCurrentPage,
         setCurrentPage,
-        // getLocalDecks,
         addCardtoDeck,
         updateCurrentCard,
         clearLocalStorage,

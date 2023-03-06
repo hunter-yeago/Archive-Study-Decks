@@ -94,7 +94,7 @@ select {
   position: relative;
   margin: auto;
   border: 1px solid #888;
-  width: min(30rem, 92%);
+  width: min(30rem, 85%);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   animation-name: animatetop;
   animation-duration: 0.4s;
@@ -609,6 +609,7 @@ svg path {
   .rowofcards {
     display: flex;
     justify-content: flex-start;
+    gap: 0.7em;
   }
   .deckdisplay {
     width: 80vw;
@@ -616,12 +617,6 @@ svg path {
   }
   .deck {
     min-height: 11em;
-  }
-  section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
   }
 }
 html,
@@ -673,12 +668,16 @@ main {
 }
 
 section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   padding: 0.5em clamp(0.2em, 2vw, 1.5em);
 }
 section h1 {
   text-align: left;
-  padding: 1rem;
-  font-size: clamp(1.3rem, 2vw, 3.5rem);
+  padding: 0.5rem;
+  font-size: clamp(1.6rem, 2vw, 3.5rem);
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -4,11 +4,6 @@
 //Changes at 800px Media Query: display: flex; justify-content: flex-start;
 .rowofcards {
     display: grid;
-    // justify-content: center;
-    // align-items: center;
-    // grid-template-columns: 1fr 1fr;
-    // grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    // gap: .5em;
     padding: clamp(.5em, 3.5vw, 2em);
 
     display: grid;
@@ -17,19 +12,6 @@
     margin: auto;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: clamp(.3em, 2vw, 1.5em);
-
-    // div {
-    //     justify-self: center
-    // }
-    //media query -  turn this on during media query
-    // max-width: fit-content;
-    // :first-child {
-    //     justify-self: flex-end;
-    // }
-    
-    // :nth-child(2) {
-    //     justify-self: flex-start;
-    // }
 }
 
 
@@ -37,8 +19,6 @@
     @include mixins.centered-flexbox;
     flex-direction: row;
     gap: .3em;
-    // media query - will likely need to 
-    // width: fit-content;
 }
 
 .overviewcard {

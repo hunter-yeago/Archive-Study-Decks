@@ -13,11 +13,6 @@ export const view = (function() {
         });
 
         function renderPage() {
-            //This is for the slide in menu nav bar
-            // const openNavButton = document.getElementById('opennavbtn');
-            // openNavButton.addEventListener('click', toggleNav);
-            //This is for the slide in menu nav bar
-
             renderModal();
             const topDecksSection = renderYourDecks();
             const prebuiltDecksSection = renderPreBuiltDecks();
@@ -111,9 +106,6 @@ export const view = (function() {
 
             const answerText = document.getElementById('answertext');
 
-            //Before, you would see the next answer too soon if you were on the backside
-            //of the card and clicked next, with this delay, you no longer will
-            //accidentally see the answer to the next card
             setTimeout(() => {
                 answerText.innerText = deck.cards[deck.currentCard].answer;
               }, 100);
@@ -340,34 +332,6 @@ export const view = (function() {
                 
                 i % 2 === 0 ? row1.appendChild(cardOuterDiv) : row2.appendChild(cardOuterDiv);
             }
-    
-            // cards.forEach((card) => {
-                
-            //     const cardOuterDiv = document.createElement('div');
-            //     cardOuterDiv.className = 'overviewcard';
-        
-            //     const cardInnerDiv = document.createElement('div');
-                
-            //     const image = document.createElement('img');
-            //     image.src = card.imagesrc;
-        
-            //     const title = document.createElement('h3');
-            //     title.innerText = card.title;
-         
-            //     const statistic = document.createElement('p');
-            //     statistic.id = card.underlinecolor;
-            //     statistic.className = card.underlinecolor;
-            //     statistic.innerText = card.statistic;
-        
-            //     cardInnerDiv.append(image, title);
-            //     cardOuterDiv.append(cardInnerDiv, statistic);
-        
-            //     rowOfCardsDiv.appendChild(cardOuterDiv);
-            // });
-    
-            // const overviewFlexboxDiv = document.createElement('div');
-            // overviewFlexboxDiv.className = 'overviewflexboxdiv';
-            // overviewFlexboxDiv.append(row1);
 
             const rowOfCardsDiv = document.createElement('div');
             rowOfCardsDiv.className = 'rowofcards';
@@ -492,8 +456,7 @@ export const view = (function() {
             const overviewSection = overviewPage.renderOverviewSection();
             const topDecksSection = studyPage.renderYourDecks();
             const prebuiltDecksSection = studyPage.renderPreBuiltDecks();
-            const settingsSection = overviewPage.renderSettingsSection();
-            // const emptySpaceWithMobileNavHeight = getEmptyDivForExtraPageSpaceAtBottomWithMobileNavHeight();
+            const settingsSection = overviewPage.renderSettingsSection()
             main.append(overviewSection,topDecksSection, prebuiltDecksSection, settingsSection);
         };
 
@@ -964,26 +927,3 @@ export const view = (function() {
         renderAddCardModalBody,
         };
 })();
-
-//Side-bar Nav
-
-//temporarily adding menu event listeners here
-//These are the event listeners for the left slide-in navbar
-
-// document.getElementById('overviewoption').addEventListener('click', () => {    
-//     removeMainTagContent();
-//     render()
-//     toggleNav();
-// });
-
-
-// document.getElementById('adddeckoption').addEventListener('click', () => {
-//     removeMainTagContent();
-//     Render();
-//     toggleNav();
-// });
-
-// function toggleNav() {
-//     const sideNav = document.getElementById('mySidenav');
-//     sideNav.classList.toggle('active');
-// };

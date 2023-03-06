@@ -8,7 +8,6 @@ import { preBuiltDecks } from "./prebuiltdecks";
 export const controller = (function(){
 
     Observable.subscribe('DataReset', resetDataAndView);
-    
     const data = {
         preBuiltDecks: preBuiltDecks,
         defaultPageID: 'studypage',
@@ -32,17 +31,20 @@ export const controller = (function(){
     function startApplication() {
         model.checkIfThereIsAlreadyLocallyStoredData();
         data.Update();
+        data.defaultPageID = 'desktoppage';
+        model.setCurrentPage(data.defaultPageID)
+        view.renderDesktopDefaultView(data.defaultPageID);
 
-        console.log(window.innerWidth);
+        // console.log(window.innerWidth);
 
-        if (window.innerWidth >= 800) {
-            data.defaultPageID = 'desktoppage';
-            model.setCurrentPage(data.defaultPageID)
-            view.renderDesktopDefaultView(data.defaultPageID);
-        } else {
-            model.setCurrentPage(data.defaultPageID);
-            view.renderMobileDefaultView(data.defaultPageID);  
-        }   
+        // if (window.innerWidth >= 800) {
+        //     data.defaultPageID = 'desktoppage';
+        //     model.setCurrentPage(data.defaultPageID)
+        //     view.renderDesktopDefaultView(data.defaultPageID);
+        // } else {
+        //     model.setCurrentPage(data.defaultPageID);
+        //     view.renderMobileDefaultView(data.defaultPageID);  
+        // }   
     };
 
     function handleDeckCreationForm() {

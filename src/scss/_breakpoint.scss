@@ -10,6 +10,7 @@
         // :nth-child(2) { justify-self: flex-start; }
         display: flex;
         justify-content: flex-start;
+        gap: .7em;
     }
 
     //_yourdecks.scss
@@ -21,12 +22,5 @@
     .deck {
         min-height: 11em;
         // margin: auto;
-    }
-
-    section {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
     }
 }
