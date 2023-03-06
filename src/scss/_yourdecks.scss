@@ -3,19 +3,21 @@
 
 
 .deckdisplay {
-    @include mixins.centered-flexbox;
-    flex-direction: column;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: .5rem;
+    margin: .5em;
 }
 
 .deck {
+    margin: auto;
     display: flex;
-    justify-content: center;
-    min-height: 7rem;
-    width: 95%;
-    margin-top: 2%;
-    margin-bottom: 2%;
+    padding: 0rem .5rem;
     border-radius: .5em;
-    padding: 0rem .5rem 0rem .5rem;
+    max-width: 70vw;
+    min-height: 11em;
     background-color: config.$quizlet-frontpage-deck-color;
 }
 
@@ -38,7 +40,7 @@
 .deckdescriptiondiv {
     @include mixins.centered-flexbox;
     flex-direction: column;
-    min-width: 70%;
+    // min-width: 70%;
     margin: .7em 0 .7em 0;
 
     p {

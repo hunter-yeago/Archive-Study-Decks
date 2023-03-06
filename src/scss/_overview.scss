@@ -3,59 +3,37 @@
 
 .rowofcards {
     display: grid;
-    justify-content: center;
-    align-items: center;
+    // justify-content: center;
+    // align-items: center;
     grid-template-columns: 1fr 1fr;
-    gap: .5rem;
-    padding: .5rem;
+    // grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: .5em;
+    padding: clamp(.5em, 3.5vw, 2em);
 }
 
 .overviewcard {
-    display: flex;
-    flex-direction: column;
     border: 1px solid lightgrey;
     color: black;
     border-radius: 5px;
     background-color: white;
+    text-align: center;
 
     div {
         @include mixins.centered-flexbox;
-        gap: .2rem;
+        gap: .3rem;
         padding-top: .5rem;
     }
-    img {
-        width: max(1.5rem, 5vw);
-    }
-    h3 {
-        font-size: .9rem;
-    }
+    img{ width: clamp(1.6rem, 4vw, 2.3rem); }
+    h3{ font-size: clamp(1rem, 3.5vw, 2rem); }
+    p{ 
+        font-size: clamp(1.6rem, 5.5vw, 2.5rem);
+        padding-bottom: .5rem;
+        text-decoration: underline;
+        text-decoration-thickness: 1.5px;
+        text-underline-offset: 5px;
+     }
 }
-
-.greencardunderline,
-.brickcardunderline,
-.bluecardunderline,
-.sunshinecardunderline {
-    text-align: center;
-    font-size: 1.5rem;
-    padding-bottom: .5rem;
-
-    text-decoration: underline;
-    text-decoration-thickness: 1.5px;
-    text-underline-offset: 5px;
-}
-
-.greencardunderline {
-    text-decoration-color: config.$light-green-color;
-}
-
-.bluecardunderline{
-    text-decoration-color: config.$dark-blue-color;
-}
-
-.brickcardunderline {
-    text-decoration-color: config.$brick-color;
-}
-
-.sunshinecardunderline {
-    text-decoration-color: config.$sunshine-color;
-}
+.greencardunderline { text-decoration-color: config.$light-green-color !important; }
+.bluecardunderline{ text-decoration-color: config.$dark-blue-color !important; }
+.brickcardunderline { text-decoration-color: config.$brick-color !important; }
+.sunshinecardunderline { text-decoration-color: config.$sunshine-color !important; }

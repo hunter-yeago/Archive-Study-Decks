@@ -106,10 +106,7 @@ export const view = (function() {
             const questionText = document.getElementById('questiontext');
             questionText.innerText = deck.cards[deck.currentCard].question;
 
-            
-              
             const answerText = document.getElementById('answertext');
-            // answerText.innerText = deck.cards[deck.currentCard].answer;
 
             //Before, you would see the next answer too soon if you were on the backside
             //of the card and clicked next, with this delay, you no longer will
@@ -265,6 +262,9 @@ export const view = (function() {
             deckDescriptionDiv.className = 'deckdescriptiondiv';
             deckDescriptionDiv.append(deckDescriptionParagraph, dueDateParagraphElement);
     
+            const flexboxDiv = document.createElement('div');
+            
+
             const deckDiv = document.createElement('div');
             deckDiv.className = 'deck';
             deckDiv.append(imageAndNameDiv, deckDescriptionDiv);
