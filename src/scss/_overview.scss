@@ -4,16 +4,12 @@
 //Changes at 800px Media Query: display: flex; justify-content: flex-start;
 .rowofcards {
     display: grid;
-    padding: clamp(.5em, 3.5vw, 2em);
-
-    display: grid;
     justify-content: center;
     align-items: center;
-    margin: auto;
+    padding: clamp(.5em, 3.5vw, 2em);
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: clamp(.3em, 2vw, 1.5em);
 }
-
 
 .overviewflexboxdiv {
     @include mixins.centered-flexbox;

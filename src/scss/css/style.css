@@ -277,11 +277,9 @@ select {
 
 .rowofcards {
   display: grid;
-  padding: clamp(0.5em, 3.5vw, 2em);
-  display: grid;
   justify-content: center;
   align-items: center;
-  margin: auto;
+  padding: clamp(0.5em, 3.5vw, 2em);
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: clamp(0.3em, 2vw, 1.5em);
 }
