@@ -5,7 +5,7 @@ import StudyIcon from '../images/studying.png';
 import OverviewIcon from '../images/edit.png';
 
 export const view = (function() {
-    const main = document.querySelector('main');
+    const main = document.getElementById('main');
 
     const studyPage = (function(){
         Observable.subscribe('NewDeckAdded', localDecks => {
