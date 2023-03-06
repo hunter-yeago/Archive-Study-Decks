@@ -11,34 +11,24 @@
     display: flex;
     justify-content: center;
     min-height: 7rem;
-
-    width: 95vw;
+    width: 95%;
     margin-top: 2%;
     margin-bottom: 2%;
     border-radius: .5em;
     padding: 0rem .5rem 0rem .5rem;
-    
     background-color: config.$quizlet-frontpage-deck-color;
 }
 
 .deckimageandname { 
     @include mixins.centered-flexbox;
     flex-direction: column;
-
     border-right: 1px solid config.$quizlet-gold-color;
-    
-    margin: .7em 0 .7em 0;
+    margin: .7em 0 .7em 1em;
     padding-right: 1em;
-    //This is what was making it slightly off
-    //however I may still end up using the duedate functionality
-    //so will likely bring it back
-    // gap: .5rem;
-    min-width: 30%;
-
-    h3 {
-        font-size: 1rem;
-    }
-
+    gap: .5rem;
+    
+    button { padding: .2em; }
+    h3 { font-size: 1rem; }
     p {
         color: rgba(253, 253, 253, 0.681);
         font-size: .9rem;
@@ -53,7 +43,6 @@
 
     p {
         padding: .5em;
-        min-width: 100%;
         text-align: center;
     }
 

@@ -5,7 +5,6 @@ import { preBuiltDecks } from "./prebuiltdecks";
 
 //TODO responsive design
 //TODO dynamically render ALL HTML
-//TODO Double check my Observer Pattern - are they being used correctly? Consistently? Are there things I'm not using with it that should be using it?
 
 export const controller = (function(){
 
@@ -13,7 +12,7 @@ export const controller = (function(){
     
     const data = {
         preBuiltDecks: preBuiltDecks,
-        defaultTabID: 'studybutton',
+        defaultTabID: 'studypage',
         localDecks: model.getDeckArrayFromLocalStorage(),
         Panels: model.dataPanels,
 
@@ -124,7 +123,7 @@ export const controller = (function(){
 
     function updateDataOnCurrentPage() {
         const currentPage = model.getCurrentPage();
-        if (currentPage === 'studybutton') {
+        if (currentPage === 'studypage') {
             Observable.publish('NewDeckAdded', data.localDecks)
         } else {
             Observable.publish('UpdateOverviewData', data.Panels);

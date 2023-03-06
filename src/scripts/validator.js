@@ -86,7 +86,7 @@ export const validators = {
             const year = array[0];
             const month = array[1];
             const day = array[2];
-            return new Date(`${year}/${month}/${day}`);
+            return new Date(year, month, day);
         },
     
         displayWarning: function() {

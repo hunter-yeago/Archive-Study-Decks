@@ -10,10 +10,12 @@
     gap: .5rem;
 }
 
-.horizontaldiv {
+.deletedeckdiv {
     @include mixins.centered-flexbox;
     gap: 1rem;
     margin-bottom: 1em;
+
+    button{ padding: .1em; }
 }
 
 .resetbutton {
@@ -21,4 +23,5 @@
     margin: 1rem auto auto auto;
     color: red;
     border: 1px solid red;
+    padding: .2em;
 }

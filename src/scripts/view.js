@@ -35,11 +35,9 @@ export const view = (function() {
             return section;
         };
 
-        function renderPreBuiltDecks() {
-
+        function renderPreBuiltDecks() {            
             
             const title = renderSectionTitle('Prebuilt Decks');
-    
             const prebuiltDecksDiv = document.createElement('div');
             prebuiltDecksDiv.className = 'deckdisplay';
             controller.data.preBuiltDecks.forEach((deck) => {
@@ -249,27 +247,23 @@ export const view = (function() {
             const dueDateParagraphElement = document.createElement('p');
             dueDateParagraphElement.innerText = `Due: ${deck.dueDate}`;
     
-            const imageAndNameDiv = document.createElement('div');
-            imageAndNameDiv.className = 'deckimageandname';
-            imageAndNameDiv.append(name);
-    
             const deckDescriptionParagraph = document.createElement('p');
             deckDescriptionParagraph.innerText = deck.description;
 
             const studyButton = document.createElement('button');
             studyButton.innerText = 'Study';
-            
-            //this is colliding with the name for my mobile nav button
-            // studyButton.id = 'studybutton';
-            // studyButton.className = 'studybutton';
             studyButton.onclick = () => {
                 removeMainTagContent();
                 controller.startStudySession(deck);
             };
+
+            const imageAndNameDiv = document.createElement('div');
+            imageAndNameDiv.className = 'deckimageandname';
+            imageAndNameDiv.append(name, studyButton);
     
             const deckDescriptionDiv = document.createElement('div');
             deckDescriptionDiv.className = 'deckdescriptiondiv';
-            deckDescriptionDiv.append(deckDescriptionParagraph, dueDateParagraphElement, studyButton);
+            deckDescriptionDiv.append(deckDescriptionParagraph, dueDateParagraphElement);
     
             const deckDiv = document.createElement('div');
             deckDiv.className = 'deck';
@@ -394,15 +388,14 @@ export const view = (function() {
                 controller.data.Update();
                 document.getElementById(deckName + 'id').remove();
             };
-            //update the page somehow?
 
-            const horizontalDiv = document.createElement('div');
-            horizontalDiv.className = 'horizontaldiv';
-            horizontalDiv.append(dropdownSelect, deleteButton);
+            const deleteDeckDiv = document.createElement('div');
+            deleteDeckDiv.className = 'deletedeckdiv';
+            deleteDeckDiv.append(dropdownSelect, deleteButton);
 
             const div = document.createElement('div');
             div.className = 'deckdeleteoptions';
-            div.append(dropdownLabel, horizontalDiv);
+            div.append(dropdownLabel, deleteDeckDiv);
             return div;
         };
 
@@ -672,13 +665,13 @@ export const view = (function() {
         userOptionsDiv.className = 'useroptionsdiv';
 
         const addNextCardButton = document.createElement('button');
-        addNextCardButton.innerText = 'Add Next Card';
+        addNextCardButton.innerText = 'Add next card';
         addNextCardButton.addEventListener('click', () => {
             controller.handleAddCardsForm(newDeck, 'addmore')
         });
 
         const finishAddingCardsButton = document.createElement('button');
-        finishAddingCardsButton.innerText = 'Done Adding Cards';
+        finishAddingCardsButton.innerText = 'Add and Finish';
         finishAddingCardsButton.addEventListener('click', () => {
             controller.handleAddCardsForm(newDeck, 'doneadding')
         });
@@ -711,11 +704,11 @@ export const view = (function() {
     function renderPage(newPageID) {
         removeMainTagContent();
         switch (newPageID) {
-            case 'studybutton':
+            case 'studypage':
                 studyPage.renderPage();
                 break;
 
-            case 'overviewbutton':
+            case 'overviewpage':
                 overviewPage.renderPage();
                 break;
         }
@@ -744,7 +737,7 @@ export const view = (function() {
         h1.innerText = titleName;
         h1.id = titleName.slice().toLowerCase() + 'title';
         return h1;
-    }
+    };
 
     function addBannerButtonFunctionality() {
         const bannerButton = document.getElementById('bannerbutton');
@@ -762,7 +755,7 @@ export const view = (function() {
                 menu.classList.remove('show');
             }
         }
-    }
+    };
 
     function makeNewAddDeckButtonWork() {
         const buttttton = document.getElementById('thebutttton');
@@ -770,7 +763,7 @@ export const view = (function() {
             setModalAutofocus();
             document.getElementById('modal').style.display = 'block';
         }
-    }
+    };
     
     function removeMainTagContent() {
         const mainChildren = Array.from(main.children);
@@ -784,7 +777,7 @@ export const view = (function() {
         const emptySpaceDiv = document.createElement('div');
         emptySpaceDiv.style.height = `${mobileNavHeight}px`;
         return emptySpaceDiv;
-    }
+    };
 
     function renderMobileNavigation () {
         const footer = document.createElement('footer');
@@ -799,11 +792,11 @@ export const view = (function() {
         studyImage.alt = 'Click here to access the study section';
 
         const studyH3 = document.createElement('h3');
-        studyH3.id = 'studybuttonh3'
+        studyH3.id = 'studypageh3'
         studyH3.innerText = 'Study';
 
         const studyButton = document.createElement('button');
-        studyButton.id = 'studybutton';
+        studyButton.id = 'studypage';
         studyButton.append(studyImage, studyH3)
         
         const overviewImage = document.createElement('img');
@@ -811,11 +804,11 @@ export const view = (function() {
         overviewImage.alt = 'Click here to access the study section';
 
         const overviewH3 = document.createElement('h3');
-        overviewH3.id = 'overviewbuttonh3'
+        overviewH3.id = 'overviewpageh3'
         overviewH3.innerText = 'Overview';
 
         const overviewButton = document.createElement('button');
-        overviewButton.id = 'overviewbutton';
+        overviewButton.id = 'overviewpage';
         overviewButton.append(overviewImage, overviewH3)
 
         nav.append(studyButton, overviewButton);
@@ -823,14 +816,14 @@ export const view = (function() {
 
         const body = document.getElementsByTagName('body')[0];
         body.appendChild(footer);
-    }
+    };
 
     function updateMobileNavButtons() {
         view.mobileNavButtons = Array.from([
-            document.getElementById('studybutton'),
-            document.getElementById('overviewbutton'),
+            document.getElementById('studypage'),
+            document.getElementById('overviewpage'),
             ]);
-    }
+    };
 
     function addMobileNavEventListeners() {
         view.mobileNavButtons.forEach((button) => {
@@ -850,7 +843,7 @@ export const view = (function() {
         renderBanner();
         renderPage(defaultTabID)
         changeTabColor(defaultTabID);
-    }
+    };
 
     // function renderBanner() {
 

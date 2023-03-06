@@ -59,10 +59,6 @@ select {
   font: inherit;
 }
 
-button {
-  padding: 0.2em;
-}
-
 /* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
 @media (prefers-reduced-motion: reduce) {
   html:focus-within {
@@ -129,9 +125,8 @@ button {
 }
 
 .modal-body {
-  padding: 0.15rem 1rem;
+  padding: 0.15rem 0.7rem;
   margin: 0.5rem 0 1rem 0;
-  width: 100%;
 }
 .modal-body form {
   display: flex;
@@ -171,8 +166,9 @@ button {
 }
 
 .submitbutton {
-  width: 40%;
+  width: 50%;
   margin-left: auto;
+  padding: 0.1em;
 }
 
 .questiondiv,
@@ -188,12 +184,13 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5em;
-  margin-top: 3em;
+  padding: 0.3em;
+  margin-top: 2em;
 }
 .useroptionsdiv button {
   font-size: 0.9em;
-  padding: 0.2em;
+  padding: 0.3em;
+  margin: 0.2em;
 }
 
 .newcardtitlediv {
@@ -224,7 +221,7 @@ button {
   display: flex;
   justify-content: center;
   min-height: 7rem;
-  width: 95vw;
+  width: 95%;
   margin-top: 2%;
   margin-bottom: 2%;
   border-radius: 0.5em;
@@ -238,9 +235,12 @@ button {
   align-items: center;
   flex-direction: column;
   border-right: 1px solid #ffcd1e;
-  margin: 0.7em 0 0.7em 0;
+  margin: 0.7em 0 0.7em 1em;
   padding-right: 1em;
-  min-width: 30%;
+  gap: 0.5rem;
+}
+.deckimageandname button {
+  padding: 0.2em;
 }
 .deckimageandname h3 {
   font-size: 1rem;
@@ -260,7 +260,6 @@ button {
 }
 .deckdescriptiondiv p {
   padding: 0.5em;
-  min-width: 100%;
   text-align: center;
 }
 .deckdescriptiondiv :nth-child(2) {
@@ -344,12 +343,15 @@ button {
   gap: 0.5rem;
 }
 
-.horizontaldiv {
+.deletedeckdiv {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
   margin-bottom: 1em;
+}
+.deletedeckdiv button {
+  padding: 0.1em;
 }
 
 .resetbutton {
@@ -357,6 +359,7 @@ button {
   margin: 1rem auto auto auto;
   color: red;
   border: 1px solid red;
+  padding: 0.2em;
 }
 
 .innerheaderdiv {
