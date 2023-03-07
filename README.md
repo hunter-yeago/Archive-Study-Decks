@@ -85,7 +85,7 @@ In this Single Page Application, I used the Model-View-Controller design pattern
 
 ### Responsiveness
 
-This site uses **zero** media queries. Instead, I used other SCSS techniques such as rem units and functions like clamp() and min() to give the the site natural responsiveness.
+This site uses **zero** media queries. Instead, I used other SCSS techniques such as rem units and functions like clamp() and min() to give the site natural responsiveness.
 
 **Responsiveness without media queries:**
 <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/studydecksreponsivedesign.gif" alt="Gif of Study Decks Live Demo" width="90vw"/>
