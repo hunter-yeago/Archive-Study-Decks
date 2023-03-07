@@ -3,10 +3,6 @@ import { view } from "./view";
 import { Observable } from "./pubsub";
 import { preBuiltDecks } from "./prebuiltdecks";
 
-
-// TODO No way to leave Study Session early
-// TODO theres a bug that always pops up at the end of my study sessions, although it doesn't breeak the app
-// TODO still have that bug with it saying its not in the future just because the monthe isn't further!
 // TODO CLEAN
 // TODO ReadMe
 
@@ -130,16 +126,20 @@ export const controller = (function(){
         view.renderStudySession(deck);
     }
 
+    function endStudySessionEarly(deck) {
+        model.updateCurrentCard(deck, 'reset');
+    }
+
     function showNextStudyCard(deck, operation) {
 
         if (operation === 'shownext') {
             if (deck.currentCard + 1 === deck.cards.length) {
+                console.log('firing end study session');
                 model.updateCurrentCard(deck, 'reset');
                 view.removeMainTagContent();
                 view.renderStudySessionComplete(deck);
                 model.incrementUserData('decksStudied');
                 model.incrementUserData('cardsStudied');
-                
             } else {
                 model.updateCurrentCard(deck, operation);
                 view.updateStudyCard(deck);
@@ -161,6 +161,7 @@ export const controller = (function(){
     return {
         data,
         deleteDeck,
+        endStudySessionEarly,
         startApplication,
         startStudySession,
         showNextStudyCard,

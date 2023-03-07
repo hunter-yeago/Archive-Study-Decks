@@ -1,20 +1,20 @@
 @use './config';
 @use './mixins';
 
-//Changes at 800px Media Query: display: flex; justify-content: flex-start;
 .rowofcards {
     display: grid;
     justify-content: center;
     align-items: center;
     padding: clamp(.5em, 3.5vw, 2em);
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: clamp(.3em, 2vw, 1.5em);
+    width: min(50rem, 100%);
 }
 
 .overviewflexboxdiv {
     @include mixins.centered-flexbox;
     flex-direction: row;
-    gap: .3em;
+    gap: clamp(.3em, 2vw, 1.5em);
 }
 
 .overviewcard {
@@ -23,10 +23,8 @@
     border-radius: 5px;
     background-color: white;
     text-align: center;
-    padding: .3em;
-    padding: clamp(.3em, 2vw, 1em);
+    padding: clamp(.3em, 3vw, .7em);
     
-
     div {
         @include mixins.centered-flexbox;
         gap: .3rem;

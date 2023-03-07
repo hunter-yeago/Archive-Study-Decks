@@ -3,6 +3,7 @@ import { controller } from "./controller";
 import {Observable} from './pubsub';
 import StudyIcon from '../images/studying.png';
 import OverviewIcon from '../images/edit.png';
+import { previousSaturday } from "date-fns";
 
 export const view = (function() {
     const main = document.getElementById('main');
@@ -44,7 +45,8 @@ export const view = (function() {
         deckDisplayDiv.className = 'deckdisplay';
         deckDisplayDiv.id = 'deckdisplay';
 
-        const yourDecksSectionDiv = document.createElement('yourDecksSectionDiv');
+        const yourDecksSectionDiv = document.createElement('div');
+        yourDecksSectionDiv.className = 'yourdeckssectiondiv';
         yourDecksSectionDiv.id = 'yourdeckssectiondiv';
         yourDecksSectionDiv.appendChild(deckDisplayDiv);
 
@@ -109,8 +111,12 @@ export const view = (function() {
         const previousButton = document.getElementById('previousbutton');
         if (deck.currentCard > 0) {
             previousButton.classList.remove('inactive')
+            previousButton.tabIndex = '';
+
         } else {
             previousButton.classList.add('inactive');
+            previousButton.tabIndex = '-1';
+            document.activeElement.blur();
         }
 
         if (deck.currentCard + 1 === deck.cards.length) {
@@ -164,9 +170,14 @@ export const view = (function() {
         previousButton.addEventListener('click', () => {
             controller.showNextStudyCard(deck, 'showprevious');
             const flipCardInner = document.getElementById('flip-card-inner');
-            flipCardInner.classList.remove('activated');
+            if (flipCardInner) {
+                flipCardInner.classList.remove('activated');
+            }
+            
         });
         previousButton.classList.add('inactive');
+        previousButton.tabIndex = '-1';
+        document.activeElement.blur();
 
         const nextButton = document.createElement('button');
         nextButton.innerText = 'Next Card';
@@ -174,12 +185,24 @@ export const view = (function() {
         nextButton.addEventListener('click', () => {
             controller.showNextStudyCard(deck, 'shownext');
             const flipCardInner = document.getElementById('flip-card-inner');
-            flipCardInner.classList.remove('activated');
+            if (flipCardInner) {
+                flipCardInner.classList.remove('activated');
+            }
+            
+        });
+
+        const stopStudyingButton = document.createElement('button');
+        stopStudyingButton.innerText = 'Stop Studying';
+        stopStudyingButton.addEventListener('click', () => {
+            document.getElementById('mainheader').remove();
+            removeMainTagContent();
+            renderPage();
+            controller.endStudySessionEarly(deck);
         });
 
         const buttonsSpan = document.createElement('span');
         buttonsSpan.className = 'buttonsspan';
-        buttonsSpan.append(previousButton, nextButton);
+        buttonsSpan.append(previousButton, nextButton, stopStudyingButton);
 
         const flipCard = renderFlipCard(questionSection, answerSection);
 
@@ -221,7 +244,9 @@ export const view = (function() {
         removeDecksFromPage();
 
         if (localDecks.length > 0) {
-            document.getElementById('itsemptymessage').remove();
+            if (document.getElementById('itsemptymessage')) {
+                document.getElementById('itsemptymessage').remove();
+            }
             localDecks.forEach((deck) => {
                 const element = renderDeck(deck);
                 deckDisplayDiv.appendChild(element);
@@ -717,6 +742,9 @@ export const view = (function() {
     function renderPage() {
         removeMainTagContent();
         renderModal();
+        if (document.getElementById('mainheader')) {
+            document.getElementById('meainheader').remove();
+        }
         renderBanner();
         showAddDeckButton();
         showModal();

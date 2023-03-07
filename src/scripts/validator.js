@@ -90,7 +90,7 @@ export const validators = {
         },
     
         displayWarning: function() {
-                this.element.setCustomValidity('Date must be in the future');
+                this.element.setCustomValidity('Please enter a valid date that is in the future');
                 this.element.reportValidity();
         },
     }),

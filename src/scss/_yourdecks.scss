@@ -1,27 +1,32 @@
 @use './config';
 @use './mixins';
 
-//Changes at 800px Media Query: width: 80vw;
 .deckdisplay {
     display: grid;
     justify-content: center;
     align-items: center;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1em;
     margin: .5em;
+    width: min(35rem, 80%);
+}
+
+.yourdeckssectiondiv {
+    @include mixins.centered-flexbox;
+    flex-direction: column;
+    width: 100%;
 }
 
 .deck {
-    // margin: auto;
+    justify-self: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0rem .5rem;
-    border-radius: .5em;
-    min-width: 90%;
-    min-height: 8em;
+    width: clamp(16.25rem, 5vw, 25rem);
+    padding: 0rem .5em;
+    border-radius: .5rem;
+    min-height: 11rem;
     background-color: config.$quizlet-frontpage-deck-color;
-    font-size: clamp(1rem, 5.5vw, 1.1rem)
 }
 
 .deckimageandname { 
@@ -49,6 +54,7 @@
     p {
         padding: .5em;
         text-align: center;
+        font-size: clamp(1rem, 4vw, 1.1rem);
     }
 
     :nth-child(2) {
