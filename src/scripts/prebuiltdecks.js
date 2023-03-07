@@ -11,6 +11,34 @@ const frenchDeck = Object.assign(Object.create(Deck), {
     cardCount: 0,
     cards: frenchCards,
 });
+
+const germanDeck = Object.assign(Object.create(Deck), {
+    name: 'German',
+    description: 'A deck to learn 10 basic French words',
+    dueDate: 'Next Week',
+    category: 'Languages',
+    currentCard: 0,
+    cardCount: 0,
+    cards: frenchCards,
+});
+const calculusDeck = Object.assign(Object.create(Deck), {
+    name: 'Calculus',
+    description: 'A deck to learn 10 basic French words',
+    dueDate: 'Next Week',
+    category: 'Languages',
+    currentCard: 0,
+    cardCount: 0,
+    cards: frenchCards,
+});
+const physicsDeck = Object.assign(Object.create(Deck), {
+    name: 'Physics',
+    description: 'A deck to learn 10 basic French words',
+    dueDate: 'Next Week',
+    category: 'Languages',
+    currentCard: 0,
+    cardCount: 0,
+    cards: frenchCards,
+});
     
 function createFrenchCards() {
 
@@ -74,4 +102,4 @@ function createFrenchCards() {
     });
     return frenchCards;
 }
-export const preBuiltDecks = [frenchDeck, frenchDeck, frenchDeck, frenchDeck];
+export const preBuiltDecks = [frenchDeck, calculusDeck];
