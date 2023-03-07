@@ -104,6 +104,7 @@ export const controller = (function(){
             data.Update();
             model.incrementUserData('cardsCreated');
             model.validators.resetInputValidity(validators);
+            Observable.publish('DecksUpdated', data.localDecks);
             Observable.publish('UpdateOverviewData', data.Panels);
             
             if (status === 'addmore') {
@@ -134,7 +135,6 @@ export const controller = (function(){
 
         if (operation === 'shownext') {
             if (deck.currentCard + 1 === deck.cards.length) {
-                console.log('firing end study session');
                 model.updateCurrentCard(deck, 'reset');
                 view.removeMainTagContent();
                 view.renderStudySessionComplete(deck);

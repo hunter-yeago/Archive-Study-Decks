@@ -88,6 +88,7 @@ This site has **zero** media queries. Rather than rely on several of them for re
 
 <details>
 <summary>Show Gif</summary>
+<img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/StudyDecksMobileDemo.gif" alt="Gif of Study Decks Live Demo" width="70%"/>
 </details>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

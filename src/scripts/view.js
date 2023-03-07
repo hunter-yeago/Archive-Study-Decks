@@ -160,7 +160,7 @@ export const view = (function() {
 
         const deckNameHeader = renderSectionTitle(deck.name);
         deckNameHeader.className = 'decknameheader';
-
+        
         const questionSection = renderStudyCardSide('Question', deck);
         const answerSection = renderStudyCardSide('Answer', deck);
 
