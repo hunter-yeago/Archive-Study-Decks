@@ -74,10 +74,8 @@ Responsive design with only **one** media query. Mixins and modules are used to 
 
 I used the WebStorage API to store user decks locally on their device. For form validation I  implemented the Constraint Validation API to display custom error messages for each form input. Upon successful submission of the form, I convert the input values into a data object using the FormData API and send it to the model to create a Deck object. Additionally, I used a function from the date-fns library to ensure that the chosen due-date for the deck is in the future.
 
-<details>
-  <summary>Show Gif of resetting localStorage data</summary>
+   Resetting localStorage data
   <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/addingdeck.gif" alt="Gif of Study Decks Live Demo" width="90vw"/>
-</details>
 
 **Webpack**
 
