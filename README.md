@@ -37,10 +37,9 @@ TODO Installation Section - update default info with project info -->
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
+        <li><a href="#contact">Contact</a></li>
       </ul>
     </li>
-
-    <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
 
@@ -85,7 +84,11 @@ In this Single Page Application, I used the Model-View-Controller design pattern
 
 ### Responsiveness
 
-This site only has **one** media query. Rather than rely on several of them for responsiveness, I used other SCSS techniques such as rem/em units as well as scaling functions on the text sizes so that the site is automatically responsive. 
+This site has **zero** media queries. Rather than rely on several of them for responsiveness, I used other SCSS techniques such as rem/em units as well as scaling functions like clamp() and min() on text sizes and widths so that the site is automatically responsive.
+
+<details>
+<summary>Show Gif</summary>
+</details>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
