@@ -48,18 +48,15 @@ TODO Installation Section - update default info with project info -->
 
 I have a passion for learning languages, especially French. In the future, I'd like to build a full-fledged language-learning app, and I've taken this opportunity during my front-end development journey to build a web-app to both showcase my skills, as well as practice building functionality that I'll use in my future projects.
 
-<!-- Old Demo -->
-<details>
-  <summary>Show Gif</summary>
-  <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/StudyDecksMobileDemo.gif" alt="Gif of Study Decks Live Demo" width="90vw"/>
-</details>
-
+StudyDecks Functionality:
+  <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/demo.gif" alt="Gif of Study Decks Live Demo" width="90vw"/>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Built With:
 
 **Tech:** HTML, SCSS, JavaScript, Webpack
+<br>
 **Design:** MVC, Observer, Single Page Application
 
 **HTML:**
@@ -68,13 +65,13 @@ HTML is dynamically rendered with Javascript and focuses on using semantic eleme
 
 **SCSS:** 
 
-Responsive design with only **one** media query. Mixins and modules are used to follow the DRY principle and reduce file sizes. I used Andy Bell's CSS [Reset](https://andy-bell.co.uk/a-modern-css-reset/) to reduce browser inconsistencies.
+Responsive design without media queries. Mixins and modules were used to follow the DRY principle and reduce file sizes. I used Andy Bell's CSS [Reset](https://andy-bell.co.uk/a-modern-css-reset/) to reduce browser inconsistencies.
 
 **Javascript:** 
 
 I used the WebStorage API to store user decks locally on their device. For form validation I  implemented the Constraint Validation API to display custom error messages for each form input. Upon successful submission of the form, I convert the input values into a data object using the FormData API and send it to the model to create a Deck object. Additionally, I used a function from the date-fns library to ensure that the chosen due-date for the deck is in the future.
 
-   Resetting localStorage data
+Resetting user data in local storage:
   <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/resetingdata.gif" alt="Gif showing demo of resetting local storage" width="90vw"/>
 
 **Webpack**
@@ -85,7 +82,7 @@ Stuff about Webpack
 
 In this Single Page Application, I used the Model-View-Controller design pattern as the foundation for the project, and implemented the Observer pattern to update other parts of the page when there is new data to display.
 
-This is the View updating the screen via the Observer.
+The  View updating the screen via the Observer:
   <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/addingdeck.gif" alt="Demo of the view updating the screen via the observer pattern" width="90vw"/>
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -93,16 +90,16 @@ This is the View updating the screen via the Observer.
 
 ### Responsiveness
 
-This site has **zero** media queries. Rather than rely on several of them for responsiveness, I used other SCSS techniques such as rem/em units as well as scaling functions like clamp() and min() on text sizes and widths so that the site is automatically responsive.
+This site uses **zero** media queries. Instead, I used other SCSS techniques such as rem units and functions like clamp() and min() to give the the site natural responsiveness.
 
-This is the Responiveness without media queries
+Responsiveness without media queries:
 <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/studydecksreponsivedesign.gif" alt="Gif of Study Decks Live Demo" width="90vw"/>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Lessons Learned:
 
-A big part of what I tried to implement into this project is writing cleaner code. I had read Clean Code by Robert Martin, and decided to implement some of his ideas into this project. I also learned how to implement the Observer Pattern with MVC, how to utilize Web APIs to increase functionality of things like Form Validation, as well as new techniques to reduce repetitive code, such as the use of mixins in SCSS.
+This project I implemented techniques to write cleaner code I learned from "Clean Code" by Robert Martin. I also implemented the Observer Pattern for the first time within a Model-View-Controller framework. Finally, I utilized WebStorage and From Data APIs as well as the data-fns external library to add more complexity to the application.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
