@@ -33,12 +33,7 @@ TODO Installation Section - update default info with project info -->
     </li>
     <li><a href="#optimizations">Optimizations</a></li>
     <li><a href="#lessons-learned">Lessons Learned</a></li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-        <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact">Contact</a></li>
       </ul>
     </li>
   </ol>
@@ -48,7 +43,7 @@ TODO Installation Section - update default info with project info -->
 
 I have a passion for learning languages, especially French. In the future, I'd like to build a full-fledged language-learning app, and I've taken this opportunity during my front-end development journey to build a web-app to both showcase my skills, as well as practice building functionality that I'll use in my future projects.
 
-StudyDecks Functionality:
+**Creation of a Deck, Studying it, and Resetting user data:**
   <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/demo.gif" alt="Gif of Study Decks Live Demo" width="90vw"/>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -71,18 +66,18 @@ Responsive design without media queries. Mixins and modules were used to follow 
 
 I used the WebStorage API to store user decks locally on their device. For form validation I  implemented the Constraint Validation API to display custom error messages for each form input. Upon successful submission of the form, I convert the input values into a data object using the FormData API and send it to the model to create a Deck object. Additionally, I used a function from the date-fns library to ensure that the chosen due-date for the deck is in the future.
 
-Resetting user data in local storage:
+**Resetting user data in local storage:**
   <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/resetingdata.gif" alt="Gif showing demo of resetting local storage" width="90vw"/>
 
 **Webpack**
 
-Stuff about Webpack
+I utilized the Webpack Dev Server for better efficiency when building my project. I also configured the loaders to be able to bundle all assets into a single .js file.
 
 **Design Pattern**
 
 In this Single Page Application, I used the Model-View-Controller design pattern as the foundation for the project, and implemented the Observer pattern to update other parts of the page when there is new data to display.
 
-The  View updating the screen via the Observer:
+**The View updating the screen via the Observer:**
   <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/addingdeck.gif" alt="Demo of the view updating the screen via the observer pattern" width="90vw"/>
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -92,42 +87,18 @@ The  View updating the screen via the Observer:
 
 This site uses **zero** media queries. Instead, I used other SCSS techniques such as rem units and functions like clamp() and min() to give the the site natural responsiveness.
 
-Responsiveness without media queries:
+**Responsiveness without media queries:**
 <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/studydecksreponsivedesign.gif" alt="Gif of Study Decks Live Demo" width="90vw"/>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Lessons Learned:
 
-This project I implemented techniques to write cleaner code I learned from "Clean Code" by Robert Martin. I also implemented the Observer Pattern for the first time within a Model-View-Controller framework. Finally, I utilized WebStorage and From Data APIs as well as the data-fns external library to add more complexity to the application.
+This project I implemented techniques to write cleaner code I learned from "Clean Code" by Robert Martin. I also implemented the Observer Pattern for the first time within a Model-View-Controller framework. Finally, I utilized WebStorage, Constraint Validation, and Form Data APIs in addition to the data-fns external library to add more complexity to the application.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Getting Started
-
-Follow the following steps to get this program up and running as a local repository.
-
-### Prerequisites
-
-You will need to have NPM installed on your computer. 
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
-### Installation
-
-DEFAULT TEXT TO REPLACE _Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
-<!-- Do I need them to install external dependencies or services for them to run my program? -->
-<!-- I guess so, right? It's not going to install all the loaders such as node-sass from my code -->
-<!-- TODO Replace the following link witih my SSH link -->
-1. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-2. Run the Program
-   ```sh
-   npm start
-   ```
+## Contact
+Hunter Yeago - hyeago@gmail.com
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
