@@ -23,8 +23,8 @@ const germanDeck = Object.assign(Object.create(Deck), {
 });
 const calculusDeck = Object.assign(Object.create(Deck), {
     name: 'Calculus',
-    description: 'A deck to learn 10 basic French words',
-    dueDate: 'Next Week',
+    description: 'A deck to learn Calculus',
+    dueDate: 'In 3 days',
     category: 'Languages',
     currentCard: 0,
     cardCount: 0,
@@ -32,7 +32,7 @@ const calculusDeck = Object.assign(Object.create(Deck), {
 });
 const physicsDeck = Object.assign(Object.create(Deck), {
     name: 'Physics',
-    description: 'A deck to learn 10 basic French words',
+    description: 'A deck to learn Calculus',
     dueDate: 'Next Week',
     category: 'Languages',
     currentCard: 0,

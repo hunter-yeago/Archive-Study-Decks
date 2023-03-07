@@ -21,6 +21,7 @@ TODO Installation Section - update default info with project info -->
   </p>
 </div>
 
+<!-- Table of Contents -->
 <details>
   <summary>Table of Contents</summary>
   <ol>
@@ -47,9 +48,10 @@ TODO Installation Section - update default info with project info -->
 
 I have a passion for learning languages, especially French. In the future, I'd like to build a full-fledged language-learning app, and I've taken this opportunity during my front-end development journey to build a web-app to both showcase my skills, as well as practice building functionality that I'll use in my future projects.
 
+<!-- Old Demo -->
 <details>
   <summary>Show Gif</summary>
-  <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/StudyDecksMobileDemo.gif" alt="Gif of Study Decks Live Demo" width="70%"/>
+  <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/StudyDecksMobileDemo.gif" alt="Gif of Study Decks Live Demo" width="50%"/>
 </details>
 
 
@@ -72,6 +74,13 @@ Responsive design with only **one** media query. Mixins and modules are used to 
 
 I used the WebStorage API to store user decks locally on their device. For form validation I  implemented the Constraint Validation API to display custom error messages for each form input. Upon successful submission of the form, I convert the input values into a data object using the FormData API and send it to the model to create a Deck object. Additionally, I used a function from the date-fns library to ensure that the chosen due-date for the deck is in the future.
 
+Data is stored in LocalStorage via three Object: userData, dataPanels, and deckArray.
+Click below to watch a gif of resetting localStorage data.
+<details>
+  <summary>Show Gif</summary>
+  <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/addingdeck.gif" alt="Gif of Study Decks Live Demo" width="50%"/>
+</details>
+
 **Webpack**
 
 Stuff about Webpack
@@ -79,6 +88,12 @@ Stuff about Webpack
 **Design Pattern**
 
 In this Single Page Application, I used the Model-View-Controller design pattern as the foundation for the project, and implemented the Observer pattern to update other parts of the page when there is new data to display.
+
+Click Below to Watch a Gif of the View updating with the Observer pattern. 
+<details>
+  <summary>Show Observer Pattern Updating Screen</summary>
+  <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/addingdeck.gif" alt="Adding Deck Live Demo" width="50%"/>
+</details>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -89,8 +104,8 @@ In this Single Page Application, I used the Model-View-Controller design pattern
 This site has **zero** media queries. Rather than rely on several of them for responsiveness, I used other SCSS techniques such as rem/em units as well as scaling functions like clamp() and min() on text sizes and widths so that the site is automatically responsive.
 
 <details>
-<summary>Show Gif</summary>
-<img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/studydecksreponsivedesign.gif" alt="Gif of Study Decks Live Demo" width="70%"/>
+<summary>Show Responsiveness without Media Queries</summary>
+<img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/studydecksreponsivedesign.gif" alt="Gif of Study Decks Live Demo" width="50%"/>
 </details>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
