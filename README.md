@@ -78,7 +78,7 @@ Data is stored in LocalStorage via three Object: userData, dataPanels, and deckA
 Click below to watch a gif of resetting localStorage data.
 <details>
   <summary>Show Gif</summary>
-  <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/addingdeck.gif" alt="Gif of Study Decks Live Demo" width="50%"/>
+  <img src="https://github.com/hyradar/StudyDecks/blob/main/ReadMeImages/addingdeck.gif" alt="Gif of Study Decks Live Demo" width="10rem"/>
 </details>
 
 **Webpack**
