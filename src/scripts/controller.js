@@ -4,7 +4,6 @@ import { Observable } from "./pubsub";
 import { preBuiltDecks } from "./prebuiltdecks";
 
 // TODO CLEAN
-// TODO ReadMe
 
 export const controller = (function(){
     Observable.subscribe('DataReset', resetDataAndView);
