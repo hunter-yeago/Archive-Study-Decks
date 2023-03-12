@@ -1,9 +1,6 @@
 import { setAttributes } from "./helpers";
 import { controller } from "./controller";
 import {Observable} from './pubsub';
-import StudyIcon from '../images/studying.png';
-import OverviewIcon from '../images/edit.png';
-import { previousSaturday } from "date-fns";
 
 export const view = (function() {
     const main = document.getElementById('main');
