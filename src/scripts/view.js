@@ -9,6 +9,7 @@ export const view = (function() {
         updateDeckDisplay(localDecks);
         updateDeleteDeckOptions(localDecks)
     });
+    
     Observable.subscribe('UpdateOverviewData', cardData => {
         updateOverviewCards(cardData);
     });
