@@ -2,6 +2,8 @@ import { setAttributes } from "./helpers";
 import { controller } from "./controller";
 import {Observable} from './pubsub';
 
+//TODO
+
 export const view = (function() {
     const main = document.getElementById('main');
 
