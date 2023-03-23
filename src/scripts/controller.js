@@ -6,6 +6,7 @@ import { preBuiltDecks } from "./prebuiltdecks";
 // TODO CLEAN
 //CLEAN
 //CLEAN
+//THE CODE
 export const controller = (function(){
     Observable.subscribe('DataReset', resetDataAndView);
     const data = {
