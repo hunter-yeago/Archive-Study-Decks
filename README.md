@@ -13,7 +13,7 @@ TODO Installation Section - update default info with project info -->
     <a href="https://github.com/hyradar/StudyDecks"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://hyradar.github.io/StudyDecks">View Demo</a>
+    <a href="https://hyradar.github.io/Study-Decks">View Demo</a>
     ·
     <a href="https://github.com/hyradar/StudyDecks/issues">Report Bug</a>
     ·
